@@ -11,7 +11,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.Valid;
+import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -32,6 +34,9 @@ public class Chorbi extends Actor {
 	private Coordinates		coordinates;
 	private Date			birthDate;
 	private CreditCard		creditCard;
+
+	//Aux attribute
+	private boolean			overAge;
 
 
 	// Constructor
@@ -109,6 +114,16 @@ public class Chorbi extends Actor {
 		this.creditCard = creditCard;
 	}
 
+	@Transient
+	@AssertTrue
+	public boolean getOverAge() {
+		return this.overAge;
+	}
+
+	public void setOverAge(final boolean overAge) {
+		this.overAge = overAge;
+	}
+
 
 	//RelationShips
 
@@ -120,7 +135,7 @@ public class Chorbi extends Actor {
 
 
 	@Valid
-	@OneToMany(mappedBy = "sender")
+	@OneToMany(mappedBy = "author")
 	public Collection<Like> getAuthoredLikes() {
 		return this.authoredLikes;
 	}
