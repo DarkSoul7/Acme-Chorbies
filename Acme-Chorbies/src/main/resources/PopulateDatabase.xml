@@ -13,8 +13,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
-		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-	">
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- User accounts -->
 
@@ -24,39 +23,450 @@
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="ADMIN" />
+					<property name="authority" value="ADMINISTRATOR" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
 	<bean id="userAccount2" class="security.UserAccount">
-		<property name="username" value="customer" />
-		<property name="password" value="91ec1f9324753048c0096d036a694f86" />
+		<property name="username" value="chorbi1" />
+		<property name="password" value="3daa859a294cdefb20a84840240a76f5" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="CUSTOMER" />
+					<property name="authority" value="CHORBI" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 
 	<bean id="userAccount3" class="security.UserAccount">
-		<property name="username" value="super" />
-		<property name="password" value="1b3231655cebb7a1f783eddf27d254ca" />
+		<property name="username" value="chorbi2" />
+		<property name="password" value="0c8746de81268518ff83490301db8652" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="ADMIN" />
+					<property name="authority" value="CHORBI" />
 				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount4" class="security.UserAccount">
+		<property name="username" value="chorbi3" />
+		<property name="password" value="a2da05a88eead7e64593826cafc6a7a7" />
+		<property name="authorities">
+			<list>
 				<bean class="security.Authority">
-					<property name="authority" value="CUSTOMER" />
+					<property name="authority" value="CHORBI" />
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="userAccount5" class="security.UserAccount">
+		<property name="username" value="chorbi4" />
+		<property name="password" value="a09dd233386632e297a7f4f461989563" />
+		<property name="authorities">
+			<list>
+				<bean class="security.Authority">
+					<property name="authority" value="CHORBI" />
 				</bean>
 			</list>
 		</property>
 	</bean>
 	
 	<!-- Other domain beans come here -->	
+	
+	<!-- ADMINISTRATORS -->
+	
+	<bean id="administrator" class="domain.Administrator">
+		<property name="name" value="Pablo" />
+		<property name="surname" value="García Rubio" />
+		<property name="phone" value="+34 632145987" />
+		<property name="email" value="pabgarrub@acme.com" />
+		<property name="userAccount" ref="userAccount1" />
+	</bean>
+	
+	<!-- CHORBIES -->
+	
+	<bean id="chorbi1" class="domain.Chorbi">
+		<property name="name" value="Alfonso" />
+		<property name="surname" value="Pérez del Álamo" />
+		<property name="phone" value="694123598" />
+		<property name="email" value="alfperala@acme.com" />
+		<property name="picture" value="http://www.acme.com/pictures/picture1" />
+		<property name="description" value="Busco gente para jugar..." />
+		<property name="birthDate" value="02/05/1990 00:00" />
+		<property name="relationship" value="ACTIVITIES" />
+		<property name="genre" value="MAN" />
+		<property name="coordinates" ref="coordinates1" />
+		<property name="creditCard" ref="creditCard1" />
+		<property name="userAccount" ref="userAccount2" />
+		<property name="sentChirps">
+			<list>
+				<ref bean="chirp1" />
+				<ref bean="chirp2" />
+			</list>
+		</property>
+		<property name="receivedChirps">
+			<list>
+				<ref bean="copiedChirp3" />
+				<ref bean="copiedChirp5" />
+			</list>
+		</property>
+		<property name="authoredLikes">
+			<list>
+				<ref bean="like1" />
+				<ref bean="like2" />
+			</list>
+		</property>
+		<property name="receivedLikes">
+			<list>
+				<ref bean="like4" />
+			</list>
+		</property>
+	</bean>
+	 
+	<bean id="chorbi2" class="domain.Chorbi">
+		<property name="name" value="Margarita" />
+		<property name="surname" value="Flores del Campo" />
+		<property name="phone" value="687153695" />
+		<property name="email" value="marflocam@acme.com" />
+		<property name="picture" value="http://www.acme.com/pictures/picture2" />
+		<property name="description" value="Busco amigos que..." />
+		<property name="birthDate" value="08/09/1989 00:00" />
+		<property name="relationship" value="FRIENDSHIP" />
+		<property name="genre" value="WOMAN" />
+		<property name="coordinates" ref="coordinates2" />
+		<property name="creditCard" ref="creditCard2" />
+		<property name="userAccount" ref="userAccount3" />
+		<property name="sentChirps">
+			<list>
+				<ref bean="chirp3" />
+			</list>
+		</property>
+		<property name="receivedChirps">
+			<list>
+				<ref bean="copiedChirp1" />
+				<ref bean="copiedChirp4" /> 
+			</list>
+		</property>
+		<property name="authoredLikes">
+			<list>
+				<ref bean="like4" />
+			</list>
+		</property>
+		<property name="receivedLikes">
+			<list>
+				<ref bean="like2" />
+				<ref bean="like3" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="chorbi3" class="domain.Chorbi">
+		<property name="name" value="Ana" />
+		<property name="surname" value="Perales López" />
+		<property name="phone" value="612547832" />
+		<property name="email" value="anaperlop@acme.com" />
+		<property name="picture" value="http://www.acme.com/pictures/picture3" />
+		<property name="description" value="Hola guapi, ¿quieres..." />
+		<property name="birthDate" value="12/31/1991 00:00" />
+		<property name="relationship" value="LOVE" />
+		<property name="genre" value="WOMAN" />
+		<property name="coordinates" ref="coordinates3" />
+		<property name="creditCard" ref="creditCard3" />
+		<property name="userAccount" ref="userAccount4" />
+		<property name="sentChirps">
+			<list>
+				<ref bean="chirp4" />
+				<ref bean="chirp5" />
+			</list>
+		</property>
+		<property name="receivedChirps">
+			<list>
+				<ref bean="copiedChirp2" />
+			</list>
+		</property>
+		<property name="authoredLikes">
+			<list>
+				<ref bean="like3" />
+			</list>
+		</property>
+		<property name="receivedLikes">
+			<list>
+				<ref bean="like1" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="chorbi4" class="domain.Chorbi">
+		<property name="name" value="Rubén" />
+		<property name="surname" value="Sánchez Oliva" />
+		<property name="phone" value="693214875" />
+		<property name="email" value="rubsanoli@acme.com" />
+		<property name="picture" value="http://www.acme.com/pictures/picture4" />
+		<property name="description" value="Necesito..." />
+		<property name="birthDate" value="09/25/1991 00:00" />
+		<property name="relationship" value="LOVE" />
+		<property name="genre" value="MAN" />
+		<property name="coordinates" ref="coordinates4" />
+		<property name="userAccount" ref="userAccount5" />
+		<property name="sentChirps">
+			<list>
+				<null></null>
+			</list>
+		</property>
+		<property name="receivedChirps">
+			<list>
+				<null></null>
+			</list>
+		</property>
+		<property name="authoredLikes">
+			<list>
+				<null></null>
+			</list>
+		</property>
+		<property name="receivedLikes">
+			<list>
+				<null></null>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- COORDINATES -->
+	
+	<bean id="coordinates1" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="Andalucía" />
+		<property name="province" value="Sevilla" />
+		<property name="city" value="Sevilla" />
+	</bean>
+	
+	<bean id="coordinates2" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="" />
+		<property name="province" value="Madrid" />
+		<property name="city" value="Madrid" />
+	</bean>
+	
+	<bean id="coordinates3" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="" />
+		<property name="province" value="" />
+		<property name="city" value="Cádiz" />
+	</bean>
+	
+	<bean id="coordinates4" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="Cataluña" />
+		<property name="province" value="" />
+		<property name="city" value="Barcelona" />
+	</bean>
+	
+	<!-- CREDIT CARDS -->
+	
+	<bean id="creditCard1" class="domain.CreditCard">
+		<property name="holderName" value="Alfonso Pérez del Álamo" />
+		<property name="brandName" value="VISA" />
+		<property name="number" value="4800553115069231" />
+		<property name="expirationMonth" value="03" />
+		<property name="expirationYear" value="2019" />
+		<property name="cvv" value="570" />
+	</bean>
+	
+	<bean id="creditCard2" class="domain.CreditCard">
+		<property name="holderName" value="Margarita Flores del Campo" />
+		<property name="brandName" value="VISA" />
+		<property name="number" value="4028762584020247" />
+		<property name="expirationMonth" value="12" />
+		<property name="expirationYear" value="2018" />
+		<property name="cvv" value="341" />
+	</bean>
+	
+	<bean id="creditCard3" class="domain.CreditCard">
+		<property name="holderName" value="Ana Perales López" />
+		<property name="brandName" value="VISA" />
+		<property name="number" value="4916584865185175" />
+		<property name="expirationMonth" value="01" />
+		<property name="expirationYear" value="2018" />
+		<property name="cvv" value="195" />
+	</bean>
+	
+	<!-- CHIRPS -->
+	
+	<bean id="chirp1" class="domain.Chirp">
+		<property name="subject" value="Muy importante" />
+		<property name="text" value="En primer lugar quiero comunicarle..." />
+		<property name="moment" value="03/13/2017 18:00" />
+		<property name="attachments" value="http://www.acme.com/attachments/attachment1" />
+		<property name="original" value="true" />
+		<property name="sender" ref="chorbi1" />
+		<property name="receiver" ref="chorbi2" />
+		<!-- <property name="parentChirp" ref="" />
+		<property name="childChirp" ref="" /> -->
+	</bean>
+	
+	<bean id="copiedChirp1" class="domain.Chirp">
+		<property name="subject" value="Muy importante" />
+		<property name="text" value="En primer lugar quiero comunicarle..." />
+		<property name="moment" value="03/13/2017 18:00" />
+		<property name="attachments" value="http://www.acme.com/attachments/attachment1" />
+		<property name="original" value="false" />
+		<property name="sender" ref="chorbi1" />
+		<property name="receiver" ref="chorbi2" />
+		<!-- <property name="parentChirp" ref="" /> -->
+		<property name="childChirp" ref="chirp3" />
+	</bean>
+	
+	<bean id="chirp2" class="domain.Chirp">
+		<property name="subject" value="Muy importante" />
+		<property name="text" value="En primer lugar quiero comunicarle..." />
+		<property name="moment" value="03/12/2017 15:20" />
+		<property name="attachments" value="http://www.acme.com/attachments/attachment2,http://www.acme.com/attachments/attachment3" />
+		<property name="original" value="true" />
+		<property name="sender" ref="chorbi1" />
+		<property name="receiver" ref="chorbi3" />
+		<property name="parentChirp" ref="" />
+		<property name="childChirp" ref="" />
+	</bean>
+	
+	<bean id="copiedChirp2" class="domain.Chirp">
+		<property name="subject" value="Muy importante" />
+		<property name="text" value="En primer lugar quiero comunicarle..." />
+		<property name="moment" value="03/12/2017 15:20" />
+		<property name="attachments" value="http://www.acme.com/attachments/attachment2,http://www.acme.com/attachments/attachment3" />
+		<property name="original" value="false" />
+		<property name="sender" ref="chorbi1" />
+		<property name="receiver" ref="chorbi3" />
+		<property name="parentChirp" ref="" />
+		<property name="childChirp" ref="" />
+	</bean>
+	
+	<bean id="chirp3" class="domain.Chirp">
+		<property name="subject" value="Muy importante" />
+		<property name="text" value="En primer lugar quiero comunicarle..." />
+		<property name="moment" value="02/28/2017 02:48" />
+		<property name="attachments" value="http://www.acme.com/attachments/attachment4" />
+		<property name="original" value="true" />
+		<property name="sender" ref="chorbi2" />
+		<property name="receiver" ref="chorbi1" />
+		<property name="parentChirp" ref="receivedChirp1" />
+		<!-- <property name="childChirp" ref="" /> -->
+	</bean>
+	
+	<bean id="copiedChirp3" class="domain.Chirp">
+		<property name="subject" value="Muy importante" />
+		<property name="text" value="En primer lugar quiero comunicarle..." />
+		<property name="moment" value="02/28/2017 02:48" />
+		<property name="attachments" value="http://www.acme.com/attachments/attachment4" />
+		<property name="original" value="false" />
+		<property name="sender" ref="chorbi2" />
+		<property name="receiver" ref="chorbi1" />
+		<!-- <property name="parentChirp" ref="" />
+		<property name="childChirp" ref="" /> -->
+	</bean>
+	
+	<bean id="chirp4" class="domain.Chirp">
+		<property name="subject" value="Muy importante" />
+		<property name="text" value="En primer lugar quiero comunicarle..." />
+		<property name="moment" value="01/01/2017 00:00" />
+		<property name="attachments" value="http://www.acme.com/attachments/attachment5,http://www.acme.com/attachments/attachment6" />
+		<property name="original" value="true" />
+		<property name="sender" ref="chorbi3" />
+		<property name="receiver" ref="chorbi2" />
+		<!-- <property name="parentChirp" ref="" />
+		<property name="childChirp" ref="" /> -->
+	</bean>
+	
+	<bean id="copiedChirp4" class="domain.Chirp">
+		<property name="subject" value="Muy importante" />
+		<property name="text" value="En primer lugar quiero comunicarle..." />
+		<property name="moment" value="01/01/2017 00:00" />
+		<property name="attachments" value="http://www.acme.com/attachments/attachment5,http://www.acme.com/attachments/attachment6" />
+		<property name="original" value="false" />
+		<property name="sender" ref="chorbi3" />
+		<property name="receiver" ref="chorbi2" />
+		<!-- <property name="parentChirp" ref="" />
+		<property name="childChirp" ref="" /> -->
+	</bean>
+	
+	<bean id="chirp5" class="domain.Chirp">
+		<property name="subject" value="Muy importante" />
+		<property name="text" value="En primer lugar quiero comunicarle..." />
+		<property name="moment" value="02/14/2017 14:00" />
+		<property name="attachments" value="http://www.acme.com/attachments/attachment7,http://www.acme.com/attachments/attachment8" />
+		<property name="original" value="true" />
+		<property name="sender" ref="chorbi3" />
+		<property name="receiver" ref="chorbi1" />
+		<!-- <property name="parentChirp" ref="" />
+		<property name="childChirp" ref="" /> -->
+	</bean>
+	
+	<bean id="copiedChirp5" class="domain.Chirp">
+		<property name="subject" value="Muy importante" />
+		<property name="text" value="En primer lugar quiero comunicarle..." />
+		<property name="moment" value="02/14/2017 14:00" />
+		<property name="attachments" value="http://www.acme.com/attachments/attachment7,http://www.acme.com/attachments/attachment8" />
+		<property name="original" value="false" />
+		<property name="sender" ref="chorbi3" />
+		<property name="receiver" ref="chorbi1" />
+		<!-- <property name="parentChirp" ref="" />
+		<property name="childChirp" ref="" /> -->
+	</bean>
+	
+	<!-- LIKES -->
+	
+	<bean id="like1" class="domain.Like">
+		<property name="comment" value="Hola guapi, pues sí que quiero..." />
+		<property name="moment" ref="03/30/2017 15:30" />
+		<property name="author" ref="chorbi1" />
+		<property name="receiver" ref="chorbi3" />
+	</bean>
+	
+	<bean id="like2" class="domain.Like">
+		<property name="comment" value="" />
+		<property name="moment" ref="03/14/2017 21:47" />
+		<property name="author" ref="chorbi1" />
+		<property name="receiver" ref="chorbi2" />
+	</bean>
+	
+	<bean id="like3" class="domain.Like">
+		<property name="comment" value="Quiero jugar a un juego..." />
+		<property name="moment" ref="03/25/2017 01:25" />
+		<property name="author" ref="chorbi3" />
+		<property name="receiver" ref="chorbi2" />
+	</bean>
+	
+	<bean id="like4" class="domain.Like">
+		<property name="comment" value="" />
+		<property name="moment" ref="03/01/2017 07:39" />
+		<property name="author" ref="chorbi2" />
+		<property name="receiver" ref="chorbi1" />
+	</bean>
+	
+	<!-- BANNERS -->
+	
+	<bean id="banner1" class="domain.Banner">
+		<property name="picture" value="http://i68.tinypic.com/mlovo2.png" />
+	</bean>
+	
+	<bean id="banner2" class="domain.Banner">
+		<property name="picture" value="http://i68.tinypic.com/npqkr8.png" />
+	</bean>
+	
+	<bean id="banner3" class="domain.Banner">
+		<property name="picture" value="http://www.acme.com/banners/banner3.jpg" />
+	</bean>
+	
+	<bean id="banner4" class="domain.Banner">
+		<property name="picture" value="http://www.acme.com/banners/banner4.jpg" />
+	</bean>
+	
+	<bean id="banner5" class="domain.Banner">
+		<property name="picture" value="http://www.acme.com/banners/banner5.jpg" />
+	</bean>
 	
 </beans>

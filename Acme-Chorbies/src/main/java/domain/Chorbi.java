@@ -120,7 +120,7 @@ public class Chorbi extends Actor {
 
 
 	@Valid
-	@OneToMany(mappedBy = "sender")
+	@OneToMany(mappedBy = "author")
 	public Collection<Like> getAuthoredLikes() {
 		return this.authoredLikes;
 	}
