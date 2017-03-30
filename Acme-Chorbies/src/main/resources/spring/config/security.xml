@@ -52,6 +52,15 @@
 		<security:intercept-url pattern="/profile/action-1.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-2.do" access="isAuthenticated()" /> 
 		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
+		
+		<!-- MESSAGES -->
+		<security:intercept-url pattern="/chirp/send.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/chirp/forward.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/chirp/reply.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/chirp/delete.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/chirp/sentChirps.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/chirp/receivedChirps.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/chirp/showChirp.do" access="isAuthenticated()" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

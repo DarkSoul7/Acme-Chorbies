@@ -1,0 +1,216 @@
+
+package services;
+
+import java.util.Collection;
+import java.util.Date;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.validator.routines.UrlValidator;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+
+import repositories.ChirpRepository;
+import domain.Actor;
+import domain.Chirp;
+import domain.Chorbi;
+import forms.ChirpForm;
+
+@Service
+@Transactional
+public class ChirpService {
+
+	//Managed repository
+
+	@Autowired
+	private ChirpRepository	chirpRepository;
+
+	//Supported services
+
+	@Autowired
+	private ChorbiService	chorbiService;
+
+
+	//Constructor
+
+	public ChirpService() {
+		super();
+	}
+
+	public ChirpForm create() {
+		this.chorbiService.findByPrincipal();
+		final ChirpForm chirpForm = new ChirpForm();
+
+		return chirpForm;
+	}
+
+	// Este método no debe usarse nunca 
+	public Collection<Chirp> findAll() {
+		throw new IllegalArgumentException();
+	}
+
+	public Chirp findOne(final int chirpId) {
+		Chirp result;
+		Actor principal;
+
+		principal = this.chorbiService.findByPrincipal();
+		result = this.chirpRepository.findOne(chirpId);
+
+		if (result.getOriginal()) {
+			Assert.isTrue(principal.getId() == result.getSender().getId());
+		} else {
+			Assert.isTrue(principal.getId() == result.getReceiver().getId());
+		}
+		
+		return result;
+
+	}
+
+	public Chirp save(final Chirp chirp) {
+		final Actor principal = this.chorbiService.findByPrincipal();
+		Assert.isTrue(principal.getId() == chirp.getSender().getId());
+		Assert.notNull(chirp);
+		Chirp result;
+		Chirp copiedChirp;
+
+		copiedChirp = this.cloneChirp(chirp);
+
+		if (chirp.getParentChirp() != null) {
+			if (chirp.getParentChirp().getOriginal()) {
+				Assert.isTrue(principal.getId() == chirp.getParentChirp().getSender().getId());
+			} else {
+				Assert.isTrue(principal.getId() == chirp.getParentChirp().getReceiver().getId());
+			}
+		}
+		
+		result = this.chirpRepository.save(chirp);
+		this.chirpRepository.save(copiedChirp);
+
+		return result;
+	}
+
+	public void delete(final Chirp chirp) {
+		final Actor principal = this.chorbiService.findByPrincipal();
+		
+		if (chirp.getOriginal()) {
+			Assert.isTrue(principal.getId() == chirp.getSender().getId());
+		} else {
+			Assert.isTrue(principal.getId() == chirp.getReceiver().getId());
+		}
+		
+		this.chirpRepository.delete(chirp);
+	}
+
+	public void delete(final int chirpId) {
+		final Chirp chirp = this.chirpRepository.findOne(chirpId);
+
+		this.delete(chirp);
+	}
+
+	//Other business methods
+
+	public Collection<Chirp> findAllSentByPrincipal() {
+		final Actor principal = this.chorbiService.findByPrincipal();
+		Collection<Chirp> result = null;
+
+		result = this.chirpRepository.findAllSentByActor(principal.getId());
+
+		return result;
+	}
+
+	public Collection<Chirp> findAllReceivedByPrincipal() {
+		final Actor principal = this.chorbiService.findByPrincipal();
+		Collection<Chirp> result = null;
+
+		result = this.chirpRepository.findAllReceivedByActor(principal.getId());
+
+		return result;
+	}
+
+	public Chirp cloneChirp(final Chirp chirp) {
+		final Chirp result = new Chirp();
+
+		result.setSubject(chirp.getSubject());
+		result.setText(chirp.getText());
+		result.setAttachments(chirp.getAttachments());
+		result.setMoment(chirp.getMoment());
+		result.setOriginal(false);
+		result.setSender(chirp.getSender());
+		result.setReceiver(chirp.getReceiver());
+
+		return result;
+	}
+
+	// ChirpForm
+
+	public ChirpForm toFormObject(final Chirp chirp, final Boolean isReply) {
+		final ChirpForm result = this.create();
+		String start;
+		final String delimiter = System.getProperty("line.separator");
+
+		if (isReply) {
+			start = "RE: ";
+			result.setReceiver(chirp.getSender());
+		} else {
+			start = "FWD: ";
+		}
+		
+		result.setSubject(start + chirp.getSubject());
+		result.setText(chirp.getText());
+		result.setAttachments(StringUtils.replace(chirp.getAttachments(), ",", delimiter));
+
+		return result;
+	}
+
+	public Chirp reconstruct(final ChirpForm chirpForm) {
+		Chirp result;
+		Chorbi principal;
+		String attachments;
+		Chirp parentChirp;
+
+		principal = this.chorbiService.findByPrincipal();
+		result = new Chirp();
+		if (StringUtils.isNotBlank(chirpForm.getAttachments())) {
+			attachments = this.compruebaEnlaces(chirpForm.getAttachments());
+		} else {
+			attachments = "";
+		}
+
+		result.setSubject(chirpForm.getSubject());
+		result.setText(chirpForm.getText());
+		result.setReceiver(chirpForm.getReceiver());
+
+		result.setSender(principal);
+		result.setMoment(new Date());
+		result.setAttachments(attachments);
+		result.setId(0);
+		result.setVersion(0);
+		result.setOriginal(true);
+
+		if (chirpForm.getParentChirpId() != null) {
+			parentChirp = this.findOne(chirpForm.getParentChirpId());
+			result.setParentChirp(parentChirp);
+		}
+
+		return result;
+	}
+
+	private String compruebaEnlaces(final String attachments) {
+		String result;
+		final String delimiter = System.getProperty("line.separator");
+		final String[] aattachments = StringUtils.split(attachments, delimiter);
+		final String[] schemes = {"http", "https"};
+		final UrlValidator urlValidator = new UrlValidator(schemes);
+
+		for (final String attachment : aattachments) {
+			if (!urlValidator.isValid(attachment)) {
+				throw new IllegalArgumentException();
+			}
+		}
+
+		result = StringUtils.join(aattachments, ",");
+
+		return result;
+	}
+}

@@ -22,6 +22,21 @@
 			Add your own converters using entries of the following form: 
 			<bean class="converters.Class1ToClass2" /> 
 		-->
+		<bean class="converters.ActorToStringConverter" />
+		<bean class="converters.AdministratorToStringConverter" />
+		<bean class="converters.BannerToStringConverter" />
+		<bean class="converters.ChirpToStringConverter" />
+		<bean class="converters.ChorbiToStringConverter" />
+		<bean class="converters.LikeToStringConverter" />
+		<bean class="converters.SearchTemplateToStringConverter" />
+		
+		<bean class="converters.StringToActorConverter" />
+		<bean class="converters.StringToAdministratorConverter" />
+		<bean class="converters.StringToBannerConverter" />
+		<bean class="converters.StringToChirpConverter" />
+		<bean class="converters.StringToChorbiConverter" />
+		<bean class="converters.StringToLikeConverter" />
+		<bean class="converters.StringToSearchTemplateConverter" />
 	</util:list>
 	
 </beans>
