@@ -105,6 +105,7 @@
 		<property name="creditCard" ref="creditCard1" />
 		<property name="userAccount" ref="userAccount2" />
 		<property name="overAge" value="true" />
+		<property name="searchTemplate"	ref="searchTemplate1" />
 		<property name="sentChirps">
 			<list>
 				<ref bean="chirp1" />
@@ -144,6 +145,7 @@
 		<property name="creditCard" ref="creditCard2" />
 		<property name="userAccount" ref="userAccount3" />
 		<property name="overAge" value="true" />
+		<property name="searchTemplate"	ref="searchTemplate2" />
 		<property name="sentChirps">
 			<list>
 				<ref bean="chirp3" />
@@ -182,6 +184,7 @@
 		<property name="creditCard" ref="creditCard3" />
 		<property name="userAccount" ref="userAccount4" />
 		<property name="overAge" value="true" />
+		<property name="searchTemplate"	ref="searchTemplate3" />
 		<property name="sentChirps">
 			<list>
 				<ref bean="chirp4" />
@@ -218,6 +221,7 @@
 		<property name="coordinates" ref="coordinates4" />
 		<property name="userAccount" ref="userAccount5" />
 		<property name="overAge" value="true" />
+		<property name="searchTemplate"><null/></property>
 		<property name="sentChirps">
 			<list>
 				<null></null>
@@ -270,6 +274,13 @@
 		<property name="city" value="Barcelona" />
 	</bean>
 	
+	<bean id="coordinates5" class="domain.Coordinates">
+		<property name="country" value="España" />
+		<property name="state" value="" />
+		<property name="province" value="" />
+		<property name="city" value="Sevilla" />
+	</bean>
+	
 	<!-- CREDIT CARDS -->
 	
 	<bean id="creditCard1" class="domain.CreditCard">
@@ -309,8 +320,8 @@
 		<property name="original" value="true" />
 		<property name="sender" ref="chorbi1" />
 		<property name="receiver" ref="chorbi2" />
-		<property name="parentChirp"><null></null></property>
-		<property name="childChirp"><null></null></property>
+		<property name="parentChirp"><null/></property>
+		<property name="childChirp"><null/></property>
 	</bean>
 	
 	<bean id="copiedChirp1" class="domain.Chirp">
@@ -321,7 +332,7 @@
 		<property name="original" value="false" />
 		<property name="sender" ref="chorbi1" />
 		<property name="receiver" ref="chorbi2" />
-		<property name="parentChirp"><null></null></property>
+		<property name="parentChirp"><null/></property>
 		<property name="childChirp" ref="chirp3" />
 	</bean>
 	
@@ -333,8 +344,8 @@
 		<property name="original" value="true" />
 		<property name="sender" ref="chorbi1" />
 		<property name="receiver" ref="chorbi3" />
-		<property name="parentChirp"><null></null></property>
-		<property name="childChirp"><null></null></property>
+		<property name="parentChirp"><null/></property>
+		<property name="childChirp"><null/></property>
 	</bean>
 	
 	<bean id="copiedChirp2" class="domain.Chirp">
@@ -345,8 +356,8 @@
 		<property name="original" value="false" />
 		<property name="sender" ref="chorbi1" />
 		<property name="receiver" ref="chorbi3" />
-		<property name="parentChirp"><null></null></property>
-		<property name="childChirp"><null></null></property>
+		<property name="parentChirp"><null/></property>
+		<property name="childChirp"><null/></property>
 	</bean>
 	
 	<bean id="chirp3" class="domain.Chirp">
@@ -358,7 +369,7 @@
 		<property name="sender" ref="chorbi2" />
 		<property name="receiver" ref="chorbi1" />
 		<property name="parentChirp" ref="chirp1" />
-		<property name="childChirp"><null></null></property>
+		<property name="childChirp"><null/></property>
 	</bean>
 	
 	<bean id="copiedChirp3" class="domain.Chirp">
@@ -369,8 +380,8 @@
 		<property name="original" value="false" />
 		<property name="sender" ref="chorbi2" />
 		<property name="receiver" ref="chorbi1" />
-		<property name="parentChirp" ><null></null></property>
-		<property name="childChirp"><null></null></property> 
+		<property name="parentChirp" ><null/></property>
+		<property name="childChirp"><null/></property> 
 	</bean>
 	
 	<bean id="chirp4" class="domain.Chirp">
@@ -381,8 +392,8 @@
 		<property name="original" value="true" />
 		<property name="sender" ref="chorbi3" />
 		<property name="receiver" ref="chorbi2" />
-		<property name="parentChirp"><null></null></property>
-		<property name="childChirp"><null></null></property>
+		<property name="parentChirp"><null/></property>
+		<property name="childChirp"><null/></property>
 	</bean>
 	
 	<bean id="copiedChirp4" class="domain.Chirp">
@@ -393,8 +404,8 @@
 		<property name="original" value="false" />
 		<property name="sender" ref="chorbi3" />
 		<property name="receiver" ref="chorbi2" />
-		<property name="parentChirp"><null></null></property>
-		<property name="childChirp"><null></null></property>
+		<property name="parentChirp"><null/></property>
+		<property name="childChirp"><null/></property>
 	</bean>
 	
 	<bean id="chirp5" class="domain.Chirp">
@@ -405,8 +416,8 @@
 		<property name="original" value="true" />
 		<property name="sender" ref="chorbi3" />
 		<property name="receiver" ref="chorbi1" />
-		<property name="parentChirp"><null></null></property>
-		<property name="childChirp"><null></null></property>
+		<property name="parentChirp"><null/></property>
+		<property name="childChirp"><null/></property>
 	</bean>
 	
 	<bean id="copiedChirp5" class="domain.Chirp">
@@ -417,8 +428,8 @@
 		<property name="original" value="false" />
 		<property name="sender" ref="chorbi3" />
 		<property name="receiver" ref="chorbi1" />
-		<property name="parentChirp"><null></null></property>
-		<property name="childChirp"><null></null></property>
+		<property name="parentChirp"><null/></property>
+		<property name="childChirp"><null/></property>
 	</bean>
 	
 	<!-- LIKES -->
@@ -471,6 +482,38 @@
 	
 	<bean id="banner5" class="domain.Banner">
 		<property name="picture" value="http://www.acme.com/banners/banner5.jpg" />
+	</bean>
+	
+	<!-- SEARCH TEMPLATES -->
+	
+	<bean id="searchTemplate1" class="domain.SearchTemplate">
+		<property name="relationship" value="ACTIVITIES" />
+		<property name="age" value="20" />
+		<property name="genre" value="WOMAN" />
+		<property name="keyword" value="activities" />
+		<property name="creationMoment" value="03/30/2017 05:59" />
+		<property name="coordinates" ref="coordinates5" />
+		<property name="chorbi" ref="chorbi1" />
+	</bean>
+	
+	<bean id="searchTemplate2" class="domain.SearchTemplate">
+		<property name="relationship" value="FRIENDSHIP" />
+		<property name="age" value="23" />
+		<property name="genre" value="" />
+		<property name="keyword" value="friendship" />
+		<property name="creationMoment" value="03/25/2017 09:15" />
+		<property name="coordinates"><null/></property>
+		<property name="chorbi" ref="chorbi2" />
+	</bean>
+	
+	<bean id="searchTemplate3" class="domain.SearchTemplate">
+		<property name="relationship" value="LOVE" />
+		<property name="age" value="23" />
+		<property name="genre" value="MAN" />
+		<property name="keyword" value="" />
+		<property name="creationMoment" value="03/01/2017 22:17" />
+		<property name="coordinates"><null/></property>
+		<property name="chorbi" ref="chorbi3" />
 	</bean>
 	
 </beans>
