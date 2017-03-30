@@ -14,6 +14,8 @@
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="jstl" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<script type="text/javascript" src="scripts/functions.js"></script>
+
 <div>
 	<img src="images/logo.png" alt="Acme-Chorbies Co., Inc." />
 </div>
@@ -73,15 +75,3 @@
 <jstl:if test="${cookie.language.value == null || (cookie.language.value != 'en' && cookie.language.value != 'es')}">
 	<script type="text/javascript">window.location.replace('welcome/index.do?language=en');</script>
 </jstl:if>
-
-<script type="text/javascript">
-	function relativeRedir(loc) {	
-		var b = document.getElementsByTagName('base');
-		if (b && b[0] && b[0].href) {
-  			if (b[0].href.substr(b[0].href.length - 1) == '/' && loc.charAt(0) == '/')
-    		loc = loc.substr(1);
-  			loc = b[0].href + loc;
-		}
-		window.location.replace(loc);
-	}
-</script>

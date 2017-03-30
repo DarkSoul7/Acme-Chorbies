@@ -20,6 +20,7 @@
 	<bean id="userAccount1" class="security.UserAccount">
 		<property name="username" value="admin" />
 		<property name="password" value="21232f297a57a5a743894a0e4a801fc3" />
+		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -32,6 +33,7 @@
 	<bean id="userAccount2" class="security.UserAccount">
 		<property name="username" value="chorbi1" />
 		<property name="password" value="3daa859a294cdefb20a84840240a76f5" />
+		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -44,6 +46,7 @@
 	<bean id="userAccount3" class="security.UserAccount">
 		<property name="username" value="chorbi2" />
 		<property name="password" value="0c8746de81268518ff83490301db8652" />
+		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -56,6 +59,7 @@
 	<bean id="userAccount4" class="security.UserAccount">
 		<property name="username" value="chorbi3" />
 		<property name="password" value="a2da05a88eead7e64593826cafc6a7a7" />
+		<property name="enabled" value="true" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -368,7 +372,7 @@
 		<property name="original" value="true" />
 		<property name="sender" ref="chorbi2" />
 		<property name="receiver" ref="chorbi1" />
-		<property name="parentChirp" ref="chirp1" />
+		<property name="parentChirp" ref="copiedChirp1" />
 		<property name="childChirp"><null/></property>
 	</bean>
 	

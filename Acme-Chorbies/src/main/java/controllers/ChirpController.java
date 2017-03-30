@@ -22,10 +22,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ActorService;
 import services.ChirpService;
-import domain.Actor;
+import services.ChorbiService;
 import domain.Chirp;
+import domain.Chorbi;
 import forms.ChirpForm;
 
 @Controller
@@ -38,7 +38,7 @@ public class ChirpController extends AbstractController {
 	private ChirpService	chirpService;
 
 	@Autowired
-	private ActorService	actorService;
+	private ChorbiService	chorbiService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -52,19 +52,19 @@ public class ChirpController extends AbstractController {
 	public ModelAndView showChirp(@RequestParam(required = true) final int chirpId) {
 		ModelAndView result;
 		Chirp chirp;
-		String errorChirp;
+		String errorMessage;
 
 		try {
 			chirp = this.chirpService.findOne(chirpId);
-			errorChirp = null;
+			errorMessage = null;
 		} catch (final Throwable oops) {
 			chirp = null;
-			errorChirp = "chirp.nonAuthorized.error";
+			errorMessage = "chirp.nonAuthorized.error";
 		}
 
 		result = new ModelAndView("chirp/showChirp");
 		result.addObject("chirp", chirp);
-		result.addObject("chirp", errorChirp);
+		result.addObject("message", errorMessage);
 		result.addObject("requestURI", "chirp/showChirp.do");
 
 		return result;
@@ -72,13 +72,13 @@ public class ChirpController extends AbstractController {
 
 	// SentChirps
 	@RequestMapping(value = "/sentChirps", method = RequestMethod.GET)
-	public ModelAndView sentChirps(@RequestParam(required = false) final String chirp) {
+	public ModelAndView sentChirps(@RequestParam(required = false) final String message) {
 		ModelAndView result;
 		final Collection<Chirp> chirps = this.chirpService.findAllSentByPrincipal();
 
 		result = new ModelAndView("chirp/sentChirps");
 		result.addObject("chirps", chirps);
-		result.addObject("chirp", chirp);
+		result.addObject("message", message);
 		result.addObject("requestURI", "chirp/sentChirps.do");
 
 		return result;
@@ -86,13 +86,13 @@ public class ChirpController extends AbstractController {
 
 	// ReceivedChirps
 	@RequestMapping(value = "/receivedChirps", method = RequestMethod.GET)
-	public ModelAndView receivedChirps(@RequestParam(required = false) final String chirp) {
+	public ModelAndView receivedChirps(@RequestParam(required = false) final String message) {
 		ModelAndView result;
 		final Collection<Chirp> chirps = this.chirpService.findAllReceivedByPrincipal();
 
 		result = new ModelAndView("chirp/receivedChirps");
 		result.addObject("chirps", chirps);
-		result.addObject("chirp", chirp);
+		result.addObject("message", message);
 		result.addObject("requestURI", "chirp/receivedChirps.do");
 
 		return result;
@@ -115,22 +115,22 @@ public class ChirpController extends AbstractController {
 		ModelAndView result;
 		Chirp chirp;
 		ChirpForm chirpForm;
-		String errorChirp;
+		String errorMessage;
 		Boolean answerable;
 
 		try {
 			chirp = this.chirpService.findOne(chirpId);
 			chirpForm = this.chirpService.toFormObject(chirp, true);
 			chirpForm.setParentChirpId(chirp.getId());
-			errorChirp = null;
+			errorMessage = null;
 			answerable = true;
 		} catch (final Throwable oops) {
 			chirpForm = this.chirpService.create();
-			errorChirp = "chirp.nonAuthorizedReply.error";
+			errorMessage = "chirp.nonAuthorizedReply.error";
 			answerable = false;
 		}
 
-		result = this.createEditModelAndView(chirpForm, errorChirp);
+		result = this.createEditModelAndView(chirpForm, errorMessage);
 		result.addObject("answerable", answerable);
 
 		return result;
@@ -141,22 +141,22 @@ public class ChirpController extends AbstractController {
 		ModelAndView result;
 		Chirp chirp;
 		ChirpForm chirpForm;
-		String errorChirp;
+		String errorMessage;
 		Boolean answerable;
 
 		try {
 			chirp = this.chirpService.findOne(chirpId);
 			chirpForm = this.chirpService.toFormObject(chirp, false);
 			chirpForm.setParentChirpId(chirp.getId());
-			errorChirp = null;
+			errorMessage = null;
 			answerable = true;
 		} catch (final Throwable oops) {
 			chirpForm = this.chirpService.create();
-			errorChirp = "chirp.nonAuthorizedForward.error";
+			errorMessage = "chirp.nonAuthorizedForward.error";
 			answerable = false;
 		}
 
-		result = this.createEditModelAndView(chirpForm, errorChirp);
+		result = this.createEditModelAndView(chirpForm, errorMessage);
 		result.addObject("answerable", answerable);
 
 		return result;
@@ -209,14 +209,14 @@ public class ChirpController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final ChirpForm chirpForm, final String chirp) {
+	protected ModelAndView createEditModelAndView(final ChirpForm chirpForm, final String message) {
 		ModelAndView result;
-		final Collection<Actor> actors = this.actorService.findAll();
+		final Collection<Chorbi> chorbies = this.chorbiService.findAllExceptPrincipal();
 
 		result = new ModelAndView("chirp/send");
 		result.addObject("chirpForm", chirpForm);
-		result.addObject("actors", actors);
-		result.addObject("chirp", chirp);
+		result.addObject("chorbies", chorbies);
+		result.addObject("message", message);
 		result.addObject("requestURI", "chirp/send.do");
 
 		return result;

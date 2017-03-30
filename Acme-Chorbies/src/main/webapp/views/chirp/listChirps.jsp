@@ -11,8 +11,8 @@
 
 <display:table name="chirps" id="row" requestURI="${requestURI}" pagesize="5">
 
-	<spring:message code="chirp.title" var="title" />
-	<display:column property="title" title="${title}" />
+	<spring:message code="chirp.subject" var="subject" />
+	<display:column property="subject" title="${subject}" />
 	
 	<spring:message code="chirp.moment" var="description" />
 	<display:column title="${description}" >
@@ -39,11 +39,11 @@
 	<display:column>
 		<input type="button" name="chirp.showDetailsButton"
 				value="<spring:message code="chirp.showDetails" />"
-				onclick="javascript: window.location.replace('chirp/showChirp.do?messageId=${row.id}')" />
+				onclick="javascript: window.location.replace('chirp/showChirp.do?chirpId=${row.id}')" />
 	</display:column>
 	
 	<display:column>
-		<jstl:if test="${row.childMessage == null}">
+		<jstl:if test="${row.childChirp == null}">
 			<input type="button" name="chirp.deleteButton"
 					value="<spring:message code="chirp.delete" />"
 					onclick="javascript: confirmDeletion('${cookie.language.value}', 'chirp/delete.do?chirpId=${row.id}&url=${requestURI}')" />

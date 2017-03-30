@@ -20,7 +20,7 @@
 <form:form action="${requestURI}" modelAttribute="chirpForm">
 	<form:hidden path="parentChirpId"/>
 	
-	<acme:textbox code="chirp.title" path="title" />
+	<acme:textbox code="chirp.subject" path="subject" />
 	<br/>
 	<acme:textarea code="chirp.text" path="text" />
 	<br/>
@@ -29,7 +29,7 @@
 	<spring:message code="chirp.attachmentsHelp" var="attachmentsHelp" />
 	<jstl:out value="(${attachmentsHelp})"></jstl:out>
 	<br/><br/>
-	<acme:select items="${actors}" itemLabel="email" code="chirp.receiver" path="receiver" />
+	<acme:select items="${chorbies}" itemLabel="email" code="chirp.receiver" path="receiver" />
 		
 	<br/>
 	

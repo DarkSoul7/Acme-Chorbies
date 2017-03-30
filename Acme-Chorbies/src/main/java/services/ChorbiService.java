@@ -102,6 +102,16 @@ public class ChorbiService {
 		return result;
 	}
 
+	public Collection<Chorbi> findAllExceptPrincipal() {
+		Collection<Chorbi> result;
+		Chorbi principal;
+
+		principal = this.findByPrincipal();
+		result = this.chorbiRepository.findAllExceptPrincipal(principal.getId());
+
+		return result;
+	}
+
 
 	@Autowired
 	private Validator	validator;
