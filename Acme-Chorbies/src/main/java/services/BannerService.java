@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.BannerRepository;
+import domain.Administrator;
 import domain.Banner;
 
 @Service
@@ -34,6 +35,16 @@ public class BannerService {
 		super();
 	}
 
+	//Simple CRUD methods
+
+	public Banner create() {
+		final Administrator administrator = this.administratorService.findByPrincipal();
+		Assert.notNull(administrator);
+		final Banner result = new Banner();
+
+		return result;
+	}
+
 	public Collection<Banner> findAll() {
 		final Collection<Banner> result = this.bannerRepository.findAll();
 
@@ -48,6 +59,7 @@ public class BannerService {
 	}
 
 	public Banner save(final Banner banner) {
+		this.administratorService.findByPrincipal();
 		Assert.notNull(banner);
 		final Banner result = this.bannerRepository.save(banner);
 

@@ -12,6 +12,7 @@ import repositories.AdministratorRepository;
 import security.LoginService;
 import security.UserAccount;
 import domain.Administrator;
+import domain.Chorbi;
 
 @Service
 @Transactional
@@ -21,6 +22,11 @@ public class AdministratorService {
 
 	@Autowired
 	private AdministratorRepository	administratorRepository;
+
+	//Supported services
+
+	@Autowired
+	private ChorbiService			chorbiService;
 
 
 	//Constructor
@@ -82,4 +88,19 @@ public class AdministratorService {
 		return result;
 	}
 
+	public void banChorbi(final Chorbi chorbi) {
+		this.findByPrincipal();
+		Assert.notNull(chorbi);
+		Assert.isTrue(chorbi.getUserAccount().isEnabled() == true);
+		chorbi.getUserAccount().setEnabled(false);
+		this.chorbiService.save(chorbi);
+	}
+
+	public void unbanChorbi(final Chorbi chorbi) {
+		this.findByPrincipal();
+		Assert.notNull(chorbi);
+		Assert.isTrue(chorbi.getUserAccount().isEnabled() == false);
+		chorbi.getUserAccount().setEnabled(true);
+		this.chorbiService.save(chorbi);
+	}
 }

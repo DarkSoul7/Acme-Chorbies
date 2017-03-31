@@ -4,6 +4,8 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,7 @@ import security.LoginService;
 import security.UserAccount;
 import domain.Chirp;
 import domain.Chorbi;
+import domain.CreditCard;
 import domain.Like;
 import domain.SearchTemplate;
 import forms.ChorbiForm;
@@ -172,10 +175,8 @@ public class ChorbiService {
 		result.setEmail(chorbiForm.getEmail());
 
 		//Check chorbi is over age
-		final LocalDate chorbiBirthDate = new LocalDate(result.getBirthDate());
-		final LocalDate now = new LocalDate();
-		final Years chorbiYears = Years.yearsBetween(chorbiBirthDate, now);
-		if (chorbiYears.getYears() < 18)
+		final int chorbiYears = this.getChorbiAge(result);
+		if (chorbiYears < 18)
 			result.setOverAge(false);
 		else
 			result.setOverAge(true);
@@ -183,5 +184,53 @@ public class ChorbiService {
 		this.validator.validate(result, binding);
 
 		return result;
+	}
+
+	public int getChorbiAge(final Chorbi chorbi) {
+		Assert.notNull(chorbi);
+
+		final LocalDate chorbiBirthDate = new LocalDate(chorbi.getBirthDate());
+		final LocalDate now = new LocalDate();
+		final Years chorbiYears = Years.yearsBetween(chorbiBirthDate, now);
+
+		return chorbiYears.getYears();
+	}
+
+	public boolean checkCreditCard(final CreditCard creditCard) {
+		Assert.notNull(creditCard);
+		boolean result = false;
+
+		final boolean luhn = LuhnCheckDigit.LUHN_CHECK_DIGIT.isValid(creditCard.getNumber());
+		final LocalDate localDate = new LocalDate();
+		final LocalDate expirationDate = new LocalDate(creditCard.getExpirationYear(), creditCard.getExpirationMonth(), 1);
+
+		final int days = Days.daysBetween(localDate, expirationDate).getDays();
+
+		if (luhn && days > 1)
+			result = true;
+
+		return result;
+	}
+
+	//DashBoard
+
+	public Collection<Object[]> getChorbiesPerCountry() {
+		return this.chorbiRepository.getChorbiesPerCountry();
+	}
+
+	public Collection<Object[]> getChorbiesPerCity() {
+		return this.chorbiRepository.getChorbiesPerCity();
+	}
+
+	public Integer minChorbiesAge() {
+		return this.chorbiRepository.minChorbiesAge();
+	}
+
+	public Integer maxChorbiesAge() {
+		return this.chorbiRepository.maxChorbiesAge();
+	}
+
+	public Integer avgChorbiesAge() {
+		return this.chorbiRepository.avgChorbiesAge();
 	}
 }
