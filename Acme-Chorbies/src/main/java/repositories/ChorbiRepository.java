@@ -42,4 +42,22 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	//c)
 	@Query("select sum((datediff(CURRENT_DATE,c.birthDate)/365))/(select count(c2) from Chorbi c2) from Chorbi c")
 	public Integer avgChorbiesAge();
+
+	//C3
+	@Query("select count(c)*1.0/(select count(c2) from Chorbi c2) from Chorbi c where c.creditCard = null")
+	public Double ratioChorbiesWithoutCreditCard();
+
+	//C4
+
+	//a
+	@Query("select count(s)*1.0/(select count(s2) from SearchTemplate s2)  from SearchTemplate s where s.relationship = 0")
+	public Double ratioChorbiesLookingForActivities();
+
+	//b
+	@Query("select count(s)*1.0/(select count(s2) from SearchTemplate s2)  from SearchTemplate s where s.relationship = 1")
+	public Double ratioChorbiesLookingForFriends();
+
+	//C
+	@Query("select count(s)*1.0/(select count(s2) from SearchTemplate s2)  from SearchTemplate s where s.relationship = 2")
+	public Double ratioChorbiesLookingForLove();
 }

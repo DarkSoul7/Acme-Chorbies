@@ -233,4 +233,19 @@ public class ChorbiService {
 	public Integer avgChorbiesAge() {
 		return this.chorbiRepository.avgChorbiesAge();
 	}
+
+	public Double ratioChorbiesWithoutCreditCard() {
+		return this.chorbiRepository.ratioChorbiesWithoutCreditCard();
+	}
+
+	public Double ratioChorbiesLookingForActivities() {
+		return this.chorbiRepository.ratioChorbiesLookingForActivities();
+	}
+
+	public Double ratioChorbiesLookingForFriends() {
+		return this.chorbiRepository.ratioChorbiesLookingForFriends();
+	}
+	public Double ratioChorbiesLookingForLove() {
+		return this.chorbiRepository.ratioChorbiesLookingForLove();
+	}
 }
