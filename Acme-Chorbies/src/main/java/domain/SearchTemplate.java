@@ -31,7 +31,7 @@ public class SearchTemplate extends DomainEntity {
 	private Genre			genre;
 	private Coordinates		coordinates;
 	private String			keyword;
-	private Date			creationMoment;
+	private Date			captionMoment;
 
 
 	//Constructor
@@ -87,12 +87,12 @@ public class SearchTemplate extends DomainEntity {
 	@NotNull
 	@Temporal(value = TemporalType.TIMESTAMP)
 	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	public Date getCreationMoment() {
-		return this.creationMoment;
+	public Date getCaptionMoment() {
+		return this.captionMoment;
 	}
 
-	public void setCreationMoment(final Date creationMoment) {
-		this.creationMoment = creationMoment;
+	public void setCaptionMoment(final Date captionMoment) {
+		this.captionMoment = captionMoment;
 	}
 
 

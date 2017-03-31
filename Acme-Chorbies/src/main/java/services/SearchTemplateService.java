@@ -94,6 +94,6 @@ public class SearchTemplateService {
 				result.add(found);
 		}
 		searchTemplate.setListChorbi(result);
-		searchTemplate.setCreationMoment(new Date(System.currentTimeMillis() - 1000));
+		searchTemplate.setCaptionMoment(new Date(System.currentTimeMillis() - 1000));
 	}
 }

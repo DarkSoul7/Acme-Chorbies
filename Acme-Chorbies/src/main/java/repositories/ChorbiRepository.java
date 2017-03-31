@@ -24,7 +24,8 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	//Dashboard C
 
 	//C1
-	@Query("select count(c),c.coordinates.city from Chorbi c group by c.coordinates.country")
+	//TODO Form object para mapear los Object[]
+	@Query("select count(c),c.coordinates.country from Chorbi c group by c.coordinates.country")
 	public Collection<Object[]> getChorbiesPerCountry();
 
 	@Query("select count(c),c.coordinates.city from Chorbi c group by c.coordinates.city")
@@ -33,10 +34,10 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	//C2
 
 	//a)
-	@Query("select min(datediff(CURRENT_DATE,c.birthDate)) from Chorbi c")
+	@Query("select min(datediff(CURRENT_DATE,c.birthDate)/365) from Chorbi c")
 	public Integer minChorbiesAge();
 
-	@Query("select max(datediff(CURRENT_DATE,c.birthDate)) from Chorbi c")
+	@Query("select max(datediff(CURRENT_DATE,c.birthDate)/365) from Chorbi c")
 	public Integer maxChorbiesAge();
 
 	//c)
@@ -48,21 +49,21 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	public Double ratioChorbiesWithoutCreditCard();
 
 	//C4
-
+	//TODO revisar esto
 	//a
-	@Query("select count(s)*1.0/(select count(s2) from SearchTemplate s2)  from SearchTemplate s where s.relationship = 0")
+	@Query("select count(c)*1.0/(select count(c2) from Chobi c2)  from Chorbi c where c.relationship = 0")
 	public Double ratioChorbiesLookingForActivities();
 
 	//b
-	@Query("select count(s)*1.0/(select count(s2) from SearchTemplate s2)  from SearchTemplate s where s.relationship = 1")
+	@Query("select count(c)*1.0/(select count(c2) from Chorbi c2)  from Chorbi c where c.relationship = 1")
 	public Double ratioChorbiesLookingForFriends();
 
 	//C
-	@Query("select count(s)*1.0/(select count(s2) from SearchTemplate s2)  from SearchTemplate s where s.relationship = 2")
+	@Query("select count(c)*1.0/(select count(c2) from Chorbi c2)  from Chorbi c where c.relationship = 2")
 	public Double ratioChorbiesLookingForLove();
 
 	//B1
-	@Query("select c from Chorbi c order by c.receivedLikes.size")
+	@Query("select c from Chorbi c order by c.receivedLikes.size desc")
 	public Collection<Chorbi> listChorbiesSortedByReceivedLikes();
 
 	//B2
@@ -119,9 +120,11 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("select avg(c.sentChirps.size) from Chorbi c")
 	public Collection<Chorbi> avgSentChirpsPerChorbi();
 
+	//A4
 	@Query("select c from Chorbi c where c.sentChirps.size = (select max(c2.sentChirps.size) from Chorbi c2)")
 	public Collection<Chorbi> getChorbiMoreSentChirp();
 
+	//A3
 	@Query("select c from Chorbi c where c.receivedChirps.size = (select max(c2.receivedChirps.size) from Chorbi c2)")
 	public Collection<Chorbi> getChorbiMoreGotChirp();
 }
