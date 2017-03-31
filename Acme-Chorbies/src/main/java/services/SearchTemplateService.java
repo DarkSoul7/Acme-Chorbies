@@ -2,12 +2,15 @@
 package services;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.naming.directory.InvalidAttributeValueException;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -23,6 +26,7 @@ import repositories.SearchTemplateRepository;
 import domain.Actor;
 import domain.Chorbi;
 import domain.Coordinates;
+import domain.CreditCard;
 import domain.Genre;
 import domain.Relationship;
 import domain.SearchTemplate;
@@ -127,19 +131,26 @@ public class SearchTemplateService {
 		searchTemplate.setCaptionMoment(new Date(System.currentTimeMillis() - 1000));
 	}
 	
-	public Collection<Chorbi> searchByPrincipal() {
+	public Collection<Chorbi> searchByPrincipal() throws InvalidAttributeValueException {
 		Chorbi principal;
 		SearchTemplate searchTemplate;
 		Collection<Chorbi> result;
 		
 		principal = this.chorbiService.findByPrincipal();
 		searchTemplate = principal.getSearchTemplate();
-		result = this.search(searchTemplate, principal.getId());
+		
+		this.checkCreditCardValidity(principal.getCreditCard());
+		if (searchTemplate != null) {
+			result = this.findChorbiesBySearchTemplate(searchTemplate, principal.getId());
+		} else {
+			result = null;
+		}
 		
 		return result;
 		
 	}
 	
+	//Este método se debe usar sólo para pruebas. Para la aplicación se debe usar searchByPrincipal
 	public Collection<Chorbi> search(SearchTemplate searchTemplate, int principalId) {
 		Collection<Chorbi> result;
 		
@@ -152,6 +163,7 @@ public class SearchTemplateService {
 		return result;
 	}
 	
+	//Un Chorbi nunca podrá encontrarse en los resultados de esta búsqueda
 	private Collection<Chorbi> findChorbiesBySearchTemplate(SearchTemplate searchTemplate, int principalId) {
 		Collection<Chorbi> result;
 		TypedQuery<Chorbi> query;
@@ -233,5 +245,14 @@ public class SearchTemplateService {
 		result = query.getResultList();
 		
 		return result;
+	}
+	
+	private void checkCreditCardValidity(CreditCard creditCard) throws InvalidAttributeValueException {
+		GregorianCalendar currentMoment = new GregorianCalendar();
+		if (currentMoment.get(Calendar.YEAR) > creditCard.getExpirationYear().intValue()) {
+			throw new InvalidAttributeValueException("SearchTemplateService - checkCreditCardValidity: invalid year");
+		} else if (currentMoment.get(Calendar.MONTH) + 1 > creditCard.getExpirationMonth().intValue()) {
+			throw new InvalidAttributeValueException("SearchTemplateService - checkCreditCardValidity: invalid month");
+		}
 	}
 }

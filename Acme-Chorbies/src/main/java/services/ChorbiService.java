@@ -58,6 +58,7 @@ public class ChorbiService {
 		
 	}
 	
+	//Comprobar antes de guardar al actor que su tarjeta de crédito tenga una fecha válida (del número se encargala anotación)
 	public Chorbi save(final Chorbi chorbi) {
 		Assert.notNull(chorbi);
 		Chorbi result;
@@ -117,7 +118,7 @@ public class ChorbiService {
 	
 	
 	//	@Autowired
-	//TODO
+	//TODO Validator es una interfaz. Hay que crear una clase que la implemente
 	private Validator	validator;
 	
 	

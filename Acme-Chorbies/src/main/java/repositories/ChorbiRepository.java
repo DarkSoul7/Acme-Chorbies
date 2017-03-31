@@ -24,7 +24,6 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	//Dashboard C
 	
 	//C1
-	//TODO Form object para mapear los Object[]
 	@Query("select count(c),c.coordinates.country from Chorbi c group by c.coordinates.country")
 	public Collection<Object[]> getChorbiesPerCountry();
 	
@@ -49,7 +48,6 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	public Double ratioChorbiesWithoutCreditCard();
 	
 	//C4
-	//TODO revisar esto
 	//a
 	@Query("select count(c)*1.0/(select count(c2) from Chorbi c2)  from Chorbi c where c.relationship = 0")
 	public Double ratioChorbiesLookingForActivities();

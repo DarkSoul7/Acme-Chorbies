@@ -47,7 +47,6 @@ public class SearchTemplateServiceTest extends AbstractTest {
 	 * 3º Good search; I won't be able to find myself with my own search template -> expected: an empty list
 	 * 4º Good search -> expected: a list with 4 chorbies
 	 * 5º Bad search; A chorbi must be authenticated to search for other chorbies using a search template -> expected: IllegalArgumentException
-	 * 6º Bad register; A customer must be authenticated to register an application for a request -> expected: IllegalArgumentException
 	 */
 	@Test
 	public void searchTemplateDriver() {
