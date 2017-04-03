@@ -83,7 +83,9 @@ public class BannerService {
 	public Banner getRandomBanner() {
 		Banner result;
 		final ArrayList<Banner> banners = new ArrayList<>(this.findAll());
-		if (banners.size() == 1)
+		if (banners.size() == 0)
+			result = null;
+		else if (banners.size() == 1)
 			result = banners.get(0);
 		else {
 			final Random random = new Random();
