@@ -2,14 +2,18 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
-import repositories.LikeRepository;
 import domain.Like;
+import forms.LikeForm;
+import repositories.LikeRepository;
 
 @Service
 @Transactional
@@ -20,8 +24,10 @@ public class LikeService {
 	@Autowired
 	private LikeRepository	likeRepository;
 
-
 	//Supported services
+	@Autowired
+	private ChorbiService	chorbiService;
+
 
 	//Constructor
 
@@ -59,6 +65,22 @@ public class LikeService {
 		this.delete(like);
 	}
 
+
 	//Other business methods
+
+	private Validator validator;
+
+
+	public Like reconstruct(final LikeForm likeForm, final BindingResult binding) {
+		Assert.notNull(likeForm);
+		final Like result = new Like();
+
+		result.setComment(likeForm.getComment());
+		result.setMoment(new Date());
+		result.setAuthor(this.chorbiService.findByPrincipal());
+		result.setReceiver(this.chorbiService.findOne(likeForm.getIdReceiver()));
+
+		return result;
+	}
 
 }

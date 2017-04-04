@@ -48,8 +48,10 @@
 		</security:authorize>
 		
 		<security:authorize access="isAuthenticated()">
+			<li><a href="chorbi/list.do"><spring:message code="master.page.list.chorbi" /></a></li>
 			<li><a class="fNiv"><spring:message	code="master.page.messagingSystem" /></a>
 				<ul>
+				
 					<li class="arrow"></li>
 					<li><a href="chirp/send.do"><spring:message code="master.page.messagingSystem.send" /></a></li>
 					<li><a href="chirp/sentChirps.do"><spring:message code="master.page.messagingSystem.sentChirps" /></a></li>

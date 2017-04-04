@@ -16,16 +16,16 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
-import repositories.ChorbiRepository;
-import security.Authority;
-import security.LoginService;
-import security.UserAccount;
 import domain.Chirp;
 import domain.Chorbi;
 import domain.CreditCard;
 import domain.Like;
 import domain.SearchTemplate;
 import forms.ChorbiForm;
+import repositories.ChorbiRepository;
+import security.Authority;
+import security.LoginService;
+import security.UserAccount;
 
 @Service
 @Transactional
@@ -34,7 +34,7 @@ public class ChorbiService {
 	//Managed repository
 
 	@Autowired
-	private ChorbiRepository	chorbiRepository;
+	private ChorbiRepository chorbiRepository;
 
 
 	//Supported services
@@ -119,7 +119,7 @@ public class ChorbiService {
 
 	//	@Autowired
 	//TODO Validator es una interfaz. Hay que crear una clase que la implemente
-	private Validator	validator;
+	private Validator validator;
 
 
 	public Chorbi reconstruct(final ChorbiForm chorbiForm, final BindingResult binding) {

@@ -53,6 +53,9 @@
 		<security:intercept-url pattern="/profile/action-2.do" access="hasRole('CHORBI')" /> 
 		<security:intercept-url pattern="/profile/action-3.do" access="hasRole('CHORBI')" /> 
 		
+		<!-- CHORBI -->
+		<security:intercept-url pattern="/chorbi/list.do" access="isAuthenticated()" />
+		
 		<!-- MESSAGES -->
 		<security:intercept-url pattern="/chirp/send.do" access="hasRole('CHORBI')" />
 		<security:intercept-url pattern="/chirp/forward.do" access="hasRole('CHORBI')" />
