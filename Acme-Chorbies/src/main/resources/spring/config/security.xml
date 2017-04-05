@@ -57,7 +57,7 @@
 		<security:intercept-url pattern="/chorbi/list.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/chorbi/showChorbiLike.do" access="isAuthenticated()" />
 		
-		<!-- MESSAGES -->
+		<!-- CHIRP -->
 		<security:intercept-url pattern="/chirp/send.do" access="hasRole('CHORBI')" />
 		<security:intercept-url pattern="/chirp/forward.do" access="hasRole('CHORBI')" />
 		<security:intercept-url pattern="/chirp/reply.do" access="hasRole('CHORBI')" />
@@ -65,6 +65,14 @@
 		<security:intercept-url pattern="/chirp/sentChirps.do" access="hasRole('CHORBI')" />
 		<security:intercept-url pattern="/chirp/receivedChirps.do" access="hasRole('CHORBI')" />
 		<security:intercept-url pattern="/chirp/showChirp.do" access="hasRole('CHORBI')" />
+		
+		<!-- SEARCH TEMPLATE -->
+		
+		<security:intercept-url pattern="/searchTemplate/list.do" access="hasRole('CHORBI')" />
+		<security:intercept-url pattern="/searchTemplate/save.do" access="hasRole('CHORBI')" />
+		<security:intercept-url pattern="/searchTemplate/listCachedTime.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/searchTemplate/editCachedTime.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/searchTemplate/saveCachedTime.do" access="hasRole('ADMINISTRATOR')" />
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

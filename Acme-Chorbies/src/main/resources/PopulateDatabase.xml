@@ -495,7 +495,7 @@
 		<property name="age" value="20" />
 		<property name="genre" value="WOMAN" />
 		<property name="keyword" value="activities" />
-		<property name="captionMoment" value="03/30/2017 05:59" />
+		<property name="cachedMoment" value="03/30/2017 05:59" />
 		<property name="coordinates" ref="coordinates5" />
 		<property name="chorbi" ref="chorbi1" />
 	</bean>
@@ -505,9 +505,14 @@
 		<property name="age" value="23" />
 		<property name="genre" value="" />
 		<property name="keyword" value="friendship" />
-		<property name="captionMoment" value="03/25/2017 09:15" />
+		<property name="cachedMoment" value="04/05/2017 13:41" />
 		<property name="coordinates"><null/></property>
 		<property name="chorbi" ref="chorbi2" />
+		<property name="listChorbi">
+			<list>
+				<ref bean="chorbi1"/>
+			</list>
+		</property>
 	</bean>
 	
 	<bean id="searchTemplate3" class="domain.SearchTemplate">
@@ -515,7 +520,7 @@
 		<property name="age" value="23" />
 		<property name="genre" value="MAN" />
 		<property name="keyword" value="" />
-		<property name="captionMoment" value="03/01/2017 22:17" />
+		<property name="cachedMoment" value="03/01/2017 22:17" />
 		<property name="coordinates"><null/></property>
 		<property name="chorbi" ref="chorbi3" />
 	</bean>

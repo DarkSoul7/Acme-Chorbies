@@ -23,18 +23,12 @@
 <div>
 	<ul id="jMenu">
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
-		<security:authorize access="hasRole('ADMIN')">
-			<li><a class="fNiv"><spring:message	code="master.page.administrator" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="administrator/action-1.do"><spring:message code="master.page.administrator.action.1" /></a></li>
-					<li><a href="administrator/action-2.do"><spring:message code="master.page.administrator.action.2" /></a></li>					
-				</ul>
-			</li>
+		<security:authorize access="hasRole('ADMINISTRATOR')">
+				<li><a class="fNiv" href="searchTemplate/listCachedTime.do"><spring:message code="master.page.cachedTime.list" /></a></li>
 		</security:authorize>
 		
 		<security:authorize access="hasRole('CHORBI')">
-			<li><a class="fNiv"><spring:message	code="master.page.customer" /></a>
+			<li><a class="fNiv"><spring:message	code="master.page.chorbi" /></a>
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="customer/action-1.do"><spring:message code="master.page.customer.action.1" /></a></li>
