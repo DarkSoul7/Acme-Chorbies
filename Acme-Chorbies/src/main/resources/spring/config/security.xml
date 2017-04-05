@@ -55,7 +55,7 @@
 		
 		<!-- CHORBI -->
 		<security:intercept-url pattern="/chorbi/list.do" access="isAuthenticated()" />
-		<security:intercept-url pattern="/chorbi/showChorbiLike.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/chorbi/showChorbi.do" access="isAuthenticated()" />
 		
 		<!-- CHIRP -->
 		<security:intercept-url pattern="/chirp/send.do" access="hasRole('CHORBI')" />

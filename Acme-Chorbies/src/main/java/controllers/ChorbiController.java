@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import domain.Actor;
 import domain.Chorbi;
+import services.ActorService;
 import services.ChorbiService;
 
 @Controller
@@ -29,7 +31,10 @@ public class ChorbiController extends AbstractController {
 	// Related services
 
 	@Autowired
-	private ChorbiService chorbiService;
+	private ChorbiService	chorbiService;
+
+	@Autowired
+	private ActorService	actorService;
 
 
 	// Constructors -----------------------------------------------------------
@@ -43,17 +48,19 @@ public class ChorbiController extends AbstractController {
 		ModelAndView result;
 		final Collection<Chorbi> chorbies = this.chorbiService.findAll();
 
+		final Actor actor = this.actorService.findByPrincipal();
 		result = new ModelAndView("chorbi/list");
 		result.addObject("chorbies", chorbies);
 		result.addObject("RequestURI", "chorbi/list.do");
+		result.addObject("idActor", actor.getId());
 
 		return result;
 	}
 
 	@RequestMapping(value = "/showChorbi", method = RequestMethod.GET)
-	public ModelAndView showChorbiLike(@RequestParam final int id) {
+	public ModelAndView showChorbiLike(@RequestParam final int chorbiId) {
 		ModelAndView result;
-		final Collection<Chorbi> chorbies = this.chorbiService.findChorbiesLike(id);
+		final Collection<Chorbi> chorbies = this.chorbiService.findChorbiesLike(chorbiId);
 		result = new ModelAndView("chorbi/list");
 		result.addObject("chorbies", chorbies);
 		result.addObject("RequestURI", "chorbi/list.do");

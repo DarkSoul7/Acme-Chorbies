@@ -43,7 +43,7 @@
 	<spring:message code="chorbi.birthDate" var="birthDate" />
 	<display:column title="${birthDate}" >
 		<jstl:choose>
-			<jstl:when test="${cookie.language.value == 'en'}">
+			<jstl:when test="${pageContext.response.locale.language=='en'}">
 				<fmt:formatDate value="${row.birthDate}" pattern="MM/dd/yyyy" />
 			</jstl:when>
 			<jstl:otherwise>
@@ -55,34 +55,28 @@
 	<spring:message code="chorbi.relationship" var="relationship" />
 	<display:column title="${relationship}">
 		
-		<jstl:if test="${cookie['language'].value.equals('en')}">
+		<jstl:if test="${pageContext.response.locale.language=='en'}">
 			<jstl:out value="${row.relationship.name}"></jstl:out>
 		</jstl:if>
 		
-		<jstl:if test="${cookie['language'].value.equals('es')}">
+		<jstl:if test="${pageContext.response.locale.language=='es'}">
 			<jstl:out value="${row.relationship.spanishName}"></jstl:out>
 		</jstl:if>
-		
-		<jstl:if test="${cookie['language'].value== null}">
-			<jstl:out value="${row.relationship.name}"></jstl:out>
-		</jstl:if>
+	
 		
 	</display:column>
 	
 	<spring:message code="chorbi.genre" var="genre" />
 	<display:column title="${genre}">
 		
-		<jstl:if test="${cookie['language'].value.equals('en')}">
+		<jstl:if test="${pageContext.response.locale.language=='en'}">
 			<jstl:out value="${row.genre.name}"></jstl:out>
 		</jstl:if>
 		
-		<jstl:if test="${cookie['language'].value.equals('es')}">
+		<jstl:if test="${pageContext.response.locale.language=='es'}">
 			<jstl:out value="${row.genre.spanishName}"></jstl:out>
 		</jstl:if>
 		
-		<jstl:if test="${cookie['language'].value== null}">
-			<jstl:out value="${row.genre.name}"></jstl:out>
-		</jstl:if>
 		
 	</display:column>
 	
@@ -103,7 +97,9 @@
 	</display:column>
 	
 	<display:column>
-		<acme:cancel url="like/register.do?chorbiId=${row.id}" code="chorbi.sendLike"/>
+		<jstl:if test="${row.id!=idActor}">
+			<acme:cancel url="like/register.do?chorbiId=${row.id}" code="chorbi.sendLike"/>
+		</jstl:if>
 	</display:column>
 	
 </display:table>

@@ -45,10 +45,10 @@ public class LikeController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public ModelAndView register(@RequestParam final int idChorbi) {
+	public ModelAndView register(@RequestParam final int chorbiId) {
 		ModelAndView result;
 		final LikeForm likeForm = new LikeForm();
-		likeForm.setIdReceiver(idChorbi);
+		likeForm.setIdReceiver(chorbiId);
 
 		result = this.createEditModelAndView(likeForm);
 

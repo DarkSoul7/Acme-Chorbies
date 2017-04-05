@@ -21,7 +21,7 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("select c from Chorbi c where c.id <> ?1")
 	public Collection<Chorbi> findAllExceptPrincipal(int principalId);
 
-	@Query("select c from Chorbi c join c.authoredLikes l where c.id=?1")
+	@Query("select l.receiver from Chorbi c join c.authoredLikes l where c.id=?1")
 	public Collection<Chorbi> findChorbiesLike(int idChorbie);
 
 	//Dashboard C
