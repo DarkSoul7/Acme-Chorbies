@@ -17,8 +17,8 @@
 <%@taglib prefix="security"
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <display:table name="chorbies" id="row" requestURI="${RequestURI}"
 	pagesize="5">
@@ -41,7 +41,16 @@
 	<display:column property="email" title="${email}" />
 	
 	<spring:message code="chorbi.birthDate" var="birthDate" />
-	<display:column property="birthDate" title="${birthDate}" />
+	<display:column title="${birthDate}" >
+		<jstl:choose>
+			<jstl:when test="${cookie.language.value == 'en'}">
+				<fmt:formatDate value="${row.birthDate}" pattern="MM/dd/yyyy" />
+			</jstl:when>
+			<jstl:otherwise>
+				<fmt:formatDate value="${row.birthDate}" pattern="dd/MM/yyyy" />
+			</jstl:otherwise>
+		</jstl:choose>
+	</display:column>
 	
 	<spring:message code="chorbi.relationship" var="relationship" />
 	<display:column title="${relationship}">
@@ -90,7 +99,11 @@
 	<display:column property="coordinates.country" title="${coordinatesCountry}" />
 	
 	<display:column>
-		<acme:cancel url="chorbi/showChorbiLike.do?chorbiId=${row.id}" code="chorbi.authorLike"/>
+		<acme:cancel url="chorbi/showChorbi.do?chorbiId=${row.id}" code="chorbi.author"/>
+	</display:column>
+	
+	<display:column>
+		<acme:cancel url="like/register.do?chorbiId=${row.id}" code="chorbi.sendLike"/>
 	</display:column>
 	
 </display:table>

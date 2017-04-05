@@ -1,7 +1,6 @@
 
 package forms;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 
 public class LikeForm {
@@ -10,7 +9,6 @@ public class LikeForm {
 	private int		idReceiver;
 
 
-	@NotBlank
 	@SafeHtml
 	public String getComment() {
 		return this.comment;
