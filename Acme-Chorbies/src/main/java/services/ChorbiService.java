@@ -31,13 +31,12 @@ import security.UserAccount;
 @Transactional
 public class ChorbiService {
 
-	//Managed repository
+	// Managed repository
 
 	@Autowired
 	private ChorbiRepository chorbiRepository;
 
-
-	//Supported services
+	// Supported services
 
 	public ChorbiService() {
 		super();
@@ -58,7 +57,8 @@ public class ChorbiService {
 
 	}
 
-	//Comprobar antes de guardar al actor que su tarjeta de crédito tenga una fecha válida (del número se encargala anotación)
+	// Comprobar antes de guardar al actor que su tarjeta de crédito tenga una
+	// fecha válida (del número se encargala anotación)
 	public Chorbi save(final Chorbi chorbi) {
 		Assert.notNull(chorbi);
 		Chorbi result;
@@ -73,7 +73,7 @@ public class ChorbiService {
 		this.chorbiRepository.delete(chorbi);
 	}
 
-	//Other business methods
+	// Other business methods
 
 	public Chorbi findByPrincipal() {
 		Chorbi result;
@@ -116,17 +116,15 @@ public class ChorbiService {
 		return result;
 	}
 
-
-	//	@Autowired
-	//TODO Validator es una interfaz. Hay que crear una clase que la implemente
+	// @Autowired
+	// TODO Validator es una interfaz. Hay que crear una clase que la implemente
 	private Validator validator;
-
 
 	public Chorbi reconstruct(final ChorbiForm chorbiForm, final BindingResult binding) {
 		Assert.notNull(chorbiForm);
 		final Chorbi result = new Chorbi();
 
-		//Registering a new Chorbi
+		// Registering a new Chorbi
 		if (chorbiForm.getId() == 0) {
 			final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
 			final String hash = encoder.encodePassword(chorbiForm.getPassword(), null);
@@ -137,7 +135,7 @@ public class ChorbiService {
 			final Authority authority = new Authority();
 			final UserAccount userAccount = new UserAccount();
 
-			//Configuring authority & userAccount
+			// Configuring authority & userAccount
 			authority.setAuthority("CHORBI");
 			userAccount.addAuthority(authority);
 			result.setUserAccount(userAccount);
@@ -162,7 +160,7 @@ public class ChorbiService {
 			result.getUserAccount().setPassword(hash);
 		}
 
-		//Registering or editing chorbi
+		// Registering or editing chorbi
 		result.setPicture(chorbiForm.getPicture());
 		result.setDescription(chorbiForm.getDescription());
 		result.setRelationship(chorbiForm.getRelationShip());
@@ -176,18 +174,18 @@ public class ChorbiService {
 		result.setPhone(chorbiForm.getPhone());
 		result.setEmail(chorbiForm.getEmail());
 
-		//Check chorbi is over age
+		// Check chorbi is over age
 		final int chorbiYears = this.getChorbiAge(result);
 		if (chorbiYears < 18)
 			result.setOverAge(false);
 		else
 			result.setOverAge(true);
 
-		//Check creditCard if any
+		// Check creditCard if any
 		if (result.getCreditCard() != null)
 			result.setValidCreditCard(this.checkCreditCard(result.getCreditCard()));
 
-		//		this.validator.validate(result, binding);
+		// this.validator.validate(result, binding);
 
 		return result;
 	}
@@ -227,7 +225,8 @@ public class ChorbiService {
 
 		final boolean luhn = LuhnCheckDigit.LUHN_CHECK_DIGIT.isValid(creditCard.getNumber());
 		final LocalDate localDate = new LocalDate();
-		final LocalDate expirationDate = new LocalDate(creditCard.getExpirationYear(), creditCard.getExpirationMonth(), 1);
+		final LocalDate expirationDate = new LocalDate(creditCard.getExpirationYear(), creditCard.getExpirationMonth(),
+				1);
 
 		final int days = Days.daysBetween(localDate, expirationDate).getDays();
 
@@ -241,7 +240,7 @@ public class ChorbiService {
 		return this.chorbiRepository.findChorbiesLike(idChorbie);
 	}
 
-	//DashBoard
+	// DashBoard
 
 	public Collection<Object[]> getChorbiesPerCountry() {
 		return this.chorbiRepository.getChorbiesPerCountry();
@@ -274,7 +273,68 @@ public class ChorbiService {
 	public Double ratioChorbiesLookingForFriends() {
 		return this.chorbiRepository.ratioChorbiesLookingForFriends();
 	}
+
 	public Double ratioChorbiesLookingForLove() {
 		return this.chorbiRepository.ratioChorbiesLookingForLove();
+	}
+
+	public Collection<Chorbi> listChorbiesSortedByReceivedLikes() {
+		return chorbiRepository.listChorbiesSortedByReceivedLikes();
+	}
+
+	public Integer minReceivedLikesPerChorbi() {
+		return chorbiRepository.minReceivedLikesPerChorbi();
+	}
+
+	public Integer maxReceivedLikesPerChorbi() {
+		return chorbiRepository.maxReceivedLikesPerChorbi();
+	}
+
+	public Double avgReceivedLikesPerChorbi() {
+		return chorbiRepository.avgReceivedLikesPerChorbi();
+	}
+
+	public Integer minAuthoredLikesPerChorbi() {
+		return chorbiRepository.minAuthoredLikesPerChorbi();
+	}
+
+	public Integer maxAuthoredLikesPerChorbi() {
+		return chorbiRepository.maxAuthoredLikesPerChorbi();
+	}
+
+	public Double avgAuthoredLikesPerChorbi() {
+		return chorbiRepository.avgAuthoredLikesPerChorbi();
+	}
+
+	public Integer minReceivedChirpsPerChorbi() {
+		return chorbiRepository.minReceivedChirpsPerChorbi();
+	}
+
+	public Integer maxReceivedChirpsPerChorbi() {
+		return chorbiRepository.maxReceivedChirpsPerChorbi();
+	}
+
+	public Double avgReceivedChirpsPerChorbi() {
+		return chorbiRepository.avgReceivedChirpsPerChorbi();
+	}
+
+	public Integer minSentChirpsPerChorbi() {
+		return chorbiRepository.minSentChirpsPerChorbi();
+	}
+
+	public Integer maxSentChirpsPerChorbi() {
+		return chorbiRepository.maxSentChirpsPerChorbi();
+	}
+
+	public Double avgSentChirpsPerChorbi() {
+		return chorbiRepository.avgSentChirpsPerChorbi();
+	}
+
+	public Collection<Chorbi> getChorbiMoreSentChirp() {
+		return chorbiRepository.getChorbiMoreSentChirp();
+	}
+
+	public Collection<Chorbi> getChorbiMoreGotChirp() {
+		return chorbiRepository.getChorbiMoreGotChirp();
 	}
 }

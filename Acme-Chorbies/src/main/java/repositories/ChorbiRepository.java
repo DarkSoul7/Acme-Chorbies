@@ -71,55 +71,55 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 
 	//a
 	@Query("select min(c.receivedLikes.size) from Chorbi c")
-	public Collection<Chorbi> minReceivedLikesPerChorbi();
+	public Integer minReceivedLikesPerChorbi();
 
 	//b
 	@Query("select max(c.receivedLikes.size) from Chorbi c")
-	public Collection<Chorbi> maxReceivedLikesPerChorbi();
+	public Integer maxReceivedLikesPerChorbi();
 
 	//c
 	@Query("select avg(c.receivedLikes.size) from Chorbi c")
-	public Collection<Chorbi> avgReceivedLikesPerChorbi();
+	public Double avgReceivedLikesPerChorbi();
 
 	//a
 	@Query("select min(c.authoredLikes.size) from Chorbi c")
-	public Collection<Chorbi> minAuthoredLikesPerChorbi();
+	public Integer minAuthoredLikesPerChorbi();
 
 	//b
 	@Query("select max(c.authoredLikes.size) from Chorbi c")
-	public Collection<Chorbi> maxAuthoredLikesPerChorbi();
+	public Integer maxAuthoredLikesPerChorbi();
 
 	//c
 	@Query("select avg(c.authoredLikes.size) from Chorbi c")
-	public Collection<Chorbi> avgAuthoredLikesPerChorbi();
+	public Double avgAuthoredLikesPerChorbi();
 
 	//A1
 
 	//a
 	@Query("select min(c.receivedChirps.size) from Chorbi c")
-	public Collection<Chorbi> minReceivedChirpsPerChorbi();
+	public Integer minReceivedChirpsPerChorbi();
 
 	//b
 	@Query("select max(c.receivedChirps.size) from Chorbi c")
-	public Collection<Chorbi> maxReceivedChirpsPerChorbi();
+	public Integer maxReceivedChirpsPerChorbi();
 
 	//c
 	@Query("select avg(c.receivedChirps.size) from Chorbi c")
-	public Collection<Chorbi> avgReceivedChirpsPerChorbi();
+	public Double avgReceivedChirpsPerChorbi();
 
 	//A2
 
 	//a
 	@Query("select min(c.sentChirps.size) from Chorbi c")
-	public Collection<Chorbi> minSentChirpsPerChorbi();
+	public Integer minSentChirpsPerChorbi();
 
 	//b
 	@Query("select max(c.sentChirps.size) from Chorbi c")
-	public Collection<Chorbi> maxSentChirpsPerChorbi();
+	public Integer maxSentChirpsPerChorbi();
 
 	//c
 	@Query("select avg(c.sentChirps.size) from Chorbi c")
-	public Collection<Chorbi> avgSentChirpsPerChorbi();
+	public Double avgSentChirpsPerChorbi();
 
 	//A4
 	@Query("select c from Chorbi c where c.sentChirps.size = (select max(c2.sentChirps.size) from Chorbi c2)")
