@@ -55,6 +55,21 @@ public class LikeController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
+	public ModelAndView cancel(@RequestParam final int chorbiId) {
+		ModelAndView result;
+		final Like like = this.likeService.getLikeOfChorbi(this.chorbiService.findByPrincipal().getId(), chorbiId);
+
+		try {
+			this.likeService.delete(like);
+			result = new ModelAndView("redirect:/chorbi/list.do");
+		} catch (final Throwable oops) {
+			result = new ModelAndView("redirect:/chorbi/list.do");
+			result.addObject("errorMessage", "like.cancel.error");
+		}
+		return result;
+	}
+
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@Valid final LikeForm likeForm, final BindingResult binding) {
 		ModelAndView result = new ModelAndView();

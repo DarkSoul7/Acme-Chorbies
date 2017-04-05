@@ -101,5 +101,11 @@
 			<acme:cancel url="like/register.do?chorbiId=${row.id}" code="chorbi.sendLike"/>
 		</jstl:if>
 	</display:column>
+		<display:column>
+		<jstl:if test="${row.id!=idActor}">
+			<acme:cancel url="like/cancel.do?chorbiId=${row.id}" code="chorbi.cancelLike"/>
+		</jstl:if>
+	</display:column>
+	
 	
 </display:table>

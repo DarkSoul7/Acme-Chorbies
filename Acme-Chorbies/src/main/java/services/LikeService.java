@@ -83,4 +83,8 @@ public class LikeService {
 		return result;
 	}
 
+	public Like getLikeOfChorbi(final int idAuthor, final int idReceiver) {
+		return this.likeRepository.getLikeOfChorbi(idAuthor, idReceiver);
+	}
+
 }
