@@ -40,23 +40,57 @@
 	<spring:message code="chorbi.email" var="email" />
 	<display:column property="email" title="${email}" />
 	
-	<spring:message code="chorbi.description" var="description" />
-	<display:column property="description" title="${description}" />
+	<spring:message code="chorbi.birthDate" var="birthDate" />
+	<display:column property="birthDate" title="${birthDate}" />
 	
 	<spring:message code="chorbi.relationship" var="relationship" />
-	<display:column property="relationship" title="${relationship}" />
-	
-	
-	<spring:message code="chorbi.birthDate" var="birthDate" />
-	<display:column title="${birthDate}">
-		<fmt:formatDate value="${row.birthDate}"
-			pattern="dd/MM/yyyy" var="birthDate" />
-		<jstl:out value="${row.birthDate}" />
+	<display:column title="${relationship}">
+		
+		<jstl:if test="${cookie['language'].value.equals('en')}">
+			<jstl:out value="${row.relationship.name}"></jstl:out>
+		</jstl:if>
+		
+		<jstl:if test="${cookie['language'].value.equals('es')}">
+			<jstl:out value="${row.relationship.spanishName}"></jstl:out>
+		</jstl:if>
+		
+		<jstl:if test="${cookie['language'].value== null}">
+			<jstl:out value="${row.relationship.name}"></jstl:out>
+		</jstl:if>
+		
 	</display:column>
 	
-
+	<spring:message code="chorbi.genre" var="genre" />
+	<display:column title="${genre}">
+		
+		<jstl:if test="${cookie['language'].value.equals('en')}">
+			<jstl:out value="${row.genre.name}"></jstl:out>
+		</jstl:if>
+		
+		<jstl:if test="${cookie['language'].value.equals('es')}">
+			<jstl:out value="${row.genre.spanishName}"></jstl:out>
+		</jstl:if>
+		
+		<jstl:if test="${cookie['language'].value== null}">
+			<jstl:out value="${row.genre.name}"></jstl:out>
+		</jstl:if>
+		
+	</display:column>
 	
+	<spring:message code="chorbi.coordinates.city" var="coordinatesCity" />
+	<display:column property="coordinates.city" title="${coordinatesCity}" />
 	
+	<spring:message code="chorbi.coordinates.state" var="coordinatesState" />
+	<display:column property="coordinates.state" title="${coordinatesState}" />
+	
+	<spring:message code="chorbi.coordinates.province" var="coordinatesProvince" />
+	<display:column property="coordinates.province" title="${coordinatesProvince}" />
 
-
+	<spring:message code="chorbi.coordinates.country" var="coordinatesCountry" />
+	<display:column property="coordinates.country" title="${coordinatesCountry}" />
+	
+	<display:column>
+		<acme:cancel url="chorbi/showChorbiLike.do?chorbiId=${row.id}" code="chorbi.authorLike"/>
+	</display:column>
+	
 </display:table>
