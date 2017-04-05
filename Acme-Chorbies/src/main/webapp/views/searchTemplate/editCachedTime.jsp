@@ -25,7 +25,13 @@
 	<form:hidden path="version"/>
 	
 	
-	<acme:textbox code="cachedTime.cachedValue" path="cachedValue" />
+	<acme:textbox code="cachedTime.cachedHour" path="cachedHour" />
+	<br />
+	
+	<acme:textbox code="cachedTime.cachedMinute" path="cachedMinute" />
+	<br />
+	
+	<acme:textbox code="cachedTime.cachedSecond" path="cachedSecond" />
 	<br />
 
 	<acme:submit code="cachedTime.save" name="save" />

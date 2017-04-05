@@ -528,7 +528,9 @@
 	<!-- CACHEDTIME -->
 	
 	<bean id="cachedTime1" class="domain.CachedTime">
-		<property name="cachedValue" value="12" />
+		<property name="cachedHour" value="12" />
+		<property name="cachedMinute" value="0" />
+		<property name="cachedSecond" value="0" />
 	</bean>
 	
 </beans>

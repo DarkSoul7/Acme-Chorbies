@@ -12,8 +12,14 @@
 
 <display:table name="cachedTime" id="row" requestURI="${RequestURI}" pagesize="5">
 
-	<spring:message code="cachedTime.cachedValue" var="cachedValue" />
-	<display:column property="cachedValue" title="${cachedValue}" />
+	<spring:message code="cachedTime.cachedHour" var="cachedHour" />
+	<display:column property="cachedHour" title="${cachedHour}" />
+	
+	<spring:message code="cachedTime.cachedMinute" var="cachedMinute" />
+	<display:column property="cachedMinute" title="${cachedMinute}" />
+	
+	<spring:message code="cachedTime.cachedSecond" var="cachedSecond" />
+	<display:column property="cachedSecond" title="${cachedSecond}" />
 
 	<display:column>
 		<acme:cancel url="searchTemplate/editCachedTime.do?" code="cachedTime.edit"/>
