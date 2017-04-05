@@ -237,6 +237,10 @@ public class ChorbiService {
 		return result;
 	}
 
+	public Collection<Chorbi> findChorbiesLike(final int idChorbie) {
+		return this.chorbiRepository.findChorbiesLike(idChorbie);
+	}
+
 	//DashBoard
 
 	public Collection<Object[]> getChorbiesPerCountry() {

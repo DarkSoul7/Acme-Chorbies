@@ -50,12 +50,12 @@ public class ChorbiController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/showChorbiLike", method = RequestMethod.GET)
+	@RequestMapping(value = "/showChorbi", method = RequestMethod.GET)
 	public ModelAndView showChorbiLike(@RequestParam final int id) {
 		ModelAndView result;
-		final Chorbi chorbi = this.chorbiService.findOne(id);
+		final Collection<Chorbi> chorbies = this.chorbiService.findChorbiesLike(id);
 		result = new ModelAndView("chorbi/list");
-		result.addObject("chorbies", chorbi.getAuthoredLikes());
+		result.addObject("chorbies", chorbies);
 		result.addObject("RequestURI", "chorbi/list.do");
 
 		return result;
