@@ -85,13 +85,12 @@
 	
 	<spring:message code="chorbi.coordinates.province" var="coordinatesProvince" />
 	<display:column property="coordinates.province" title="${coordinatesProvince}" />
-	
+
 	<spring:message code="chorbi.coordinates.country" var="coordinatesCountry" />
 	<display:column property="coordinates.country" title="${coordinatesCountry}" />
 	
-
+	<display:column>
+		<acme:cancel url="chorbi/showChorbiLike.do?chorbiId=${row.id}" code="chorbi.authorLike"/>
+	</display:column>
 	
-	
-
-
 </display:table>
