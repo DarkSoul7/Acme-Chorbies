@@ -520,4 +520,10 @@
 		<property name="chorbi" ref="chorbi3" />
 	</bean>
 	
+	<!-- CACHEDTIME -->
+	
+	<bean id="cachedTime1" class="domain.CachedTime">
+		<property name="cachedValue" value="12" />
+	</bean>
+	
 </beans>
