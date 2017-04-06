@@ -11,9 +11,10 @@ import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
+import repositories.LikeRepository;
+import domain.Chorbi;
 import domain.Like;
 import forms.LikeForm;
-import repositories.LikeRepository;
 
 @Service
 @Transactional
@@ -35,6 +36,12 @@ public class LikeService {
 		super();
 	}
 
+	public LikeForm create() {
+		final LikeForm result = new LikeForm();
+
+		return result;
+	}
+
 	public Collection<Like> findAll() {
 		final Collection<Like> result = this.likeRepository.findAll();
 
@@ -50,12 +57,23 @@ public class LikeService {
 
 	public Like save(final Like like) {
 		Assert.notNull(like);
+
+		//Check the target chorbi has not already a like from the sender
+		final Like likeDone = this.findLikeFromChorbies(like.getAuthor(), like.getReceiver());
+		Assert.isTrue(likeDone == null);
+
 		final Like result = this.likeRepository.save(like);
 
 		return result;
 	}
 
 	public void delete(final Like like) {
+		Assert.notNull(like);
+
+		//Checking the target has already a like from the sender
+		final Like likeDone = this.findLikeFromChorbies(like.getAuthor(), like.getReceiver());
+		Assert.isTrue(like.equals(likeDone));
+
 		this.likeRepository.delete(like);
 	}
 
@@ -68,13 +86,17 @@ public class LikeService {
 
 	//Other business methods
 
-	private Validator validator;
+	//	@Autowired
+	private Validator	validator;
 
 
 	public Like reconstruct(final LikeForm likeForm, final BindingResult binding) {
 		Assert.notNull(likeForm);
-		final Like result = new Like();
-
+		final Like result;
+		if (likeForm.getId() == 0)
+			result = new Like();
+		else
+			result = this.findOne(likeForm.getId());
 		result.setComment(likeForm.getComment());
 		result.setMoment(new Date());
 		result.setAuthor(this.chorbiService.findByPrincipal());
@@ -87,4 +109,7 @@ public class LikeService {
 		return this.likeRepository.getLikeOfChorbi(idAuthor, idReceiver);
 	}
 
+	public Like findLikeFromChorbies(final Chorbi sender, final Chorbi receiver) {
+		return this.likeRepository.findLikeFromChorbies(sender.getId(), receiver.getId());
+	}
 }

@@ -64,7 +64,7 @@ public class Like extends DomainEntity {
 
 	@Valid
 	@ManyToOne(optional = false)
-	public Actor getAuthor() {
+	public Chorbi getAuthor() {
 		return this.author;
 	}
 
@@ -74,7 +74,7 @@ public class Like extends DomainEntity {
 
 	@Valid
 	@ManyToOne(optional = false)
-	public Actor getReceiver() {
+	public Chorbi getReceiver() {
 		return this.receiver;
 	}
 
