@@ -30,6 +30,7 @@
 		<value>/views/customer/tiles.xml</value>
 		<value>/views/profile/tiles.xml</value>
 		<value>/views/searchTemplate/tiles.xml</value>
+		<value>/views/dashboard/tiles.xml</value>
 	</util:list>
 
 </beans>
