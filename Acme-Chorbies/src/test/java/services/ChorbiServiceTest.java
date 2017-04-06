@@ -199,7 +199,7 @@ public class ChorbiServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(principal);
-			final Chorbi chorbi = this.chorbiService.findOne(39);
+			final Chorbi chorbi = this.chorbiService.findOne(40);
 			this.administratorService.banChorbi(chorbi);
 			Assert.isTrue(chorbi.getUserAccount().isEnabled() == false);
 			this.unauthenticate();
@@ -240,7 +240,7 @@ public class ChorbiServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(principal);
-			final Chorbi chorbi = this.chorbiService.findOne(42);
+			final Chorbi chorbi = this.chorbiService.findOne(43);
 			this.administratorService.unbanChorbi(chorbi);
 			Assert.isTrue(chorbi.getUserAccount().isEnabled() == true);
 			this.unauthenticate();

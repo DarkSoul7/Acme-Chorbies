@@ -141,7 +141,7 @@ public class BannerServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(principal);
-			final Banner banner = this.bannerService.findOne(57);
+			final Banner banner = this.bannerService.findOne(58);
 			banner.setPicture("http://www.testing.es");
 			this.bannerService.save(banner);
 			this.unauthenticate();
@@ -179,7 +179,7 @@ public class BannerServiceTest extends AbstractTest {
 
 		try {
 			this.authenticate(principal);
-			final Banner banner = this.bannerService.findOne(57);
+			final Banner banner = this.bannerService.findOne(58);
 
 			this.bannerService.delete(banner);
 			this.unauthenticate();
