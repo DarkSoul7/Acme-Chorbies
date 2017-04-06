@@ -46,6 +46,7 @@ public class ChirpService {
 	}
 
 	// Este método no debe usarse nunca 
+	@Deprecated
 	public Collection<Chirp> findAll() {
 		throw new IllegalArgumentException();
 	}
@@ -57,12 +58,11 @@ public class ChirpService {
 		principal = this.chorbiService.findByPrincipal();
 		result = this.chirpRepository.findOne(chirpId);
 
-		if (result.getOriginal()) {
+		if (result.getOriginal())
 			Assert.isTrue(principal.getId() == result.getSender().getId());
-		} else {
+		else
 			Assert.isTrue(principal.getId() == result.getReceiver().getId());
-		}
-		
+
 		return result;
 
 	}
@@ -76,14 +76,12 @@ public class ChirpService {
 
 		copiedChirp = this.cloneChirp(chirp);
 
-		if (chirp.getParentChirp() != null) {
-			if (chirp.getParentChirp().getOriginal()) {
+		if (chirp.getParentChirp() != null)
+			if (chirp.getParentChirp().getOriginal())
 				Assert.isTrue(principal.getId() == chirp.getParentChirp().getSender().getId());
-			} else {
+			else
 				Assert.isTrue(principal.getId() == chirp.getParentChirp().getReceiver().getId());
-			}
-		}
-		
+
 		result = this.chirpRepository.save(chirp);
 		this.chirpRepository.save(copiedChirp);
 
@@ -92,13 +90,12 @@ public class ChirpService {
 
 	public void delete(final Chirp chirp) {
 		final Actor principal = this.chorbiService.findByPrincipal();
-		
-		if (chirp.getOriginal()) {
+
+		if (chirp.getOriginal())
 			Assert.isTrue(principal.getId() == chirp.getSender().getId());
-		} else {
+		else
 			Assert.isTrue(principal.getId() == chirp.getReceiver().getId());
-		}
-		
+
 		this.chirpRepository.delete(chirp);
 	}
 
@@ -152,10 +149,9 @@ public class ChirpService {
 		if (isReply) {
 			start = "RE: ";
 			result.setReceiver(chirp.getSender());
-		} else {
+		} else
 			start = "FWD: ";
-		}
-		
+
 		result.setSubject(start + chirp.getSubject());
 		result.setText(chirp.getText());
 		result.setAttachments(StringUtils.replace(chirp.getAttachments(), ",", delimiter));
@@ -171,11 +167,10 @@ public class ChirpService {
 
 		principal = this.chorbiService.findByPrincipal();
 		result = new Chirp();
-		if (StringUtils.isNotBlank(chirpForm.getAttachments())) {
+		if (StringUtils.isNotBlank(chirpForm.getAttachments()))
 			attachments = this.compruebaEnlaces(chirpForm.getAttachments());
-		} else {
+		else
 			attachments = "";
-		}
 
 		result.setSubject(chirpForm.getSubject());
 		result.setText(chirpForm.getText());
@@ -200,14 +195,14 @@ public class ChirpService {
 		String result;
 		final String delimiter = System.getProperty("line.separator");
 		final String[] aattachments = StringUtils.split(attachments, delimiter);
-		final String[] schemes = {"http", "https"};
+		final String[] schemes = {
+			"http", "https"
+		};
 		final UrlValidator urlValidator = new UrlValidator(schemes);
 
-		for (final String attachment : aattachments) {
-			if (!urlValidator.isValid(attachment)) {
+		for (final String attachment : aattachments)
+			if (!urlValidator.isValid(attachment))
 				throw new IllegalArgumentException();
-			}
-		}
 
 		result = StringUtils.join(aattachments, ",");
 

@@ -74,9 +74,8 @@ public class LikeServiceTest extends AbstractTest {
 
 			final Like result = this.likeService.reconstruct(likeForm, null);
 
-			final Like like = this.likeService.findLikeFromChorbies(this.chorbiService.findByPrincipal(), receiver);
-
 			this.likeService.save(result);
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
@@ -122,6 +121,7 @@ public class LikeServiceTest extends AbstractTest {
 			final Like like = this.likeService.findLikeFromChorbies(sender, receiver);
 			this.likeService.delete(like);
 
+			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
