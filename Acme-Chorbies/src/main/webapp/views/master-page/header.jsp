@@ -17,7 +17,7 @@
 <script type="text/javascript" src="scripts/functions.js"></script>
 
 <div>
-	<img src="images/logo.png" alt="Acme-Chorbies Co., Inc." />
+	<a href="/Acme-Chorbies"><img src="images/logo-chorbies.png" alt="Acme-Chorbies Co., Inc." /></a>
 </div>
 
 <div>
