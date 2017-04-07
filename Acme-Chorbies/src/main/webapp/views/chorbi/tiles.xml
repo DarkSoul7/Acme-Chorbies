@@ -20,5 +20,10 @@
 		<put-attribute name="title" value="List of chorbies" />
 		<put-attribute name="body" value="/views/chorbi/list.jsp" />
 	</definition>
+	
+	<definition name="chorbi/edit" extends="master.page">
+		<put-attribute name="title" value="Edit a chorbi" />
+		<put-attribute name="body" value="/views/chorbi/register.jsp" />
+	</definition>
 		
 </tiles-definitions>
