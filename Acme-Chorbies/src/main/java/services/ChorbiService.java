@@ -194,14 +194,13 @@ public class ChorbiService {
 			result.setOverAge(true);
 
 		// Check creditCard if any
-		if (result.getCreditCard() != null)
+		if (this.analyseCreditCard(chorbiForm.getCreditCard()))
 			result.setValidCreditCard(this.checkCreditCard(result.getCreditCard()));
 
 		// this.validator.validate(result, binding);
 
 		return result;
 	}
-
 	public ChorbiForm toFormObject(final Chorbi chorbi) {
 		Assert.notNull(chorbi);
 		final ChorbiForm result = new ChorbiForm();
@@ -229,6 +228,13 @@ public class ChorbiService {
 		final Years chorbiYears = Years.yearsBetween(chorbiBirthDate, now);
 
 		return chorbiYears.getYears();
+	}
+
+	private boolean analyseCreditCard(final CreditCard creditCard) {
+		boolean result = false;
+		if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null || creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
+			result = true;
+		return result;
 	}
 
 	public boolean checkCreditCard(final CreditCard creditCard) {
