@@ -97,16 +97,28 @@
 		<acme:cancel url="chorbi/showChorbi.do?chorbiId=${row.id}" code="chorbi.author"/>
 	</display:column>
 	
-	<jstl:if test="${listForm == true}">
-		<display:column>
-			<jstl:if test="${row.liked == false}">
-				<acme:cancel url="like/register.do?chorbiId=${row.id}" code="chorbi.sendLike"/>
-			</jstl:if>
-			<jstl:if test="${row.liked == true}">
-				<acme:cancel url="like/see.do?chorbiId=${row.id}" code="chorbi.seeLike"/>
-				<acme:cancel url="like/cancel.do?chorbiId=${row.id}" code="chorbi.cancelLike"/>
-			</jstl:if>
-		</display:column>
-	</jstl:if>
+	<security:authorize access="hasRole('CHORBI')">
+		<jstl:if test="${listForm == true}">
+			<display:column>
+				<jstl:if test="${row.liked == false}">
+					<acme:cancel url="like/register.do?chorbiId=${row.id}" code="chorbi.sendLike"/>
+				</jstl:if>
+				<jstl:if test="${row.liked == true}">
+					<acme:cancel url="like/see.do?chorbiId=${row.id}" code="chorbi.seeLike"/>
+					<acme:cancel url="like/cancel.do?chorbiId=${row.id}" code="chorbi.cancelLike"/>
+				</jstl:if>
+			</display:column>
+		</jstl:if>
+	</security:authorize>
 	
+	<security:authorize access="hasRole('ADMINISTRATOR')">
+		<display:column>
+		<jstl:if test="${row.userAccount.enabled == true }">
+			<acme:cancel url="administrator/ban.do?chorbiId=${row.id}" code="chorbi.ban"/>
+		</jstl:if>
+		<jstl:if test="${row.userAccount.enabled == false }">
+			<acme:cancel url="administrator/unBan.do?chorbiId=${row.id}" code="chorbi.unBan"/>
+		</jstl:if>
+		</display:column>
+	</security:authorize>	
 </display:table>

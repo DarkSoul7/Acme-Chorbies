@@ -28,37 +28,45 @@ import forms.ChorbiListForm;
 @Controller
 @RequestMapping("/chorbi")
 public class ChorbiController extends AbstractController {
-	
+
 	// Related services
-	
+
 	@Autowired
 	private ChorbiService	chorbiService;
-	
+
 	@Autowired
 	private ActorService	actorService;
-	
-	
+
+
 	// Constructors -----------------------------------------------------------
-	
+
 	public ChorbiController() {
 		super();
 	}
-	
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 		ModelAndView result;
-		final Collection<ChorbiListForm> chorbies = this.chorbiService.findAllExceptPrincipalWithLikes();
-		
+		Collection<ChorbiListForm> chorbiesForm = null;
+		Collection<Chorbi> chorbies = null;
 		final Actor actor = this.actorService.findByPrincipal();
+		if (actor.getUserAccount().getAuthorities().iterator().next().equals("CHORBI"))
+			chorbiesForm = this.chorbiService.findAllExceptPrincipalWithLikes();
+		else
+			chorbies = this.chorbiService.findAll();
+
 		result = new ModelAndView("chorbi/list");
-		result.addObject("chorbies", chorbies);
+		if (chorbies == null)
+			result.addObject("chorbies", chorbiesForm);
+		else
+			result.addObject("chorbies", chorbies);
 		result.addObject("listForm", true);
 		result.addObject("RequestURI", "chorbi/list.do");
 		result.addObject("idActor", actor.getId());
-		
+
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/showChorbi", method = RequestMethod.GET)
 	public ModelAndView showChorbiLike(@RequestParam final int chorbiId) {
 		ModelAndView result;
@@ -67,8 +75,8 @@ public class ChorbiController extends AbstractController {
 		result.addObject("chorbies", chorbies);
 		result.addObject("listForm", false);
 		result.addObject("RequestURI", "chorbi/list.do");
-		
+
 		return result;
 	}
-	
+
 }

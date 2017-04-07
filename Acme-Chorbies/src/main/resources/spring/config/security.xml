@@ -80,6 +80,8 @@
 		<security:intercept-url pattern="/searchTemplate/saveCachedTime.do" access="hasRole('ADMINISTRATOR')" />
 		
 		<!-- ADMINISTRATOR -->
+		<security:intercept-url pattern="/administrator/ban.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/administrator/unBan.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/administrator/dashboardC.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/administrator/dashboardB.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/administrator/dashboardA.do" access="hasRole('ADMINISTRATOR')" />
