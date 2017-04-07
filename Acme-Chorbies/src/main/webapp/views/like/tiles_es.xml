@@ -11,8 +11,13 @@
 <tiles-definitions>
 	
 		<definition name="like/register" extends="master.page">
-  			<put-attribute name="title" value="Give a like" /> 
+  			<put-attribute name="title" value="Dar me gusta" /> 
   			<put-attribute name="body" value="/views/like/register.jsp" /> 
+ 		</definition>
+ 		
+ 		<definition name="like/see" extends="master.page">
+  			<put-attribute name="title" value="Ver me gusta" /> 
+  			<put-attribute name="body" value="/views/like/see.jsp" /> 
  		</definition>
  		
 </tiles-definitions>

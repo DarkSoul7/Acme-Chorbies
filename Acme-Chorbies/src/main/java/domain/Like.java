@@ -10,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -19,30 +20,34 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-@Table(name = "\"Like\"")
+@Table(name = "\"Like\"", uniqueConstraints = {
+	@UniqueConstraint(columnNames = {
+		"author_id", "receiver_id"
+	})
+})
 public class Like extends DomainEntity {
-
+	
 	//Attributes
 	private String	comment;
 	private Date	moment;
-
-
+	
+	
 	//Constructor
 	public Like() {
 		super();
 	}
-
+	
 	//Getters and setters
-
+	
 	@SafeHtml
 	public String getComment() {
 		return this.comment;
 	}
-
+	
 	public void setComment(final String comment) {
 		this.comment = comment;
 	}
-
+	
 	@Past
 	@NotNull
 	@Temporal(value = TemporalType.TIMESTAMP)
@@ -50,36 +55,36 @@ public class Like extends DomainEntity {
 	public Date getMoment() {
 		return this.moment;
 	}
-
+	
 	public void setMoment(final Date moment) {
 		this.moment = moment;
 	}
-
-
+	
+	
 	//RellationShips
-
+	
 	private Chorbi	author;
 	private Chorbi	receiver;
-
-
+	
+	
 	@Valid
 	@ManyToOne(optional = false)
 	public Chorbi getAuthor() {
 		return this.author;
 	}
-
+	
 	public void setAuthor(final Chorbi author) {
 		this.author = author;
 	}
-
+	
 	@Valid
 	@ManyToOne(optional = false)
 	public Chorbi getReceiver() {
 		return this.receiver;
 	}
-
+	
 	public void setReceiver(final Chorbi receiver) {
 		this.receiver = receiver;
 	}
-
+	
 }

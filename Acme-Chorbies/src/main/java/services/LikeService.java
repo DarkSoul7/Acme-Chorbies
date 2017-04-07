@@ -19,77 +19,75 @@ import forms.LikeForm;
 @Service
 @Transactional
 public class LikeService {
-
+	
 	//Managed repository
-
+	
 	@Autowired
 	private LikeRepository	likeRepository;
-
+	
 	//Supported services
 	@Autowired
 	private ChorbiService	chorbiService;
-
-
+	
+	//	@Autowired
+	private Validator		validator;
+	
+	
 	//Constructor
-
+	
 	public LikeService() {
 		super();
 	}
-
+	
 	public LikeForm create() {
 		final LikeForm result = new LikeForm();
-
+		
 		return result;
 	}
-
+	
 	public Collection<Like> findAll() {
 		final Collection<Like> result = this.likeRepository.findAll();
-
+		
 		return result;
 	}
-
+	
 	public Like findOne(final int likeId) {
 		final Like result = this.likeRepository.findOne(likeId);
-
+		
 		return result;
-
+		
 	}
-
+	
 	public Like save(final Like like) {
 		Assert.notNull(like);
-
+		
 		//Check the target chorbi has not already a like from the sender
 		final Like likeDone = this.findLikeFromChorbies(like.getAuthor(), like.getReceiver());
 		Assert.isTrue(likeDone == null);
-
+		
 		final Like result = this.likeRepository.save(like);
-
+		
 		return result;
 	}
-
+	
 	public void delete(final Like like) {
 		Assert.notNull(like);
-
+		
 		//Checking the target has already a like from the sender
 		final Like likeDone = this.findLikeFromChorbies(like.getAuthor(), like.getReceiver());
 		Assert.isTrue(like.equals(likeDone));
-
+		
 		this.likeRepository.delete(like);
 	}
-
+	
 	public void delete(final int likeId) {
 		final Like like = this.likeRepository.findOne(likeId);
-
+		
 		this.delete(like);
 	}
-
-
+	
 	//Other business methods
-
-	//	@Autowired
-	private Validator	validator;
-
-
+	
 	public Like reconstruct(final LikeForm likeForm, final BindingResult binding) {
 		Assert.notNull(likeForm);
 		final Like result;
@@ -101,14 +99,31 @@ public class LikeService {
 		result.setMoment(new Date());
 		result.setAuthor(this.chorbiService.findByPrincipal());
 		result.setReceiver(this.chorbiService.findOne(likeForm.getIdReceiver()));
-
+		
 		return result;
 	}
-
+	
+	public LikeForm toFormObject(Like like) {
+		LikeForm result;
+		
+		result = this.create();
+		result.setComment(like.getComment());
+		result.setIdReceiver(like.getReceiver().getId());
+		result.setId(like.getId());
+		
+		return result;
+	}
+	
 	public Like getLikeOfChorbi(final int idAuthor, final int idReceiver) {
 		return this.likeRepository.getLikeOfChorbi(idAuthor, idReceiver);
 	}
-
+	
+	public Like findLikeFromPrincipalAndReceiver(int receiverId) {
+		Chorbi principal = this.chorbiService.findByPrincipal();
+		
+		return this.likeRepository.findLikeFromChorbies(principal.getId(), receiverId);
+	}
+	
 	public Like findLikeFromChorbies(final Chorbi sender, final Chorbi receiver) {
 		return this.likeRepository.findLikeFromChorbies(sender.getId(), receiver.getId());
 	}

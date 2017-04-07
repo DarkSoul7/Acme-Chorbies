@@ -67,7 +67,9 @@
 		<security:intercept-url pattern="/chirp/showChirp.do" access="hasRole('CHORBI')" />
 		
 		<!-- LIKE -->
-		<security:intercept-url pattern="/like/register.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/like/register.do" access="hasRole('CHORBI')" />
+		<security:intercept-url pattern="/like/see.do" access="hasRole('CHORBI')" />
+		<security:intercept-url pattern="/like/cancel.do" access="hasRole('CHORBI')" />
 		
 		<!-- SEARCH TEMPLATE -->
 		

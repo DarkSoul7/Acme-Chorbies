@@ -20,8 +20,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<display:table name="chorbies" id="row" requestURI="${RequestURI}"
-	pagesize="5">
+<display:table name="chorbies" id="row" requestURI="${RequestURI}" pagesize="5">
 	
 	<spring:message code="chorbi.picture" var="picture" />
 	<display:column title="${picture}">
@@ -77,8 +76,10 @@
 			<jstl:out value="${row.genre.spanishName}"></jstl:out>
 		</jstl:if>
 		
-		
 	</display:column>
+	
+	<spring:message code="chorbi.description" var="description" />
+	<display:column property="description" title="${description}" />
 	
 	<spring:message code="chorbi.coordinates.city" var="coordinatesCity" />
 	<display:column property="coordinates.city" title="${coordinatesCity}" />
@@ -96,16 +97,16 @@
 		<acme:cancel url="chorbi/showChorbi.do?chorbiId=${row.id}" code="chorbi.author"/>
 	</display:column>
 	
-	<display:column>
-		<jstl:if test="${row.id!=idActor}">
-			<acme:cancel url="like/register.do?chorbiId=${row.id}" code="chorbi.sendLike"/>
-		</jstl:if>
-	</display:column>
+	<jstl:if test="${listForm == true}">
 		<display:column>
-		<jstl:if test="${row.id!=idActor}">
-			<acme:cancel url="like/cancel.do?chorbiId=${row.id}" code="chorbi.cancelLike"/>
-		</jstl:if>
-	</display:column>
-	
+			<jstl:if test="${row.liked == false}">
+				<acme:cancel url="like/register.do?chorbiId=${row.id}" code="chorbi.sendLike"/>
+			</jstl:if>
+			<jstl:if test="${row.liked == true}">
+				<acme:cancel url="like/see.do?chorbiId=${row.id}" code="chorbi.seeLike"/>
+				<acme:cancel url="like/cancel.do?chorbiId=${row.id}" code="chorbi.cancelLike"/>
+			</jstl:if>
+		</display:column>
+	</jstl:if>
 	
 </display:table>
