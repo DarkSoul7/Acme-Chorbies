@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.Collection;
 import java.util.Date;
 
 import javax.transaction.Transactional;
@@ -21,6 +22,7 @@ import domain.CreditCard;
 import domain.Genre;
 import domain.Relationship;
 import forms.ChorbiForm;
+import forms.ChorbiListForm;
 
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
@@ -43,6 +45,43 @@ public class ChorbiServiceTest extends AbstractTest {
 	// Tests ------------------------------------------------------------------
 
 	/***
+	 * Browse chorbies list
+	 * Testing cases:
+	 * 1º Good test -> expected: chorbies list returned (size = 4)
+	 * 2º Bad test; an unauthenticated actor cannot watch the chorbies list -> expected: IllegalArgumentException
+	 */
+
+	@Test
+	public void browseChorbiDriver() {
+		final Object testingData[][] = {
+			//principal, expected exception
+			{
+				"chorbi1", null
+			}, {
+				null, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.browseChorbiTemplate((String) testingData[i][0], (Class<?>) testingData[i][1]);
+	}
+
+	protected void browseChorbiTemplate(final String principal, final Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+			final Collection<Chorbi> chorbies = this.chorbiService.findAll();
+			Assert.isTrue(chorbies.size() == 4);
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
 	 * Register a chorbi
 	 * Testing cases:
 	 * 1º Good test -> expected: chorbi registered
@@ -54,6 +93,7 @@ public class ChorbiServiceTest extends AbstractTest {
 	public void registerChorbiDriver() {
 
 		final Object testingData[][] = {
+			// BirthDate, creditCard, expected exception
 			{
 				new DateTime(1989, 10, 10, 00, 00).toDate(), false, null
 			}, {
@@ -243,6 +283,43 @@ public class ChorbiServiceTest extends AbstractTest {
 			final Chorbi chorbi = this.chorbiService.findOne(43);
 			this.administratorService.unbanChorbi(chorbi);
 			Assert.isTrue(chorbi.getUserAccount().isEnabled() == true);
+			this.unauthenticate();
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+		this.checkExceptions(expectedException, caught);
+	}
+
+	/***
+	 * Browse to chorbies who like I
+	 * Testing cases:
+	 * 1º Good test -> expected: chorbies returned
+	 * 2º Bad test; an unauthenticated actor cannot received likes so cannot navigate to his received likes -> expected: IllegalArgumentException
+	 */
+
+	@Test
+	public void navigateChorbiesWhoLikeIDriver() {
+
+		final Object testingData[][] = {
+			//principal, expected exception
+			{
+				"chorbi1", null
+			}, {
+				null, IllegalArgumentException.class
+			}
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.navigateChorbiesWhoLikeITemplate((String) testingData[i][0], (Class<?>) testingData[i][1]);
+	}
+
+	protected void navigateChorbiesWhoLikeITemplate(final String principal, final Class<?> expectedException) {
+		Class<?> caught = null;
+
+		try {
+			this.authenticate(principal);
+			final Collection<ChorbiListForm> chorbies = this.chorbiService.findAllExceptPrincipalWithLikes();
+			Assert.isTrue(chorbies.size() > 0);
 			this.unauthenticate();
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
