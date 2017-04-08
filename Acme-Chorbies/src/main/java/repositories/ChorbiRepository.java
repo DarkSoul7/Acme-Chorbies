@@ -14,18 +14,27 @@ import forms.ChorbiListForm;
 public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	
 	@Query("select c from Chorbi c where c.userAccount.id = ?1")
-	Chorbi findByUserAccountId(int id);
+	public Chorbi findByUserAccountId(int id);
 	
 	@Query("select c from Chorbi c where c.userAccount.username = ?1")
-	Chorbi findByUserName(String username);
+	public Chorbi findByUserName(String username);
 	
 	@Query("select c from Chorbi c where c.id <> ?1")
 	public Collection<Chorbi> findAllExceptPrincipal(int principalId);
 	
-	@Query("select l.receiver from Chorbi c join c.authoredLikes l where c.id=?1")
-	public Collection<Chorbi> findChorbiesLike(int idChorbie);
+	@Query("select l.receiver from Like l where l.author.id = ?1")
+	public Collection<Chorbi> findChorbisFromAuthor(int authorId);
 	
-	@Query("select new forms.ChorbiListForm(c, case when (exists(select c2.id from Chorbi c2 join c2.receivedLikes l where l.receiver.id = c.id and l.author.id = ?1 and c.id = c2.id)) then true else false end) from Chorbi c where c.id != ?1")
+	@Query("select l.author from Like l where l.receiver.id = ?1")
+	public Collection<Chorbi> findChorbisFromReceiver(int receiverId);
+	
+	@Query("select new forms.ChorbiListForm(l.receiver, case when (exists(select l2.receiver.id from Like l2 where l2.receiver.id = l.receiver.id and l2.author.id = ?2)) then true else false end) from Like l where l.author.id = ?1")
+	public Collection<ChorbiListForm> findChorbisFromAuthorWithLikes(int authorId, int principalId);
+	
+	@Query("select new forms.ChorbiListForm(l.author, case when (exists(select l2.receiver.id from Like l2 where l2.receiver.id = l.author.id and l2.author.id = ?2)) then true else false end) from Like l where l.receiver.id = ?1")
+	public Collection<ChorbiListForm> findChorbisFromReceiverWithLikes(int receiverId, int principalId);
+	
+	@Query("select new forms.ChorbiListForm(c, case when (exists(select l.receiver.id from Like l where l.receiver.id = c.id and l.author.id = ?1)) then true else false end) from Chorbi c where c.id != ?1")
 	public Collection<ChorbiListForm> findAllExceptPrincipalWithLikes(int principalId);
 	
 	//Dashboard C

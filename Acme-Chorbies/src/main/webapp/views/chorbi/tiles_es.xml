@@ -15,6 +15,16 @@
 		<put-attribute name="body" value="/views/chorbi/list.jsp" />
 	</definition>
 	
+	<definition name="chorbi/givenLikesReceivers" extends="master.page">
+		<put-attribute name="title" value="Me gusta dados" />
+		<put-attribute name="body" value="/views/chorbi/list.jsp" />
+	</definition>
+	
+	<definition name="chorbi/receivedLikesAuthors" extends="master.page">
+		<put-attribute name="title" value="Me gusta recibidos" />
+		<put-attribute name="body" value="/views/chorbi/list.jsp" />
+	</definition>
+	
 	<definition name="chorbi/edit" extends="master.page">
 		<put-attribute name="title" value="Editar un chorbi" />
 		<put-attribute name="body" value="/views/chorbi/register.jsp" />
