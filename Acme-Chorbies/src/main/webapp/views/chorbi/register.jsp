@@ -39,7 +39,7 @@
 	<acme:textbox code="chorbi.picture" path="picture" />
 	<br/>
 	
-	<acme:textbox code="chorbi.birthDate" path="birthDate" />
+	<acme:datepicker code="chorbi.birthDate" path="birthDate" />
 	<br/>
 	
 	<acme:select2 items="${genres}" itemLabel="name" code="chorbi.genre" path="genre"/>
@@ -50,10 +50,8 @@
 	
 	<acme:textarea code="chorbi.description" path="description" />
 	<br/>
-	
-	
 	</fieldset>
-	
+	<br/>
 	<fieldset>
 	<legend><spring:message code="chorbi.coordinates"/></legend>
 	
@@ -71,6 +69,7 @@
 	
 	</fieldset>	
 	
+	<br/>
 	
 	<fieldset>
 	<legend><spring:message code="chorbi.creditCard"/></legend>
@@ -92,10 +91,24 @@
 	
 	<acme:textbox code="creditCard.cvv" path="creditCard.cvv" />
 	<br/>
-	
-	
 	</fieldset>	
 	
+	<security:authorize access="isAnonymous()" >
+		<br/>
+		<fieldset>
+			<legend><spring:message code="chorbi.userAccountDetails"/></legend>
+				<br/>
+			<acme:textbox code="chorbi.username" path="username" />
+				<br/>
+			<acme:password code="chorbi.password" path="password" />
+				<br/>
+			<acme:password code="chorbi.repeatPassword" path="repeatPassword" />
+				<br>
+			<acme:checkbox code="chorbi.acceptCondition" path="acceptCondition"/>
+		</fieldset>
+	</security:authorize>
+	
+	<br><br>
 	<acme:submit code="chorbi.create" name="save"/>
 	
 	<acme:cancel code="chorbi.cancel" url="welcome/index.do"/>

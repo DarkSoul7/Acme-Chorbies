@@ -29,5 +29,10 @@
 		<put-attribute name="title" value="Editar un chorbi" />
 		<put-attribute name="body" value="/views/chorbi/register.jsp" />
 	</definition>
+	
+	<definition name="chorbi/register" extends="master.page">
+		<put-attribute name="title" value="Registrar un chorbi" />
+		<put-attribute name="body" value="/views/chorbi/register.jsp" />
+	</definition>
 
 </tiles-definitions>

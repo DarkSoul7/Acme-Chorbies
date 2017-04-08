@@ -51,13 +51,14 @@
 
 		<security:intercept-url pattern="/profile/action-1.do" access="hasRole('CHORBI')" /> 
 		<security:intercept-url pattern="/profile/action-2.do" access="hasRole('CHORBI')" /> 
-		<security:intercept-url pattern="/profile/action-3.do" access="hasRole('CHORBI')" /> 
+		<security:intercept-url pattern="/profile/action-3.do" access="isAuthenticated()" /> 
 		
 		<!-- CHORBI -->
 		<security:intercept-url pattern="/chorbi/list.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/chorbi/givenLikesReceivers.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/chorbi/receivedLikesAuthors.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/chorbi/edit.do" access="hasRole('CHORBI')" />
+		<security:intercept-url pattern="/chorbi/register.do" access="isAnonymous()" />
 		
 		<!-- CHIRP -->
 		<security:intercept-url pattern="/chirp/send.do" access="hasRole('CHORBI')" />

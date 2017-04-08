@@ -13,8 +13,8 @@ package controllers;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-
 import javax.validation.Valid;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,12 +42,11 @@ public class ChorbiController extends AbstractController {
 	// Related services
 	
 	@Autowired
-	private ChorbiService	chorbiService;
+	private ChorbiService chorbiService;
 	
 	@Autowired
-	private ActorService	actorService;
-	
-	
+	private ActorService actorService;
+
 	// Constructors -----------------------------------------------------------
 	
 	public ChorbiController() {
@@ -164,7 +163,52 @@ public class ChorbiController extends AbstractController {
 		return result;
 	}
 	
+	@RequestMapping(value = "/register", method = RequestMethod.GET)
+	public ModelAndView register() {
+		ModelAndView result;
+		ChorbiForm chorbiForm = chorbiService.create();
+		result = createEditModelAndView(chorbiForm);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
+	public ModelAndView save(@Valid ChorbiForm chorbiForm, BindingResult binding) {
+		ModelAndView result = new ModelAndView();
+		Chorbi chorbi;
+
+		chorbi = chorbiService.reconstruct(chorbiForm, binding);
+		if (binding.hasErrors()) {
+			result = createEditModelAndView(chorbiForm);
+
+		} else {
+			try {
+				chorbiService.save(chorbi);
+				result = new ModelAndView("redirect:/security/login.do");
+			} catch (Throwable oops) {
+				result = createEditModelAndView(chorbiForm, "chorbi.commit.error");
+			}
+		}
+
+		return result;
+	}
+
 	// Ancillary methods
+	
+	protected ModelAndView createEditModelAndView(ChorbiForm chorbiForm) {
+		ModelAndView result = createEditModelAndView(chorbiForm, null);
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(ChorbiForm chorbiForm, String message) {
+		ModelAndView result;
+
+		result = new ModelAndView("chorbi/register");
+		result.addObject("chorbiForm", chorbiForm);
+		result.addObject("message", message);
+
+		return result;
+	}
 	
 	protected ModelAndView editModelAndView(final ChorbiForm chorbiForm) {
 		final ModelAndView result = this.editModelAndView(chorbiForm, null);

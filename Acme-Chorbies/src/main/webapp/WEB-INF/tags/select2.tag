@@ -45,7 +45,7 @@
 		<spring:message code="${code}" />
 	</form:label>	
 	<form:select id="${id}" path="${path}" onchange="${onchange}">
-		<form:option value="0" label="----" />		
+		<form:option value="" label="----" />		
 		<form:options items="${items}" itemValue="name" itemLabel="${itemLabel}" />
 	</form:select>
 	<form:errors path="${path}" cssClass="error" />
