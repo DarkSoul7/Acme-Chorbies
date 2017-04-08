@@ -31,30 +31,41 @@
 <%@ attribute name="code" required="true" %>
 
 <%@ attribute name="disabled" required="false" %>
+<%@ attribute name="mandatory" required="false" %>
 
 <jstl:if test="${disabled == null}">
 	<jstl:set var="disabled" value="false" />
 </jstl:if>
 
+<jstl:if test="${mandatory == null}">
+	<jstl:set var="mandatory" value="false" />
+</jstl:if>
+
 <%-- Definition --%>
 
-<div class="form-group">
-	<form:label path="${path}">
-		<spring:message code="${code}" />:
-	</form:label>
-	<div class="input-group date" data-provide="datepicker" id="${path}_datepicker">
-		<form:input path="${path}" disabled="${disabled}" class="form-control" />	
-	    <div class="input-group-addon">
-	        <span class="glyphicon glyphicon-calendar"></span>
-	    </div>
+<spring:bind path="${path}">
+	<div class="form-group ${status.error? 'has-error':''}" style="padding-left:1cm">
+		<form:label path="${path}">
+			<spring:message code="${code}" />:
+			<jstl:if test="${mandatory == true}">
+				<a class="error">(*)</a>
+			</jstl:if>
+		</form:label>
+		<div class="input-group date" data-provide="datepicker" id="${path}_datepicker">
+			<form:input path="${path}" disabled="${disabled}" class="form-control" />	
+		    <div class="input-group-addon">
+		        <span class="glyphicon glyphicon-calendar"></span>
+		    </div>
+		</div>
+		<form:errors path="${path}" cssClass="error" />
+		<script type="text/javascript">
+            $(function () {
+            	$.fn.datepicker.defaults.language = '${pageContext.response.locale.language}';
+            	$.fn.datepicker.defaults.format = 'dd/mm/yyyy';
+                $('#${path}_datepicker').datepicker({
+                    autoclose: true,
+                });
+            });
+        </script>
 	</div>
-	<form:errors path="${path}" cssClass="error" />
-	<script type="text/javascript">
-           $(function () {
-           	$.fn.datepicker.defaults.language = '${pageContext.response.locale.language}';
-               $('#${path}_datepicker').datepicker({
-                   autoclose: true,
-               });
-           });
-       </script>
-</div>
+</spring:bind>

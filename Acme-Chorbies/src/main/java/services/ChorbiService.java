@@ -3,7 +3,10 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
 import org.apache.commons.validator.routines.checkdigit.LuhnCheckDigit;
 import org.joda.time.Days;
 import org.joda.time.LocalDate;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.Validator;
 
 import repositories.ChorbiRepository;
@@ -36,11 +40,17 @@ public class ChorbiService {
 	// Managed repository
 	
 	@Autowired
-	private ChorbiRepository	chorbiRepository;
+	private ChorbiRepository		chorbiRepository;
 	
 	// Supported services
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
+	
+	@Autowired
+	private SearchTemplateService	searchTemplateService;
+	
+	@Autowired
+	private Validator				validator;
 	
 	
 	//Constructor
@@ -51,8 +61,38 @@ public class ChorbiService {
 	
 	//Simple CRUD methods
 	
-	public ChorbiForm create() {
-		final ChorbiForm result = new ChorbiForm();
+	public ChorbiForm createForm() {
+		ChorbiForm result;
+		UserAccount userAccount;
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority(Authority.CHORBI);
+		
+		userAccount = new UserAccount();
+		userAccount.addAuthority(authority);
+		userAccount.setEnabled(true);
+		
+		result = new ChorbiForm();
+		result.setUserAccount(userAccount);
+		
+		return result;
+	}
+	
+	public Chorbi create() {
+		Chorbi result;
+		UserAccount userAccount;
+		Authority authority;
+		
+		authority = new Authority();
+		authority.setAuthority(Authority.CHORBI);
+		
+		userAccount = new UserAccount();
+		userAccount.addAuthority(authority);
+		userAccount.setEnabled(true);
+		
+		result = new Chorbi();
+		result.setUserAccount(userAccount);
 		
 		return result;
 	}
@@ -72,8 +112,18 @@ public class ChorbiService {
 	public Chorbi save(final Chorbi chorbi) {
 		Assert.notNull(chorbi);
 		Chorbi result;
+		SearchTemplate searchTemplate;
 		
 		result = this.chorbiRepository.save(chorbi);
+		
+		if (chorbi.getId() == 0) {
+			searchTemplate = this.searchTemplateService.create(result);
+			searchTemplate.setCachedMoment(new Date(System.currentTimeMillis() - 1000));
+			searchTemplate = this.searchTemplateService.save(searchTemplate);
+			result.setSearchTemplate(searchTemplate);
+		}
+		
+		chorbiRepository.flush();
 		
 		return result;
 	}
@@ -81,6 +131,10 @@ public class ChorbiService {
 	public void delete(final Chorbi chorbi) {
 		Assert.notNull(chorbi);
 		this.chorbiRepository.delete(chorbi);
+	}
+	
+	public void flush() {
+		this.chorbiRepository.flush();
 	}
 	
 	// Other business methods
@@ -126,56 +180,42 @@ public class ChorbiService {
 		return result;
 	}
 	
-	
-	// @Autowired
-	private Validator	validator;
-	
-	
-	public Chorbi reconstruct(final ChorbiForm chorbiForm, final BindingResult binding) {
+	public Chorbi reconstruct(ChorbiForm chorbiForm, BindingResult binding) throws CheckDigitException {
 		Assert.notNull(chorbiForm);
-		Chorbi result = new Chorbi();
+		Chorbi result;
+		String password;
 		
 		// Registering a new Chorbi
 		if (chorbiForm.getId() == 0) {
-			final Md5PasswordEncoder encoder = new Md5PasswordEncoder();
-			final String hash = encoder.encodePassword(chorbiForm.getPassword(), null);
+			result = this.create();
 			
-			if (!chorbiForm.getPassword().equals(chorbiForm.getRepeatPassword()))
-				throw new IllegalArgumentException("Passwords must be equals");
+			if (chorbiForm.getUserAccount().getPassword().equals(chorbiForm.getRepeatPassword())) {
+				password = this.hashPassword(chorbiForm.getUserAccount().getPassword());
+			} else {
+				password = "";
+			}
 			
-			final Authority authority = new Authority();
-			final UserAccount userAccount = new UserAccount();
-			
-			// Configuring authority & userAccount
-			authority.setAuthority("CHORBI");
-			userAccount.addAuthority(authority);
-			result.setUserAccount(userAccount);
-			
-			final Collection<Like> receivedLikes = new ArrayList<>();
-			final Collection<Like> authoredLikes = new ArrayList<>();
-			final Collection<Chirp> sentChirps = new ArrayList<>();
-			final Collection<Chirp> receivedChirps = new ArrayList<>();
-			final SearchTemplate searchTemplate = new SearchTemplate();
+			Collection<Like> receivedLikes = new ArrayList<>();
+			Collection<Like> authoredLikes = new ArrayList<>();
+			Collection<Chirp> sentChirps = new ArrayList<>();
+			Collection<Chirp> receivedChirps = new ArrayList<>();
 			
 			result.setAuthoredLikes(authoredLikes);
 			result.setReceivedLikes(receivedLikes);
 			result.setReceivedChirps(receivedChirps);
 			result.setSentChirps(sentChirps);
 			result.setReceivedChirps(receivedChirps);
-			result.setSearchTemplate(searchTemplate);
 			
-			final Collection<Chorbi> chorbies = new ArrayList<>();
-			result.getSearchTemplate().setListChorbi(chorbies);
-			
-			result.getUserAccount().setUsername(chorbiForm.getUsername());
-			result.getUserAccount().setPassword(hash);
-		} else
+			result.getUserAccount().setUsername(chorbiForm.getUserAccount().getUsername());
+			result.getUserAccount().setPassword(password);
+		} else {
 			result = this.findOne(chorbiForm.getId());
+		}
 		
 		// Registering or editing chorbi
 		result.setPicture(chorbiForm.getPicture());
 		result.setDescription(chorbiForm.getDescription());
-		result.setRelationship(chorbiForm.getRelationShip());
+		result.setRelationship(chorbiForm.getRelationship());
 		result.setGenre(chorbiForm.getGenre());
 		result.setCoordinates(chorbiForm.getCoordinates());
 		result.setBirthDate(chorbiForm.getBirthDate());
@@ -187,20 +227,25 @@ public class ChorbiService {
 		result.setEmail(chorbiForm.getEmail());
 		
 		// Check chorbi is over age
-		final int chorbiYears = this.getChorbiAge(result);
-		if (chorbiYears < 18)
+		int chorbiYears = this.getChorbiAge(result);
+		if (chorbiYears < 18) {
 			result.setOverAge(false);
-		else
+		} else {
 			result.setOverAge(true);
+		}
 		
 		// Check creditCard if any
-		if (this.analyseCreditCard(chorbiForm.getCreditCard()))
+		if (this.analyzeCreditCard(chorbiForm.getCreditCard())) {
 			result.setValidCreditCard(this.checkCreditCard(result.getCreditCard()));
+		}
 		
-		// this.validator.validate(result, binding);
+		if (binding != null) {
+			validator.validate(result, binding);
+		}
 		
 		return result;
 	}
+	
 	public ChorbiForm toFormObject(final Chorbi chorbi) {
 		Assert.notNull(chorbi);
 		final ChorbiForm result = new ChorbiForm();
@@ -214,7 +259,7 @@ public class ChorbiService {
 		result.setName(chorbi.getName());
 		result.setPhone(chorbi.getPhone());
 		result.setPicture(chorbi.getPicture());
-		result.setRelationShip(chorbi.getRelationship());
+		result.setRelationship(chorbi.getRelationship());
 		result.setSurname(chorbi.getSurname());
 		
 		return result;
@@ -230,14 +275,18 @@ public class ChorbiService {
 		return chorbiYears.getYears();
 	}
 	
-	private boolean analyseCreditCard(final CreditCard creditCard) {
+	private boolean analyzeCreditCard(final CreditCard creditCard) {
 		boolean result = false;
-		if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null || creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty())
-			result = true;
+		
+		if (creditCard != null) {
+			if (creditCard.getBrandName() != null || !creditCard.getHolderName().isEmpty() || creditCard.getCvv() != null || creditCard.getExpirationMonth() != null || creditCard.getExpirationYear() != null || !creditCard.getNumber().isEmpty()) {
+				result = true;
+			}
+		}
 		return result;
 	}
 	
-	public boolean checkCreditCard(final CreditCard creditCard) {
+	public boolean checkCreditCard(final CreditCard creditCard) throws CheckDigitException {
 		Assert.notNull(creditCard);
 		boolean result = false;
 		
@@ -247,8 +296,9 @@ public class ChorbiService {
 		
 		final int days = Days.daysBetween(localDate, expirationDate).getDays();
 		
-		if (luhn && days > 1)
+		if (luhn && (days > 1)) {
 			result = true;
+		}
 		
 		return result;
 	}
@@ -291,12 +341,55 @@ public class ChorbiService {
 		return result;
 	}
 	
+	public Integer checkUsername(String username) {
+		Assert.isTrue(StringUtils.isNotBlank(username));
+		
+		return this.chorbiRepository.checkUsername(username);
+	}
+	
 	public Collection<ChorbiListForm> findAllExceptPrincipalWithLikes() {
 		Collection<ChorbiListForm> result;
 		Actor principal;
 		
 		principal = this.actorService.findByPrincipal();
 		result = this.chorbiRepository.findAllExceptPrincipalWithLikes(principal.getId());
+		
+		return result;
+	}
+	
+	public void checkRestrictions(ChorbiForm chorbiForm, BindingResult binding) {
+		FieldError fieldError;
+		
+		if (!chorbiForm.getUserAccount().getPassword().equals(chorbiForm.getRepeatPassword())) {
+			String[] codes = { "chorbi.passwords.error" };
+			fieldError = new FieldError("chorbiForm", "userAccount.password", chorbiForm.getUserAccount().getPassword(), false, codes, null, "");
+			binding.addError(fieldError);
+			fieldError = new FieldError("chorbiForm", "repeatPassword", chorbiForm.getUserAccount().getPassword(), false, codes, null, "");
+			binding.addError(fieldError);
+		}
+		
+		this.checkUniqueRestrictions(chorbiForm, binding);
+	}
+	
+	private void checkUniqueRestrictions(ChorbiForm chorbiForm, BindingResult binding) {
+		Integer usernameUnique;
+		FieldError fieldError;
+		
+		usernameUnique = this.chorbiRepository.checkUsername(chorbiForm.getUserAccount().getUsername());
+		
+		if (usernameUnique != null) {
+			String[] codes = { "chorbi.username.error" };
+			fieldError = new FieldError("chorbiForm", "userAccount.username", chorbiForm.getUserAccount().getUsername(), false, codes, null, "");
+			binding.addError(fieldError);
+		}
+	}
+	
+	private String hashPassword(String password) {
+		String result;
+		Md5PasswordEncoder encoder;
+		
+		encoder = new Md5PasswordEncoder();
+		result = encoder.encodePassword(password, null);
 		
 		return result;
 	}

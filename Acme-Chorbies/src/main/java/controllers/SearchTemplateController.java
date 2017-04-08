@@ -66,7 +66,7 @@ public class SearchTemplateController extends AbstractController {
 				Assert.isTrue(searchTemplate.getChorbi().equals(chorbi));
 
 				this.searchTemplateService.searchForChorbies(searchTemplate);
-				this.searchTemplateService.save(searchTemplate);
+				this.searchTemplateService.update(searchTemplate);
 
 				result = new ModelAndView("redirect:/searchTemplate/list.do");
 			} catch (final Throwable oops) {

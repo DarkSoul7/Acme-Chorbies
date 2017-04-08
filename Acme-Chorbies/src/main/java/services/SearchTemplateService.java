@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.SearchTemplateRepository;
+import security.Authority;
 import domain.Actor;
 import domain.Chorbi;
 import domain.Coordinates;
@@ -34,30 +35,30 @@ import domain.SearchTemplate;
 @Service
 @Transactional
 public class SearchTemplateService {
-
+	
 	//Managed repository
-
+	
 	@Autowired
 	private SearchTemplateRepository	searchTemplateRepository;
-
+	
 	//Supported services
-
+	
 	@Autowired
 	private ChorbiService				chorbiService;
-
+	
 	@Autowired
 	private ActorService				actorService;
-
-
+	
+	
 	//Constructor
-
+	
 	public SearchTemplate create(final Integer age, final Coordinates coordinates, final Relationship relationship, final Genre genre, final String keyword) {
 		SearchTemplate result;
 		Chorbi principal;
-
+		
 		principal = this.chorbiService.findByPrincipal();
 		result = new SearchTemplate();
-
+		
 		result.setAge(age);
 		result.setCoordinates(coordinates);
 		result.setGenre(genre);
@@ -65,60 +66,78 @@ public class SearchTemplateService {
 		result.setKeyword(keyword);
 		result.setCachedMoment(new Date());
 		result.setChorbi(principal);
-
+		
 		return result;
 	}
-
+	
+	public SearchTemplate create(Chorbi chorbi) {
+		SearchTemplate result;
+		
+		result = new SearchTemplate();
+		result.setChorbi(chorbi);
+		
+		return result;
+	}
+	
 	public SearchTemplateService() {
 		super();
 	}
-
+	
 	public Collection<SearchTemplate> findAll() {
 		final Collection<SearchTemplate> result = this.searchTemplateRepository.findAll();
-
+		
 		return result;
 	}
-
+	
 	public SearchTemplate findOne(final int lsearchTemplateId) {
 		final SearchTemplate result = this.searchTemplateRepository.findOne(lsearchTemplateId);
-
+		
 		return result;
-
+		
 	}
-
-	public SearchTemplate save(final SearchTemplate searchTemplate) {
+	
+	public SearchTemplate save(SearchTemplate searchTemplate) {
+		Assert.notNull(searchTemplate);
+		SearchTemplate result;
+		
+		result = this.searchTemplateRepository.save(searchTemplate);
+		
+		return result;
+	}
+	
+	public SearchTemplate update(final SearchTemplate searchTemplate) {
 		Assert.notNull(searchTemplate);
 		final Actor actor = this.actorService.findByPrincipal();
-
+		
 		//Administrators can edit searchTemplates
-		if (actor.getUserAccount().getAuthorities().iterator().next().equals("CHORBI")) {
+		if (actor.getUserAccount().getAuthorities().iterator().next().getAuthority().equals(Authority.CHORBI)) {
 			Assert.isTrue(searchTemplate.getChorbi().getId() == actor.getId());
 			this.searchForChorbies(searchTemplate);
 		}
 		final SearchTemplate result = this.searchTemplateRepository.save(searchTemplate);
-
+		
 		return result;
 	}
-
+	
 	public void delete(final SearchTemplate lsearchTemplate) {
 		this.searchTemplateRepository.delete(lsearchTemplate);
 	}
-
+	
 	public void delete(final int lsearchTemplateId) {
 		final SearchTemplate lsearchTemplate = this.searchTemplateRepository.findOne(lsearchTemplateId);
-
+		
 		this.delete(lsearchTemplate);
 	}
-
+	
 	//Other business methods
-
+	
 	public void searchForChorbies(final SearchTemplate searchTemplate) {
 		final Collection<Chorbi> result = new ArrayList<>();
 		final Chorbi chorbi = this.chorbiService.findByPrincipal();
-
+		
 		//Check creditCard every search
 		Assert.notNull(chorbi.getCreditCard());
-
+		
 		final Collection<Chorbi> chorbiesFound = this.searchTemplateRepository.findChorbies(searchTemplate.getRelationship(), searchTemplate.getGenre(), searchTemplate.getCoordinates().getCountry(), searchTemplate.getCoordinates().getState(),
 			searchTemplate.getCoordinates().getProvince(), searchTemplate.getCoordinates().getCity());
 		//Check age parameter
@@ -130,37 +149,37 @@ public class SearchTemplateService {
 		searchTemplate.setListChorbi(result);
 		searchTemplate.setCachedMoment(new Date(System.currentTimeMillis() - 1000));
 	}
-
+	
 	public Collection<Chorbi> searchByPrincipal() throws InvalidAttributeValueException {
 		Chorbi principal;
 		SearchTemplate searchTemplate;
 		Collection<Chorbi> result;
-
+		
 		principal = this.chorbiService.findByPrincipal();
 		searchTemplate = principal.getSearchTemplate();
-
+		
 		this.checkCreditCardValidity(principal.getCreditCard());
 		if (searchTemplate != null)
 			result = this.findChorbiesBySearchTemplate(searchTemplate, principal.getId());
 		else
 			result = null;
-
+		
 		return result;
-
+		
 	}
-
+	
 	//Este método se debe usar sólo para pruebas. Para la aplicación se debe usar searchByPrincipal
 	public Collection<Chorbi> search(final SearchTemplate searchTemplate, final int principalId) {
 		Collection<Chorbi> result;
-
+		
 		if (searchTemplate != null)
 			result = this.findChorbiesBySearchTemplate(searchTemplate, principalId);
 		else
 			result = new ArrayList<Chorbi>();
-
+		
 		return result;
 	}
-
+	
 	//Un Chorbi nunca podrá encontrarse en los resultados de esta búsqueda
 	private Collection<Chorbi> findChorbiesBySearchTemplate(final SearchTemplate searchTemplate, final int principalId) {
 		Collection<Chorbi> result;
@@ -171,18 +190,18 @@ public class SearchTemplateService {
 		String whereString = "";
 		final String andLiteral = " AND";
 		Map<String, Object> parameters;
-
+		
 		entityManagerFactory = Persistence.createEntityManagerFactory("Acme-Chorbies");
 		entityManager = entityManagerFactory.createEntityManager();
 		queryString = "SELECT c FROM Chorbi c WHERE c.id != :principalId";
 		parameters = new HashMap<String, Object>();
 		parameters.put("principalId", principalId);
-
+		
 		if (searchTemplate.getAge() != null) {
 			whereString += " AND (((:age-5)<=(DATEDIFF(CURRENT_DATE,c.birthDate)/365) AND (:age+5)>=(DATEDIFF(CURRENT_DATE,c.birthDate)/365)))";
 			parameters.put("age", searchTemplate.getAge());
 		}
-
+		
 		if (searchTemplate.getCoordinates() != null) {
 			if (StringUtils.isNotBlank(searchTemplate.getCoordinates().getCountry())) {
 				if (StringUtils.isNotBlank(whereString))
@@ -209,34 +228,34 @@ public class SearchTemplateService {
 				parameters.put("city", searchTemplate.getCoordinates().getCity());
 			}
 		}
-
+		
 		if (searchTemplate.getRelationship() != null) {
 			if (StringUtils.isNotBlank(whereString))
 				whereString += andLiteral;
 			whereString += " c.relationship = :relationship";
 			parameters.put("relationship", searchTemplate.getRelationship());
 		}
-
+		
 		if (searchTemplate.getGenre() != null) {
 			if (StringUtils.isNotBlank(whereString))
 				whereString += andLiteral;
 			whereString += " c.genre = :genre";
 			parameters.put("genre", searchTemplate.getGenre());
 		}
-
+		
 		if (StringUtils.isNotBlank(whereString))
 			queryString += whereString;
-
+		
 		query = entityManager.createQuery(queryString, Chorbi.class);
-
+		
 		for (final Entry<String, Object> e : parameters.entrySet())
 			query.setParameter(e.getKey(), e.getValue());
-
+		
 		result = query.getResultList();
-
+		
 		return result;
 	}
-
+	
 	private void checkCreditCardValidity(final CreditCard creditCard) throws InvalidAttributeValueException {
 		final GregorianCalendar currentMoment = new GregorianCalendar();
 		if (currentMoment.get(Calendar.YEAR) > creditCard.getExpirationYear().intValue())

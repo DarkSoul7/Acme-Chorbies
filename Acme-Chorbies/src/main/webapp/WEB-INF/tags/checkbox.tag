@@ -27,6 +27,7 @@
 
 <%@ attribute name="readonly" required="false" %>
 <%@ attribute name="varConditions" required="false" %>
+<%@ attribute name="mandatory" required="false" %>
 
 <jstl:if test="${readonly == null}">
 	<jstl:set var="readonly" value="false" />
@@ -36,12 +37,27 @@
 	<jstl:set var="varConditions" value="false" />
 </jstl:if>
 
+<jstl:if test="${mandatory == null}">
+	<jstl:set var="mandatory" value="false" />
+</jstl:if>
+
 <%-- Definition --%>
 
-<div>
-	<form:label path="${path}">
-		<spring:message code="${code}" />
-	</form:label>	
-	<form:checkbox path="${path}"/>	
-	<form:errors path="${path}" cssClass="error" />
-</div>	
+<spring:bind path="${path}">
+	<div style="padding-left:1cm">
+		<div class="form-group">
+			<div style="float:left">
+				<form:label path="${path}" cssClass="${status.error? 'error':''}">
+					<spring:message code="${code}" />
+					<jstl:if test="${mandatory == true}">
+						<a class="error">(*)</a>
+					</jstl:if>
+				</form:label>
+			</div>
+			<div>
+				&nbsp;&nbsp;<form:checkbox path="${path}" />
+			</div>
+		</div>
+		<form:errors path="${path}" cssClass="error" />
+	</div>
+</spring:bind>

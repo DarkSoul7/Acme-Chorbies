@@ -1,7 +1,7 @@
-<%--
+<%-- 
  * submit.tag
  *
- * Copyright (C) 2017 Universidad de Sevilla
+ * Copyright (C) 2016 Universidad de Sevilla
  * 
  * The use of this project is hereby constrained to the conditions of the 
  * TDG Licence, a copy of which you may download from 

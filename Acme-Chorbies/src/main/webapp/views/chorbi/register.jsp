@@ -17,6 +17,14 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<jstl:if test="${pageContext.response.locale.language=='en'}">
+	<jstl:set var="itemLabel" value="name"></jstl:set>
+</jstl:if>
+
+<jstl:if test="${pageContext.response.locale.language=='es'}">
+	<jstl:set var="itemLabel" value="spanishName"></jstl:set>
+</jstl:if>
+
 <form:form action="${requestURI}" modelAttribute="chorbiForm">
 
 	<form:hidden path="id"/>
@@ -24,47 +32,48 @@
 	<fieldset>
 	<legend><spring:message code="chorbi.personalDetails"/></legend>
 	
-	<acme:textbox code="chorbi.name" path="name" />
+	<acme:textbox code="chorbi.name" path="name" mandatory="true" />
 	<br/>
 	
-	<acme:textbox code="chorbi.surname" path="surname" />
+	<acme:textbox code="chorbi.surname" path="surname" mandatory="true" />
 	<br/>
 	
-	<acme:textbox code="chorbi.phone" path="phone" />
+	<acme:textbox code="chorbi.phone" path="phone" mandatory="true" />
 	<br/>
 	
-	<acme:textbox code="chorbi.email" path="email" />
+	<acme:textbox code="chorbi.email" path="email" mandatory="true" />
 	<br/>
 	
-	<acme:textbox code="chorbi.picture" path="picture" />
+	<acme:textbox code="chorbi.picture" path="picture" mandatory="true" />
 	<br/>
 	
-	<acme:datepicker code="chorbi.birthDate" path="birthDate" />
+	<acme:datepicker code="chorbi.birthDate" path="birthDate" mandatory="true" />
+	<acme:error path="overAge"/>
 	<br/>
 	
-	<acme:select2 items="${genres}" itemLabel="name" code="chorbi.genre" path="genre"/>
+	<acme:select2 items="${genres}" itemLabel="${itemLabel}" code="chorbi.genre" path="genre" mandatory="true"/>
 	<br/>
 	
-	<acme:select2 items="${relationships}" itemLabel="name" code="chorbi.relationship" path="relationShip"/>
+	<acme:select2 items="${relationships}" itemLabel="${itemLabel}" code="chorbi.relationship" path="relationship" mandatory="true"/>
 	<br/>
 	
-	<acme:textarea code="chorbi.description" path="description" />
+	<acme:textarea code="chorbi.description" path="description" mandatory="true" />
 	<br/>
 	</fieldset>
 	<br/>
 	<fieldset>
 	<legend><spring:message code="chorbi.coordinates"/></legend>
 	
-	<acme:textbox code="coordinates.country" path="coordinates.country" />
+	<acme:textbox code="coordinates.country" path="coordinates.country" mandatory="true" />
 	<br/>
 	
-	<acme:textbox code="coordinates.city" path="coordinates.city" />
+	<acme:textbox code="coordinates.state" path="coordinates.state" />
 	<br/>
 	
 	<acme:textbox code="coordinates.province" path="coordinates.province" />
 	<br/>
 	
-	<acme:textbox code="coordinates.state" path="coordinates.state" />
+	<acme:textbox code="coordinates.city" path="coordinates.city" mandatory="true" />
 	<br/>
 	
 	</fieldset>	
@@ -77,7 +86,7 @@
 	<acme:textbox code="creditCard.holderName" path="creditCard.holderName" />
 	<br/>
 	
-	<acme:select2 items="${brands}" itemLabel="name" code="creditCard.brandName" path="creditCard.brandName"/>
+	<acme:select2 items="${brands}" itemLabel="${itemLabel}" code="creditCard.brandName" path="creditCard.brandName"/>
 	<br/>
 	
 	<acme:textbox code="creditCard.number" path="creditCard.number" />
@@ -98,13 +107,13 @@
 		<fieldset>
 			<legend><spring:message code="chorbi.userAccountDetails"/></legend>
 				<br/>
-			<acme:textbox code="chorbi.username" path="username" />
+			<acme:textbox code="chorbi.username" path="userAccount.username" mandatory="true" />
 				<br/>
-			<acme:password code="chorbi.password" path="password" />
+			<acme:password code="chorbi.password" path="userAccount.password" mandatory="true" />
 				<br/>
-			<acme:password code="chorbi.repeatPassword" path="repeatPassword" />
+			<acme:password code="chorbi.repeatPassword" path="repeatPassword" mandatory="true" />
 				<br>
-			<acme:checkbox code="chorbi.acceptCondition" path="acceptCondition"/>
+			<acme:checkbox code="chorbi.acceptCondition" path="acceptCondition" mandatory="true"/>
 		</fieldset>
 	</security:authorize>
 	

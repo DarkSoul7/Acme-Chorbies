@@ -1,7 +1,7 @@
 <%--
  * password.tag
  *
- * Copyright (C) 2017 Universidad de Sevilla
+ * Copyright (C) 2016 Universidad de Sevilla
  * 
  * The use of this project is hereby constrained to the conditions of the 
  * TDG Licence, a copy of which you may download from 
@@ -25,12 +25,24 @@
 <%@ attribute name="path" required="true" rtexprvalue="true" %>
 <%@ attribute name="code" required="true" rtexprvalue="true" %>
 
+<%@ attribute name="mandatory" required="false" %>
+<%@ attribute name="placeholder" required="false" %>
+
+<jstl:if test="${mandatory == null}">
+	<jstl:set var="mandatory" value="false" />
+</jstl:if>
+
 <%-- Definition --%>
 
-<div>
-	<form:label path="${path}">
-		<spring:message code="${code}" />
-	</form:label>
-	<form:password path="${path}"/>
-	<form:errors path="${path}" cssClass="error" />
-</div>
+<spring:bind path="${path}">
+	<div class="form-group ${status.error? 'has-error':''}" style="padding-left:1cm">
+		<form:label path="${path}">
+			<spring:message code="${code}" />:
+			<jstl:if test="${mandatory == true}">
+				<a class="error">(*)</a>
+			</jstl:if>
+		</form:label>
+		<form:password path="${path}" class="form-control" placeholder="${placeholder}" />
+		<form:errors path="${path}" cssClass="error" />
+	</div>
+</spring:bind>

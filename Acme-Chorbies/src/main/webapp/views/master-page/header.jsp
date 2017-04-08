@@ -80,8 +80,3 @@
 <div>
 	<a href="?language=en">en</a> | <a href="?language=es">es</a>
 </div>
-
-
-<jstl:if test="${cookie.language.value == null || (cookie.language.value != 'en' && cookie.language.value != 'es')}">
-	<script type="text/javascript">window.location.replace('welcome/index.do?language=en');</script>
-</jstl:if>

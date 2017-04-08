@@ -139,7 +139,7 @@ public class SearchTemplateServiceTest extends AbstractTest {
 			//Editing search template
 			searchTemplate.setAge(20);
 			searchTemplate.setKeyword("test");
-			this.searchTemplateService.save(searchTemplate);
+			this.searchTemplateService.update(searchTemplate);
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}

@@ -38,7 +38,7 @@
 	
 	
 	<definition name="chorbi/register" extends="master.page">
-		<put-attribute name="title" value="Registra a chorbi" />
+		<put-attribute name="title" value="Register a chorbi" />
 		<put-attribute name="body" value="/views/chorbi/register.jsp" />
 	</definition>
 		

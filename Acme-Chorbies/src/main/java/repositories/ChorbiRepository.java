@@ -19,6 +19,9 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("select c from Chorbi c where c.userAccount.username = ?1")
 	public Chorbi findByUserName(String username);
 	
+	@Query("select 1 from Chorbi c where c.userAccount.username = ?1")
+	public Integer checkUsername(String username);
+	
 	@Query("select c from Chorbi c where c.id <> ?1")
 	public Collection<Chorbi> findAllExceptPrincipal(int principalId);
 	

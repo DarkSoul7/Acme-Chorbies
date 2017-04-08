@@ -23,10 +23,6 @@
 <%-- Attributes --%> 
  
 <%@ attribute name="path" required="true" %>
-<%@ attribute name="code" required="true" %>
-
-<%@ attribute name="readonly" required="false" %>
-<%@ attribute name="mandatory" required="false" %>
 
 <jstl:if test="${readonly == null}">
 	<jstl:set var="readonly" value="false" />
@@ -39,14 +35,8 @@
 <%-- Definition --%>
 
 <spring:bind path="${path}">
-	<div class="form-group ${status.error? 'has-error':''}" style="padding-left:1cm">
-		<form:label path="${path}">
-			<spring:message code="${code}" />:
-			<jstl:if test="${mandatory == true}">
-				<a class="error">(*)</a>
-			</jstl:if>
-		</form:label>
-		<form:textarea path="${path}" readonly="${readonly}" class="form-control" />	
+	<div style="padding-left:1cm">
+		<form:hidden path="${path}" />	
 		<form:errors path="${path}" cssClass="error" />
 	</div>
 </spring:bind>

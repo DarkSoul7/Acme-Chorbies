@@ -1,7 +1,7 @@
 <%--
  * select.tag
  *
- * Copyright (C) 2017 Universidad de Sevilla
+ * Copyright (C) 2016 Universidad de Sevilla
  * 
  * The use of this project is hereby constrained to the conditions of the 
  * TDG Licence, a copy of which you may download from 
@@ -29,6 +29,8 @@
 
 <%@ attribute name="id" required="false" %>
 <%@ attribute name="onchange" required="false" %>
+<%@ attribute name="mandatory" required="false" %>
+<%@	attribute name="disabled" required="false" %>
 
 <jstl:if test="${id == null}">
 	<jstl:set var="id" value="${UUID.randomUUID().toString()}" />
@@ -38,17 +40,29 @@
 	<jstl:set var="onchange" value="javascript: return true;" />
 </jstl:if>
 
+<jstl:if test="${mandatory == null}">
+	<jstl:set var="mandatory" value="false" />
+</jstl:if>
+
+<jstl:if test="${disabled == null}">
+	<jstl:set var="disabled" value="false" />
+</jstl:if>
+
 <%-- Definition --%>
 
-<div>
-	<form:label path="${path}">
-		<spring:message code="${code}" />
-	</form:label>	
-	<form:select id="${id}" path="${path}" onchange="${onchange}">
-		<form:option value="" label="----" />		
-		<form:options items="${items}" itemValue="name" itemLabel="${itemLabel}" />
-	</form:select>
-	<form:errors path="${path}" cssClass="error" />
-</div>
-
+<spring:bind path="${path}">
+	<div class="form-group ${status.error? 'has-error':''}" style="padding-left:1cm">
+		<form:label path="${path}">
+			<spring:message code="${code}" />:
+			<jstl:if test="${mandatory == true}">
+				<a class="error">(*)</a>
+			</jstl:if>
+		</form:label>	
+		<form:select id="${id}" path="${path}" onchange="${onchange}" class="form-control" disabled="${disabled}">
+			<form:option value="" label="----" />		
+			<form:options items="${items}" itemValue="name" itemLabel="${itemLabel}" />
+		</form:select>
+		<form:errors path="${path}" cssClass="error" />
+	</div>
+</spring:bind>
 

@@ -13,9 +13,10 @@ package controllers;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+
 import javax.validation.Valid;
 
-
+import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -42,11 +43,12 @@ public class ChorbiController extends AbstractController {
 	// Related services
 	
 	@Autowired
-	private ChorbiService chorbiService;
+	private ChorbiService	chorbiService;
 	
 	@Autowired
-	private ActorService actorService;
-
+	private ActorService	actorService;
+	
+	
 	// Constructors -----------------------------------------------------------
 	
 	public ChorbiController() {
@@ -166,47 +168,48 @@ public class ChorbiController extends AbstractController {
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView register() {
 		ModelAndView result;
-		ChorbiForm chorbiForm = chorbiService.create();
-		result = createEditModelAndView(chorbiForm);
-
+		ChorbiForm chorbiForm = chorbiService.createForm();
+		result = this.createEditModelAndView(chorbiForm);
+		
 		return result;
 	}
-
+	
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid ChorbiForm chorbiForm, BindingResult binding) {
+	public ModelAndView save(@Valid ChorbiForm chorbiForm, BindingResult binding) throws CheckDigitException {
 		ModelAndView result = new ModelAndView();
 		Chorbi chorbi;
-
-		chorbi = chorbiService.reconstruct(chorbiForm, binding);
+		
+		chorbi = this.chorbiService.reconstruct(chorbiForm, binding);
+		this.chorbiService.checkRestrictions(chorbiForm, binding);
+		
 		if (binding.hasErrors()) {
-			result = createEditModelAndView(chorbiForm);
-
+			result = this.createEditModelAndView(chorbiForm);
 		} else {
 			try {
 				chorbiService.save(chorbi);
 				result = new ModelAndView("redirect:/security/login.do");
 			} catch (Throwable oops) {
-				result = createEditModelAndView(chorbiForm, "chorbi.commit.error");
+				result = this.createEditModelAndView(chorbiForm, "chorbi.commit.error");
 			}
 		}
-
+		
 		return result;
 	}
-
+	
 	// Ancillary methods
 	
 	protected ModelAndView createEditModelAndView(ChorbiForm chorbiForm) {
-		ModelAndView result = createEditModelAndView(chorbiForm, null);
+		ModelAndView result = this.createEditModelAndView(chorbiForm, null);
 		return result;
 	}
-
+	
 	protected ModelAndView createEditModelAndView(ChorbiForm chorbiForm, String message) {
 		ModelAndView result;
-
+		
 		result = new ModelAndView("chorbi/register");
 		result.addObject("chorbiForm", chorbiForm);
 		result.addObject("message", message);
-
+		
 		return result;
 	}
 	
