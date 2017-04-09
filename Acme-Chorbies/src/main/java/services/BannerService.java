@@ -11,75 +11,73 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.BannerRepository;
-import domain.Administrator;
 import domain.Banner;
 
 @Service
 @Transactional
 public class BannerService {
-
+	
 	//Managed repository
-
+	
 	@Autowired
 	private BannerRepository		bannerRepository;
-
+	
 	//Supported services
-
+	
 	@Autowired
 	private AdministratorService	administratorService;
-
-
+	
+	
 	//Constructor
-
+	
 	public BannerService() {
 		super();
 	}
-
+	
 	//Simple CRUD methods
-
+	
 	public Banner create() {
-		final Administrator administrator = this.administratorService.findByPrincipal();
-		Assert.notNull(administrator);
+		this.administratorService.findByPrincipal();
 		final Banner result = new Banner();
-
+		
 		return result;
 	}
-
+	
 	public Collection<Banner> findAll() {
 		final Collection<Banner> result = this.bannerRepository.findAll();
-
+		
 		return result;
 	}
-
+	
 	public Banner findOne(final int bannerId) {
 		final Banner result = this.bannerRepository.findOne(bannerId);
-
+		
 		return result;
-
+		
 	}
-
+	
 	public Banner save(final Banner banner) {
 		this.administratorService.findByPrincipal();
 		Assert.notNull(banner);
 		final Banner result = this.bannerRepository.save(banner);
-
+		
 		return result;
 	}
-
+	
 	public void delete(final Banner banner) {
 		this.administratorService.findByPrincipal();
-
+		
 		this.bannerRepository.delete(banner);
 	}
-
+	
 	public void delete(final int bannerId) {
 		final Banner banner = this.bannerRepository.findOne(bannerId);
-
+		
 		this.delete(banner);
 	}
-
+	
 	//Other business methods
-
+	
 	public Banner getRandomBanner() {
 		Banner result;
 		final ArrayList<Banner> banners = new ArrayList<>(this.findAll());
@@ -92,7 +90,7 @@ public class BannerService {
 			final int index = random.nextInt(banners.size());
 			result = banners.get(index);
 		}
-
+		
 		return result;
 	}
 }

@@ -19,7 +19,7 @@
 <div class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand" href="/Acme-Chorbies"><img style="max-height: 150%;" src="images/logo-chorbies-chico.png" alt="Acme-Chorbies Co., Inc." /></a>
+			<a class="navbar-brand" href="/Acme-Chorbies"><img style="max-height: 150%;" src="images/logo-chorbies.jpg" alt="Acme-Chorbies Co., Inc." /></a>
 		</div>
 		<ul id="jMenu" class="nav navbar-nav" style="margin:0; padding:0">
 			<!-- Do not forget the "fNiv" class for the first level links !! -->

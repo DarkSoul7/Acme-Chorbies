@@ -469,19 +469,19 @@
 	<!-- BANNERS -->
 	
 	<bean id="banner1" class="domain.Banner">
-		<property name="picture" value="http://i64.tinypic.com/2dsgsn8.jpg" />
+		<property name="picture" value="http://i68.tinypic.com/mlovo2.png" />
 	</bean>
 	
 	<bean id="banner2" class="domain.Banner">
-		<property name="picture" value="http://i67.tinypic.com/33dujgz.jpg" />
+		<property name="picture" value="http://i68.tinypic.com/npqkr8.png" />
 	</bean>
 	
 	<bean id="banner3" class="domain.Banner">
-		<property name="picture" value="http://i68.tinypic.com/11h9npx.jpg" />
+		<property name="picture" value="http://i64.tinypic.com/f090xv.png" />
 	</bean>
 	
 	<bean id="banner4" class="domain.Banner">
-		<property name="picture" value="http://i67.tinypic.com/2ns1443.jpg" />
+		<property name="picture" value="http://i65.tinypic.com/2j14bph.png" />
 	</bean>
 	
 	<!-- SEARCH TEMPLATES -->

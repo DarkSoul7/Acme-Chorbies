@@ -89,6 +89,7 @@
 		<security:intercept-url pattern="/banner/create.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/banner/edit.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/banner/delete.do" access="hasRole('ADMINISTRATOR')" /> 
+		<security:intercept-url pattern="/banner/save.do" access="hasRole('ADMINISTRATOR')" /> 
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
