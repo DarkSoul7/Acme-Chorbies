@@ -27,7 +27,6 @@
 			<security:authorize access="isAuthenticated()">
 				<li><a class="fNiv"><spring:message	code="master.page.messagingSystem" /></a>
 					<ul>
-					
 						<li class="arrow"></li>
 						<li><a href="chirp/send.do"><spring:message code="master.page.messagingSystem.send" /></a></li>
 						<li><a href="chirp/sentChirps.do"><spring:message code="master.page.messagingSystem.sentChirps" /></a></li>
@@ -37,26 +36,28 @@
 			</security:authorize>
 			
 			<security:authorize access="hasRole('ADMINISTRATOR')">
-					<li><a class="fNiv" href="searchTemplate/listCachedTime.do"><spring:message code="master.page.cachedTime.list" /></a></li>
-					<li><a href="administrator/chorbi/list.do"><spring:message code="master.page.list.chorbi" /></a></li>
-					<li><a class="fNiv"><spring:message	code="master.page.administrator.dashboard" /></a>
+				<li><a class="fNiv" href="banner/list.do"><spring:message code="master.page.banner.list" /></a></li>
+				<li><a class="fNiv" href="searchTemplate/listCachedTime.do"><spring:message code="master.page.cachedTime.list" /></a></li>
+				<li><a class="fNiv" href="administrator/chorbi/list.do"><spring:message code="master.page.list.chorbi" /></a></li>
+				<li><a class="fNiv"><spring:message	code="master.page.administrator.dashboard" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="administrator/dashboardC.do"><spring:message code="master.page.administrator.dashboradC" /></a></li>
+					<li><a href="administrator/dashboardB.do"><spring:message code="master.page.administrator.dashboradB" /></a></li>
+					<li><a href="administrator/dashboardA.do"><spring:message code="master.page.administrator.dashboradA" /></a></li>
+				</ul>
+				
+				<li><a class="fNiv"><spring:message code="master.page.profile" />(<security:authentication property="principal.username" />)</a>
 					<ul>
 						<li class="arrow"></li>
-						<li><a href="administrator/dashboardC.do"><spring:message code="master.page.administrator.dashboradC" /></a></li>
-						<li><a href="administrator/dashboardB.do"><spring:message code="master.page.administrator.dashboradB" /></a></li>
-						<li><a href="administrator/dashboardA.do"><spring:message code="master.page.administrator.dashboradA" /></a></li>
+						<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 					</ul>
-					
-					<li><a class="fNiv"><spring:message code="master.page.profile" />(<security:authentication property="principal.username" />)</a>
-						<ul>
-							<li class="arrow"></li>
-							<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
-						</ul>
-					</li>
+				</li>
 			</security:authorize>
 			
 			<security:authorize access="hasRole('CHORBI')">
 				<li><a href="chorbi/list.do"><spring:message code="master.page.list.chorbi" /></a></li>
+				<li><a href="searchTemplate/list.do"><spring:message code="master.page.searchTemplate" /></a></li>
 				<li><a class="fNiv"><spring:message code="master.page.profile" />(<security:authentication property="principal.username" />)</a>
 					<ul>
 						<li class="arrow"></li>
