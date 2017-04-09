@@ -94,7 +94,7 @@
 		<b><spring:message
 				code="dashboard.chorbiMoreGotChirp" /></b>
 	</legend>
-	<display:table name="chorbiMoreGotChirp" id="row" requestURI="administrator/dashboardA"
+	<display:table name="chorbiMoreGotChirp" uid="chorbiMoreGotChirp" requestURI="administrator/dashboardA"
 		pagesize="5">
 		<spring:message code="dashboard.name" var="name" />
 		<display:column property="name" title="${name}" />
@@ -117,7 +117,7 @@
 		<b><spring:message
 				code="dashboard.chorbiMoreSentChirp" /></b>
 	</legend>
-	<display:table name="chorbiMoreSentChirp" id="row" requestURI="administrator/dashboardA"
+	<display:table name="chorbiMoreSentChirp" uid="chorbiMoreSentChirp" requestURI="administrator/dashboardA"
 		pagesize="5">
 		<spring:message code="dashboard.name" var="name" />
 		<display:column property="name" title="${name}" />

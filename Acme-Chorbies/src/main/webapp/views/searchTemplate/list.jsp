@@ -11,7 +11,6 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <form:form action="${RequestURI}" modelAttribute="searchTemplate">
-	
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	<form:hidden path="cachedMoment" />
@@ -26,42 +25,53 @@
 	</jstl:if>
 	
 	<fieldset>
-	<legend><spring:message code="searchTemplate.form"/></legend>
-		<acme:select2 items="${relationships}" itemLabel="${itemLabel}" code="searchTemplate.relationship" path="relationship" mandatory="true"/>
+		<legend><spring:message code="searchTemplate.form"/></legend>
+		
+		<acme:select2 items="${relationships}" itemLabel="${itemLabel}" code="searchTemplate.relationship" path="relationship"/>
 		<br/>
+		
 		<acme:textbox code="searchTemplate.age" path="age" />
 		<br/>
-		<acme:select2 items="${genres}" itemLabel="${itemLabel}" code="searchTemplate.genre" path="genre" mandatory="true"/>
 		
-		<br/>
-		<fieldset>
-		<legend><spring:message code="searchTemplate.coordinates"/></legend>
-		
-		<acme:textbox code="coordinates.country" path="coordinates.country" mandatory="true" />
+		<acme:select2 items="${genres}" itemLabel="${itemLabel}" code="searchTemplate.genre" path="genre"/>
 		<br/>
 		
-		<acme:textbox code="coordinates.state" path="coordinates.state" />
-		<br/>
-		
-		<acme:textbox code="coordinates.province" path="coordinates.province" />
-		<br/>
-		
-		<acme:textbox code="coordinates.city" path="coordinates.city" mandatory="true" />
-		<br/>
-		
-		</fieldset>	
 		<acme:textbox code="searchTemplate.keyWord" path="keyword" />
-	
 		<br/>
-		<acme:submit code="searchTemplate.save" name="save"/>
 	</fieldset>
+	
+	<div style="padding-left:1cm">
+		<fieldset>
+			<legend><spring:message code="searchTemplate.coordinates"/></legend>
+			
+			<acme:textbox code="coordinates.country" path="coordinates.country" />
+			<br/>
+			
+			<acme:textbox code="coordinates.state" path="coordinates.state" />
+			<br/>
+			
+			<acme:textbox code="coordinates.province" path="coordinates.province" />
+			<br/>
+			
+			<acme:textbox code="coordinates.city" path="coordinates.city" />
+		</fieldset>	
+	</div>
+	
+	<br/>
+	
+	<acme:submit code="searchTemplate.save" name="save"/>
+	<acme:cancel url="" code="searchTemplate.back"/>
 </form:form>
+
 <br/>
+
 <jstl:if test="${errorMessage != null}">
 	<spring:message code="searchTemplate.save.error" var="error" />
 	<p><font size="3" color="red"><jstl:out value="${error}"></jstl:out></font></p>
 </jstl:if>
-<br/>
+
+<h2><spring:message code="searchTemplate.results" /></h2>
+
 <display:table name="cachedChorbies" id="row" requestURI="${requestURI}" pagesize="5">
 	
 	<spring:message code="chorbi.picture" var="picture" />

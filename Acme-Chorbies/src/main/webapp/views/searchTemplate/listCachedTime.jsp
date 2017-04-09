@@ -9,6 +9,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="acme" tagdir="/WEB-INF/tags"%>
 
 <display:table name="cachedTime" id="row" requestURI="${RequestURI}" pagesize="5">
 
@@ -22,6 +23,8 @@
 	<display:column property="cachedSecond" title="${cachedSecond}" />
 
 	<display:column>
-		<acme:cancel url="searchTemplate/editCachedTime.do?" code="cachedTime.edit"/>
+		<acme:cancel url="searchTemplate/editCachedTime.do" code="cachedTime.edit"/>
 	</display:column>
 </display:table>
+
+<acme:cancel url="" code="searchTemplate.back" />

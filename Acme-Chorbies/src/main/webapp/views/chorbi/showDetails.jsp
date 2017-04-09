@@ -284,4 +284,22 @@
 			</display:column>
 		</security:authorize>	
 	</display:table>
+	
+	<div>
+		<jstl:if test="${row.id !=  principalId}">
+			<jstl:if test="${chorbi.liked == false}">
+				<acme:cancel url="like/register.do?chorbiId=${chorbi.id}" code="chorbi.sendLike"/>
+			</jstl:if>
+			<jstl:if test="${chorbi.liked == true}">
+				<acme:cancel url="like/see.do?chorbiId=${chorbi.id}" code="chorbi.seeLike"/>
+			</jstl:if>
+		</jstl:if>
+		
+		<jstl:if test="${listForm == true}">
+			<acme:cancel url="chorbi/list.do" code="chorbi.back"/>
+		</jstl:if>
+		<jstl:if test="${listForm == false}">
+			<acme:cancel url="administrator/chorbi/list.do" code="chorbi.back"/>
+		</jstl:if>
+	</div>
 </div>

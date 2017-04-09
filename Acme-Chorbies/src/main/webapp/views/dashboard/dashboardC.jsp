@@ -28,16 +28,16 @@
 	</legend>
 
 	<jstl:set var="i" value="0"></jstl:set>
-	<display:table name="chorbiesPerCountry" id="row"
-		requestURI="administrator/dashboardC" class="displaytag">
+	<display:table name="chorbiesPerCountry" uid="chorbiesPerCountry"
+		requestURI="administrator/dashboardC" class="displaytag" pagesize="5">
 		<spring:message code="dashboard.chorbies" var="chorbies" />
 		<display:column title="${chorbies}">
-			<jstl:out value="${row[0]}"></jstl:out>
+			<jstl:out value="${chorbiesPerCountry[0]}"></jstl:out>
 		</display:column>
 
 		<spring:message code="dashboard.country" var="country" />
 		<display:column title="${country}">
-			<jstl:out value="${row[1]}"></jstl:out>
+			<jstl:out value="${chorbiesPerCountry[1]}"></jstl:out>
 		</display:column>
 	</display:table>
 </fieldset>
@@ -50,16 +50,16 @@
 	</legend>
 
 	<jstl:set var="i" value="0"></jstl:set>
-	<display:table name="chorbiesPerCity" id="row"
-		requestURI="administrator/dashboardC" class="displaytag">
+	<display:table name="chorbiesPerCity" uid="chorbiesPerCity"
+		requestURI="administrator/dashboardC" class="displaytag" pagesize="5">
 		<spring:message code="dashboard.chorbies" var="chorbies" />
 		<display:column title="${chorbies}">
-			<jstl:out value="${row[0]}"></jstl:out>
+			<jstl:out value="${chorbiesPerCity[0]}"></jstl:out>
 		</display:column>
 
 		<spring:message code="dashboard.city" var="city" />
 		<display:column title="${city}">
-			<jstl:out value="${row[1]}"></jstl:out>
+			<jstl:out value="${chorbiesPerCity[1]}"></jstl:out>
 		</display:column>
 	</display:table>
 </fieldset>
@@ -105,7 +105,7 @@
 		<b><spring:message code="dashboard.ratioChorbiesWithoutCreditCard" /></b>
 	</legend>
 	<display:table name="ratioChorbiesWithoutCreditCard" id="row"
-		requestURI="administrator/dashboardC" class="displaytag" pagesize="5">
+		requestURI="administrator/dashboardC" class="displaytag">
 		<spring:message code="dashboard.ratio" var="ratio" />
 		<display:column title="${ratio}">
 			<jstl:out value="${row}"></jstl:out>

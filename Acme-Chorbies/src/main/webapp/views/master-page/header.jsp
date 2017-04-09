@@ -24,17 +24,6 @@
 		<ul id="jMenu" class="nav navbar-nav" style="margin:0; padding:0">
 			<!-- Do not forget the "fNiv" class for the first level links !! -->
 			
-			<security:authorize access="isAuthenticated()">
-				<li><a class="fNiv"><spring:message	code="master.page.messagingSystem" /></a>
-					<ul>
-						<li class="arrow"></li>
-						<li><a href="chirp/send.do"><spring:message code="master.page.messagingSystem.send" /></a></li>
-						<li><a href="chirp/sentChirps.do"><spring:message code="master.page.messagingSystem.sentChirps" /></a></li>
-						<li><a href="chirp/receivedChirps.do"><spring:message code="master.page.messagingSystem.receivedChirps" /></a></li>
-					</ul>
-				</li>
-			</security:authorize>
-			
 			<security:authorize access="hasRole('ADMINISTRATOR')">
 				<li><a class="fNiv" href="banner/list.do"><spring:message code="master.page.banner.list" /></a></li>
 				<li><a class="fNiv" href="searchTemplate/listCachedTime.do"><spring:message code="master.page.cachedTime.list" /></a></li>
@@ -58,6 +47,14 @@
 			<security:authorize access="hasRole('CHORBI')">
 				<li><a href="chorbi/list.do"><spring:message code="master.page.list.chorbi" /></a></li>
 				<li><a href="searchTemplate/list.do"><spring:message code="master.page.searchTemplate" /></a></li>
+				<li><a class="fNiv"><spring:message	code="master.page.messagingSystem" /></a>
+					<ul>
+						<li class="arrow"></li>
+						<li><a href="chirp/send.do"><spring:message code="master.page.messagingSystem.send" /></a></li>
+						<li><a href="chirp/sentChirps.do"><spring:message code="master.page.messagingSystem.sentChirps" /></a></li>
+						<li><a href="chirp/receivedChirps.do"><spring:message code="master.page.messagingSystem.receivedChirps" /></a></li>
+					</ul>
+				</li>
 				<li><a class="fNiv"><spring:message code="master.page.profile" />(<security:authentication property="principal.username" />)</a>
 					<ul>
 						<li class="arrow"></li>

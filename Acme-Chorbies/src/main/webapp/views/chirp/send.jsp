@@ -20,18 +20,16 @@
 <form:form action="${requestURI}" modelAttribute="chirpForm">
 	<form:hidden path="parentChirpId"/>
 	
-	<acme:textbox code="chirp.subject" path="subject" />
+	<acme:textbox code="chirp.subject" path="subject" mandatory="true" />
 	<br/>
-	<acme:textarea code="chirp.text" path="text" />
+	<acme:textarea code="chirp.text" path="text" mandatory="true" />
 	<br/>
 	<acme:textarea code="chirp.attachments" path="attachments" />
 	
 	<spring:message code="chirp.attachmentsHelp" var="attachmentsHelp" />
-	<div style="padding-left:1cm">
-		<jstl:out value="(${attachmentsHelp})"></jstl:out>
-	</div>
+	<p style="padding-left:1cm"><font size="4" color="blue"><jstl:out value="(${attachmentsHelp})"/></font></p>
 	<br/>
-	<acme:select items="${chorbies}" itemLabel="email" code="chirp.receiver" path="receiver" />
+	<acme:select items="${chorbies}" itemLabel="email" code="chirp.receiver" path="receiver" mandatory="true" />
 		
 	<br/>
 	

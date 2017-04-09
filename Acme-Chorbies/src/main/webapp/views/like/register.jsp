@@ -21,10 +21,10 @@
 	<form:hidden path="idReceiver"/>
 	
 	<acme:textbox code="like.comment" path="comment" />
+	
 	<br/>
 	
-		<acme:submit code="like.save" name="save"/>
-	
-		<acme:cancel code="like.cancel" url="welcome/index.do"/>
+	<acme:submit code="like.save" name="save"/>
+	<acme:cancel code="like.cancel" url="chorbi/showDetails.do?chorbiId=${likeForm.idReceiver}"/>
 		
 </form:form>

@@ -18,13 +18,13 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<spring:message code="like.receiver" />: 
+<b><spring:message code="like.receiver" />: </b>
 <jstl:out value="${like.receiver.name} ${like.receiver.surname}"></jstl:out>
 <br/>
-<spring:message code="like.comment" />: 
+<b><spring:message code="like.comment" />: </b>
 <jstl:out value="${like.comment}"></jstl:out>
 <br/>
-<spring:message code="like.moment" />: 
+<b><spring:message code="like.moment" />: </b>
 <jstl:choose>
 	<jstl:when test="${pageContext.response.locale.language=='en'}">
 		<fmt:formatDate value="${like.moment}" pattern="MM/dd/yyyy HH:mm" />
@@ -37,3 +37,4 @@
 <br/>
 <br/>
 <acme:cancel url="like/cancel.do?chorbiId=${like.receiver.id}" code="chorbi.cancelLike"/>
+<acme:cancel url="chorbi/showDetails.do?chorbiId=${like.receiver.id}" code="like.back"/>

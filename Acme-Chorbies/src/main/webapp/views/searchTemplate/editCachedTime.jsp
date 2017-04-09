@@ -25,16 +25,16 @@
 	<form:hidden path="version"/>
 	
 	
-	<acme:textbox code="cachedTime.cachedHour" path="cachedHour" />
+	<acme:textbox code="cachedTime.cachedHour" path="cachedHour" mandatory="true" />
 	<br />
 	
-	<acme:textbox code="cachedTime.cachedMinute" path="cachedMinute" />
+	<acme:textbox code="cachedTime.cachedMinute" path="cachedMinute" mandatory="true" />
 	<br />
 	
-	<acme:textbox code="cachedTime.cachedSecond" path="cachedSecond" />
+	<acme:textbox code="cachedTime.cachedSecond" path="cachedSecond" mandatory="true" />
 	<br />
 
 	<acme:submit code="cachedTime.save" name="save" />
 
-	<acme:cancel code="cachedTime.cancel" url="searchTemplate/listCachedTime.do" />
+	<acme:cancel code="cachedTime.back" url="searchTemplate/listCachedTime.do" />
 </form:form>

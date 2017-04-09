@@ -170,6 +170,16 @@ public class ChorbiService {
 		return result;
 	}
 	
+	public ChorbiListForm findOneWithLike(int chorbiId) {
+		ChorbiListForm result;
+		Chorbi principal;
+		
+		principal = this.findByPrincipal();
+		result = this.chorbiRepository.findOneWithLike(chorbiId, principal.getId());
+		
+		return result;
+	}
+	
 	public Collection<Chorbi> findAllExceptPrincipal() {
 		Collection<Chorbi> result;
 		Chorbi principal;

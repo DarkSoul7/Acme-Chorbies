@@ -22,6 +22,9 @@ public interface ChorbiRepository extends JpaRepository<Chorbi, Integer> {
 	@Query("select 1 from Chorbi c where c.userAccount.username = ?1")
 	public Integer checkUsername(String username);
 	
+	@Query("select new forms.ChorbiListForm(c, case when exists(select 1 from Like l where l.receiver.id = ?1 and l.author.id = ?2) then true else false end) from Chorbi c where c.id = ?1")
+	public ChorbiListForm findOneWithLike(int chorbiId, int principalId);
+	
 	@Query("select c from Chorbi c where c.id <> ?1")
 	public Collection<Chorbi> findAllExceptPrincipal(int principalId);
 	

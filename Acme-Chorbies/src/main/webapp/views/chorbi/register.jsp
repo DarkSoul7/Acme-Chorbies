@@ -31,6 +31,7 @@
 
 <form:form action="${requestURI}" modelAttribute="chorbiForm">
 	<form:hidden path="id"/>
+	
 	<jstl:if test="${chorbiForm.id != 0}">
 		<form:hidden path="acceptCondition"/>
 		
@@ -129,6 +130,11 @@
 	<br><br>
 	<acme:submit code="chorbi.create" name="save"/>
 	
-	<acme:cancel code="chorbi.cancel" url="welcome/index.do"/>
+	<jstl:if test="${chorbiForm.id != 0}">
+		<acme:cancel code="chorbi.back" url=""/>
+	</jstl:if>
+	<jstl:if test="${chorbiForm.id == 0}">
+		<acme:cancel code="chorbi.cancel" url=""/>
+	</jstl:if>
 		
 </form:form>

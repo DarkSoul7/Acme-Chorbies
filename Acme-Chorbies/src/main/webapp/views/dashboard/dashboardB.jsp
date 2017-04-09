@@ -26,7 +26,7 @@
 		<b><spring:message
 				code="dashboard.listChorbiesSortedByReceivedLikes" /></b>
 	</legend>
-	<display:table name="listChorbiesSortedByReceivedLikes" id="row" requestURI="administrator/dashboardB"
+	<display:table name="listChorbiesSortedByReceivedLikes" uid="listChorbiesSortedByReceivedLikes" requestURI="administrator/dashboardB"
 		pagesize="5">
 		<spring:message code="dashboard.name" var="name" />
 		<display:column property="name" title="${name}" />
