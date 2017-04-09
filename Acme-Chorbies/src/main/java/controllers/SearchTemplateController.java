@@ -1,13 +1,14 @@
 
 package controllers;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,8 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 import services.CachedTimeService;
 import services.ChorbiService;
 import services.SearchTemplateService;
+import domain.Brand;
 import domain.CachedTime;
 import domain.Chorbi;
+import domain.Genre;
+import domain.Relationship;
 import domain.SearchTemplate;
 
 @Controller
@@ -44,13 +48,8 @@ public class SearchTemplateController extends AbstractController {
 
 		final Chorbi chorbi = this.chorbiService.findByPrincipal();
 		final SearchTemplate searchTemplate = chorbi.getSearchTemplate();
-		final Collection<Chorbi> cachedChorbies = searchTemplate.getListChorbi();
 
-		result = new ModelAndView("searchTemplate/list");
-		result.addObject("searchTemplate", searchTemplate);
-		result.addObject("cachedChorbies", cachedChorbies);
-		result.addObject("RequestURI", "searchTemplate/list.do");
-
+		result = this.listSaveModelAndView(searchTemplate);
 		return result;
 	}
 
@@ -59,18 +58,17 @@ public class SearchTemplateController extends AbstractController {
 	public ModelAndView save(@Valid final SearchTemplate searchTemplate, final BindingResult binding) {
 		ModelAndView result;
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(searchTemplate);
+			result = this.listSaveModelAndView(searchTemplate);
 		else
 			try {
-				final Chorbi chorbi = this.chorbiService.findByPrincipal();
-				Assert.isTrue(searchTemplate.getChorbi().equals(chorbi));
-
-				this.searchTemplateService.searchForChorbies(searchTemplate);
-				this.searchTemplateService.update(searchTemplate);
+				final Collection<Chorbi> chorbiesFound = this.searchTemplateService.searchByPrincipal(searchTemplate);
+				searchTemplate.setListChorbi(chorbiesFound);
+				this.searchTemplateService.save(searchTemplate);
 
 				result = new ModelAndView("redirect:/searchTemplate/list.do");
+				result.addObject("cachedChorbies", searchTemplate.getListChorbi());
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(searchTemplate, "searchTemplate.save.error");
+				result = this.listSaveModelAndView(searchTemplate, "searchTemplate.save.error");
 			}
 		return result;
 	}
@@ -122,15 +120,25 @@ public class SearchTemplateController extends AbstractController {
 
 	//Ancillary methods
 
-	protected ModelAndView createEditModelAndView(final SearchTemplate searchTemplate) {
-		return this.createEditModelAndView(searchTemplate, null);
+	protected ModelAndView listSaveModelAndView(final SearchTemplate searchTemplate) {
+		return this.listSaveModelAndView(searchTemplate, null);
 	}
 
-	protected ModelAndView createEditModelAndView(final SearchTemplate searchTemplate, final String message) {
+	protected ModelAndView listSaveModelAndView(final SearchTemplate searchTemplate, final String message) {
 		ModelAndView result;
+
+		final Collection<Chorbi> cachedChorbies = searchTemplate.getListChorbi();
+
+		final List<Genre> genres = Arrays.asList(Genre.values());
+		final List<Relationship> relationships = Arrays.asList(Relationship.values());
+		final List<Brand> brands = Arrays.asList(Brand.values());
 
 		result = new ModelAndView("searchTemplate/list");
 		result.addObject("searchTemplate", searchTemplate);
+		result.addObject("cachedChorbies", cachedChorbies);
+		result.addObject("genres", genres);
+		result.addObject("relationships", relationships);
+		result.addObject("brands", brands);
 		result.addObject("errorMessage", message);
 		result.addObject("RequestURI", "searchTemplate/save.do");
 

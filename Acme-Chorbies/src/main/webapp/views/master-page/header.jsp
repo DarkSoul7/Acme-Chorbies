@@ -57,6 +57,7 @@
 			
 			<security:authorize access="hasRole('CHORBI')">
 				<li><a href="chorbi/list.do"><spring:message code="master.page.list.chorbi" /></a></li>
+				<li><a href="searchTemplate/list.do"><spring:message code="master.page.searchTemplate" /></a></li>
 				<li><a class="fNiv"><spring:message code="master.page.profile" />(<security:authentication property="principal.username" />)</a>
 					<ul>
 						<li class="arrow"></li>

@@ -25,5 +25,10 @@
 		<put-attribute name="title" value="Edit cache's time" />
 		<put-attribute name="body" value="/views/searchTemplate/editCachedTime.jsp" />
 	</definition>
+	
+	<definition name="searchTemplate/list" extends="master.page">
+		<put-attribute name="title" value="Search template" />
+		<put-attribute name="body" value="/views/searchTemplate/list.jsp" />
+	</definition>
 		
 </tiles-definitions>
