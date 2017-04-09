@@ -49,7 +49,7 @@ public class AdministratorChorbiController extends AbstractController {
 		result = new ModelAndView("chorbi/list");
 		result.addObject("chorbies", chorbies);
 		result.addObject("listForm", false);
-		result.addObject("requestURI", "chorbi/list.do");
+		result.addObject("requestURI", "administrator/chorbi/list.do");
 		
 		return result;
 	}
@@ -70,7 +70,7 @@ public class AdministratorChorbiController extends AbstractController {
 		result.addObject("chorbiesFromReceiver", chorbiesFromReceiver);
 		result.addObject("chorbiesFromAuthor", chorbiesFromAuthor);
 		result.addObject("listForm", false);
-		result.addObject("requestURI", "chorbi/showDetails.do");
+		result.addObject("requestURI", "administrator/chorbi/showDetails.do");
 		
 		return result;
 	}
@@ -85,7 +85,7 @@ public class AdministratorChorbiController extends AbstractController {
 		result = new ModelAndView("chorbi/receivedLikesAuthors");
 		result.addObject("chorbies", chorbies);
 		result.addObject("listForm", false);
-		result.addObject("requestURI", "chorbi/receivedLikesAuthors.do");
+		result.addObject("requestURI", "administrator/chorbi/receivedLikesAuthors.do");
 		
 		return result;
 	}
@@ -100,7 +100,7 @@ public class AdministratorChorbiController extends AbstractController {
 		result = new ModelAndView("chorbi/givenLikesReceivers");
 		result.addObject("chorbies", chorbies);
 		result.addObject("listForm", false);
-		result.addObject("requestURI", "chorbi/givenLikesReceivers.do");
+		result.addObject("requestURI", "administrator/chorbi/givenLikesReceivers.do");
 		
 		return result;
 	}

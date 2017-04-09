@@ -128,7 +128,12 @@
 		</display:column>
 		
 		<display:column>
-			<acme:cancel url="chorbi/showDetails.do?chorbiId=${chorbiesFromReceiverTable.id}" code="chorbi.showDetails"/>
+			<jstl:if test="${listForm == true}">
+				<acme:cancel url="chorbi/showDetails.do?chorbiId=${chorbiesFromReceiverTable.id}" code="chorbi.showDetails"/>
+			</jstl:if>
+			<jstl:if test="${listForm == false}">
+				<acme:cancel url="administrator/chorbi/showDetails.do?chorbiId=${chorbiesFromReceiverTable.id}" code="chorbi.showDetails"/>
+			</jstl:if>
 		</display:column>
 		
 		<display:column>
@@ -227,7 +232,12 @@
 		</display:column>
 		
 		<display:column>
-			<acme:cancel url="chorbi/showDetails.do?chorbiId=${chorbiesFromAuthorTable.id}" code="chorbi.showDetails"/>
+			<jstl:if test="${listForm == true}">
+				<acme:cancel url="chorbi/showDetails.do?chorbiId=${chorbiesFromAuthorTable.id}" code="chorbi.showDetails"/>
+			</jstl:if>
+			<jstl:if test="${listForm == false}">
+				<acme:cancel url="administrator/chorbi/showDetails.do?chorbiId=${chorbiesFromAuthorTable.id}" code="chorbi.showDetails"/>
+			</jstl:if>
 		</display:column>
 		
 		<display:column>
