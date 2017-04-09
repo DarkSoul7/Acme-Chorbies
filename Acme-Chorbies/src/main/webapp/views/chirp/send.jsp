@@ -27,8 +27,10 @@
 	<acme:textarea code="chirp.attachments" path="attachments" />
 	
 	<spring:message code="chirp.attachmentsHelp" var="attachmentsHelp" />
-	<jstl:out value="(${attachmentsHelp})"></jstl:out>
-	<br/><br/>
+	<div style="padding-left:1cm">
+		<jstl:out value="(${attachmentsHelp})"></jstl:out>
+	</div>
+	<br/>
 	<acme:select items="${chorbies}" itemLabel="email" code="chirp.receiver" path="receiver" />
 		
 	<br/>

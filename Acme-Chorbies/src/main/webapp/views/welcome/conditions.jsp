@@ -22,6 +22,6 @@
 <br>
 <br>
 <br>
-<button onclick="javascript:window.close();"><spring:message code="welcome.close" /></button>
+<button onclick="javascript:window.close();" class="btn btn-default"><spring:message code="welcome.close" /></button>
 
 </html>

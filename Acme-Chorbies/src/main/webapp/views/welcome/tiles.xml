@@ -10,22 +10,22 @@
 
 <tiles-definitions>
 
-	<definition name="welcome/index" extends="master.page">
+	<definition name="welcome/index" extends="master.page.logo">
 		<put-attribute name="title" value="Welcome!" />
 		<put-attribute name="body" value="/views/welcome/index.jsp" />
 	</definition>
 
-	<definition extends="master.page" name="welcome/cookies">
+	<definition extends="master.page.logo" name="welcome/cookies">
 		<put-attribute name="title" value="Information about cookies usage" />
 		<put-attribute name="body" value="/views/welcome/cookies.jsp" />
 	</definition>
 
-	<definition extends="master.page" name="welcome/conditions">
+	<definition extends="master.page.logo" name="welcome/conditions">
 		<put-attribute name="title" value="Terms of Service" />
 		<put-attribute name="body" value="/views/welcome/conditions.jsp" />
 	</definition>
 
-	<definition extends="master.page" name="welcome/eraseMe">
+	<definition extends="master.page.logo" name="welcome/eraseMe">
 		<put-attribute name="title" value="Personal data information" />
 		<put-attribute name="body" value="/views/welcome/eraseMe.jsp" />
 	</definition>

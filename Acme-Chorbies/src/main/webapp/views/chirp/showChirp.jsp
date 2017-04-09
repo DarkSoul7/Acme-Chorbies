@@ -48,23 +48,14 @@
 <br/>
 
 <jstl:if test="${chirp != null}">
-	<input type="button" name="replyButton"
-			value="<spring:message code="chirp.reply" />"
-			onclick="javascript: window.location.replace('chirp/reply.do?chirpId=${chirp.id}')" />
-	
-	<input type="button" name="forwardButton"
-			value="<spring:message code="chirp.forward" />"
-			onclick="javascript: window.location.replace('chirp/forward.do?chirpId=${chirp.id}')" />
+	<acme:cancel url="chirp/reply.do?chirpId=${chirp.id}" code="chirp.reply"/>
+	<acme:cancel url="chirp/forward.do?chirpId=${chirp.id}" code="chirp.forward"/>	
 	
 	<jstl:if test="${chirp.parentChirp != null}">
-		<input type="button" name="parentChirpButton"
-				value="<spring:message code="chirp.parentChirp" />"
-				onclick="javascript: window.location.replace('chirp/showChirp.do?chirpId=${chirp.parentChirp.id}')" />
+		<acme:cancel url="chirp/showChirp.do?chirpId=${chirp.parentChirp.id}" code="chirp.parentChirp"/>
 	</jstl:if>
 	
 	<jstl:if test="${chirp.childChirp != null}">
-		<input type="button" name="childChirpButton"
-				value="<spring:message code="chirp.childChirp" />"
-				onclick="javascript: window.location.replace('chirp/showChirp.do?chirpId=${chirp.childChirp.id}')" />
+		<acme:cancel url="chirp/showChirp.do?chirpId=${chirp.childChirp.id}" code="chirp.childChirp"/>
 	</jstl:if>
 </jstl:if>

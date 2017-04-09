@@ -8,6 +8,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <display:table name="chirps" id="row" requestURI="${requestURI}" pagesize="5">
 
@@ -37,16 +38,13 @@
 	</display:column>
 	
 	<display:column>
-		<input type="button" name="chirp.showDetailsButton"
-				value="<spring:message code="chirp.showDetails" />"
-				onclick="javascript: window.location.replace('chirp/showChirp.do?chirpId=${row.id}')" />
+		<acme:cancel code="chirp.showDetails" url="chirp/showChirp.do?chirpId=${row.id}" />
 	</display:column>
 	
 	<display:column>
 		<jstl:if test="${row.childChirp == null}">
-			<input type="button" name="chirp.deleteButton"
-					value="<spring:message code="chirp.delete" />"
-					onclick="javascript: confirmDeletion('${cookie.language.value}', 'chirp/delete.do?chirpId=${row.id}&url=${requestURI}')" />
+			<acme:cancel code="chirp.delete" url="chirp/delete.do?chirpId=${row.id}&url=${requestURI}" />
+			<!-- Comprobar eliminación -->
 		</jstl:if>
 	</display:column>
 	

@@ -7,7 +7,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.AssertTrue;
 
-import org.hibernate.validator.constraints.NotBlank;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import security.UserAccount;
@@ -150,7 +149,6 @@ public class ChorbiForm {
 		this.userAccount = userAccount;
 	}
 	
-	@NotBlank
 	public String getRepeatPassword() {
 		return this.repeatPassword;
 	}

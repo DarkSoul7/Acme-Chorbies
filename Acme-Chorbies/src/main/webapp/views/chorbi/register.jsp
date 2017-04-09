@@ -25,9 +25,15 @@
 	<jstl:set var="itemLabel" value="spanishName"></jstl:set>
 </jstl:if>
 
-<form:form action="${requestURI}" modelAttribute="chorbiForm">
+<jstl:if test="${successMessage != null}">
+	<div class="alert alert-success"><spring:message code="${successMessage}" /></div>
+</jstl:if>
 
+<form:form action="${requestURI}" modelAttribute="chorbiForm">
 	<form:hidden path="id"/>
+	<jstl:if test="${chorbiForm.id != 0}">
+		<form:hidden path="acceptCondition"/>
+	</jstl:if>
 	
 	<fieldset>
 	<legend><spring:message code="chorbi.personalDetails"/></legend>

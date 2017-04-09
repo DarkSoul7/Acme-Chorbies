@@ -58,6 +58,9 @@
 	<div>
 		<tiles:insertAttribute name="header" />
 	</div>
+	<div style="text-align:center">
+		<a href="/Acme-Chorbies"><img src="images/logo-chorbies.png" alt="Acme-Chorbies Co., Inc." /></a>
+	</div>
 	<div style="width: 80%;">
 		<h1>
 			<tiles:insertAttribute name="title" />
