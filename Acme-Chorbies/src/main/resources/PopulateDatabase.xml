@@ -100,7 +100,7 @@
 		<property name="surname" value="Pérez del Álamo" />
 		<property name="phone" value="694123598" />
 		<property name="email" value="alfperala@acme.com" />
-		<property name="picture" value="http://www.acme.com/pictures/picture1" />
+		<property name="picture" value="http://www.dhakacitycollege.edu.bd/images/default.png" />
 		<property name="description" value="Busco gente para jugar..." />
 		<property name="birthDate" value="02/05/1990" />
 		<property name="relationship" value="ACTIVITIES" />
@@ -140,7 +140,7 @@
 		<property name="surname" value="Flores del Campo" />
 		<property name="phone" value="687153695" />
 		<property name="email" value="marflocam@acme.com" />
-		<property name="picture" value="http://www.acme.com/pictures/picture2" />
+		<property name="picture" value="https://c1.staticflickr.com/4/3080/3162731295_1e33a2a077.jpg" />
 		<property name="description" value="Busco amigos que..." />
 		<property name="birthDate" value="08/09/1989" />
 		<property name="relationship" value="FRIENDSHIP" />
@@ -179,7 +179,7 @@
 		<property name="surname" value="Perales López" />
 		<property name="phone" value="612547832" />
 		<property name="email" value="anaperlop@acme.com" />
-		<property name="picture" value="http://www.acme.com/pictures/picture3" />
+		<property name="picture" value="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTm-QXuRMZs6_8pSYL3mNTxAAhDBZun_1nZ2fK0tAP_fCdql-Gf" />
 		<property name="description" value="Hola guapi, ¿quieres..." />
 		<property name="birthDate" value="12/31/1991" />
 		<property name="relationship" value="LOVE" />
@@ -217,7 +217,7 @@
 		<property name="surname" value="Sánchez Oliva" />
 		<property name="phone" value="693214875" />
 		<property name="email" value="rubsanoli@acme.com" />
-		<property name="picture" value="http://www.acme.com/pictures/picture4" />
+		<property name="picture" value="http://lenoverelab.org/sites/default/files/pictures/person2.png" />
 		<property name="description" value="Necesito..." />
 		<property name="birthDate" value="09/25/1991" />
 		<property name="relationship" value="LOVE" />

@@ -33,12 +33,6 @@
 	<spring:message code="chorbi.surname" var="surname" />
 	<display:column property="surname" title="${surname}" />
 
-	<spring:message code="chorbi.phone" var="phone" />
-	<display:column property="phone" title="${phone}" />
-	
-	<spring:message code="chorbi.email" var="email" />
-	<display:column property="email" title="${email}" />
-	
 	<spring:message code="chorbi.birthDate" var="birthDate" />
 	<display:column title="${birthDate}" >
 		<jstl:choose>
@@ -51,23 +45,8 @@
 		</jstl:choose>
 	</display:column>
 	
-	<spring:message code="chorbi.relationship" var="relationship" />
-	<display:column title="${relationship}">
-		
-		<jstl:if test="${pageContext.response.locale.language=='en'}">
-			<jstl:out value="${row.relationship.name}"></jstl:out>
-		</jstl:if>
-		
-		<jstl:if test="${pageContext.response.locale.language=='es'}">
-			<jstl:out value="${row.relationship.spanishName}"></jstl:out>
-		</jstl:if>
-	
-		
-	</display:column>
-	
 	<spring:message code="chorbi.genre" var="genre" />
 	<display:column title="${genre}">
-		
 		<jstl:if test="${pageContext.response.locale.language=='en'}">
 			<jstl:out value="${row.genre.name}"></jstl:out>
 		</jstl:if>
@@ -75,30 +54,44 @@
 		<jstl:if test="${pageContext.response.locale.language=='es'}">
 			<jstl:out value="${row.genre.spanishName}"></jstl:out>
 		</jstl:if>
+	</display:column>
+	
+	<spring:message code="chorbi.relationship" var="relationship" />
+	<display:column title="${relationship}">
+		<jstl:if test="${pageContext.response.locale.language=='en'}">
+			<jstl:out value="${row.relationship.name}"></jstl:out>
+		</jstl:if>
 		
-	</display:column>
-	
-	<spring:message code="chorbi.description" var="description" />
-	<display:column property="description" title="${description}" />
-	
-	<spring:message code="chorbi.coordinates.city" var="coordinatesCity" />
-	<display:column property="coordinates.city" title="${coordinatesCity}" />
-	
-	<spring:message code="chorbi.coordinates.state" var="coordinatesState" />
-	<display:column property="coordinates.state" title="${coordinatesState}" />
-	
-	<spring:message code="chorbi.coordinates.province" var="coordinatesProvince" />
-	<display:column property="coordinates.province" title="${coordinatesProvince}" />
-
-	<spring:message code="chorbi.coordinates.country" var="coordinatesCountry" />
-	<display:column property="coordinates.country" title="${coordinatesCountry}" />
-	
-	<display:column>
-		<acme:cancel url="chorbi/receivedLikesAuthors.do?authorId=${row.id}" code="chorbi.receivedLikes"/>
+		<jstl:if test="${pageContext.response.locale.language=='es'}">
+			<jstl:out value="${row.relationship.spanishName}"></jstl:out>
+		</jstl:if>
 	</display:column>
 	
 	<display:column>
-		<acme:cancel url="chorbi/givenLikesReceivers.do?receiverId=${row.id}" code="chorbi.givenLikes"/>
+		<jstl:if test="${listForm == true}">
+			<acme:cancel url="chorbi/showDetails.do?chorbiId=${row.id}" code="chorbi.showDetails"/>
+		</jstl:if>
+		<jstl:if test="${listForm == false}">
+			<acme:cancel url="administrator/chorbi/showDetails.do?chorbiId=${row.id}" code="chorbi.showDetails"/>
+		</jstl:if>
+	</display:column>
+	
+	<display:column>
+		<jstl:if test="${listForm == true}">
+			<acme:cancel url="chorbi/receivedLikesAuthors.do?authorId=${row.id}" code="chorbi.receivedLikes"/>
+		</jstl:if>
+		<jstl:if test="${listForm == false}">
+			<acme:cancel url="administrator/chorbi/receivedLikesAuthors.do?authorId=${row.id}" code="chorbi.receivedLikes"/>
+		</jstl:if>
+	</display:column>
+	
+	<display:column>
+		<jstl:if test="${listForm == true}">
+			<acme:cancel url="chorbi/givenLikesReceivers.do?receiverId=${row.id}" code="chorbi.givenLikes"/>
+		</jstl:if>
+		<jstl:if test="${listForm == false}">
+			<acme:cancel url="administrator/chorbi/givenLikesReceivers.do?receiverId=${row.id}" code="chorbi.givenLikes"/>
+		</jstl:if>
 	</display:column>
 	
 	<security:authorize access="hasRole('CHORBI')">
@@ -110,7 +103,6 @@
 					</jstl:if>
 					<jstl:if test="${row.liked == true}">
 						<acme:cancel url="like/see.do?chorbiId=${row.id}" code="chorbi.seeLike"/>
-						<acme:cancel url="like/cancel.do?chorbiId=${row.id}" code="chorbi.cancelLike"/>
 					</jstl:if>
 				</jstl:if>
 			</display:column>
@@ -119,12 +111,12 @@
 	
 	<security:authorize access="hasRole('ADMINISTRATOR')">
 		<display:column>
-		<jstl:if test="${row.userAccount.enabled == true }">
-			<acme:cancel url="administrator/ban.do?chorbiId=${row.id}" code="chorbi.ban"/>
-		</jstl:if>
-		<jstl:if test="${row.userAccount.enabled == false }">
-			<acme:cancel url="administrator/unBan.do?chorbiId=${row.id}" code="chorbi.unBan"/>
-		</jstl:if>
-		</display:column>
+			<jstl:if test="${row.userAccount.enabled == true }">
+				<acme:cancel url="administrator/ban.do?chorbiId=${row.id}" code="chorbi.ban"/>
+			</jstl:if>
+			<jstl:if test="${row.userAccount.enabled == false }">
+				<acme:cancel url="administrator/unBan.do?chorbiId=${row.id}" code="chorbi.unBan"/>
+			</jstl:if>
+			</display:column>
 	</security:authorize>	
 </display:table>

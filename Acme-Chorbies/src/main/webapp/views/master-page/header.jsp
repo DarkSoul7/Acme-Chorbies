@@ -25,6 +25,7 @@
 		<!-- Do not forget the "fNiv" class for the first level links !! -->
 		<security:authorize access="hasRole('ADMINISTRATOR')">
 				<li><a class="fNiv" href="searchTemplate/listCachedTime.do"><spring:message code="master.page.cachedTime.list" /></a></li>
+				<li><a href="administrator/chorbi/list.do"><spring:message code="master.page.list.chorbi" /></a></li>
 				<li><a class="fNiv"><spring:message	code="master.page.administrator.dashboard" /></a>
 				<ul>
 					<li class="arrow"></li>
@@ -36,11 +37,11 @@
 		</security:authorize>
 		
 		<security:authorize access="hasRole('CHORBI')">
+			<li><a href="chorbi/list.do"><spring:message code="master.page.list.chorbi" /></a></li>
 			<li><a class="fNiv"><spring:message	code="master.page.chorbi" /></a>
 				<ul>
 					<li class="arrow"></li>
-					<li><a href="chorbi/edit.do"><spring:message code="master.page.edit.chorbi" /></a></li>
-					<li><a href="customer/action-2.do"><spring:message code="master.page.customer.action.2" /></a></li>					
+					<li><a href="chorbi/edit.do"><spring:message code="master.page.edit.chorbi" /></a></li>				
 				</ul>
 			</li>
 		</security:authorize>
@@ -56,7 +57,6 @@
 		</security:authorize>
 		
 		<security:authorize access="isAuthenticated()">
-			<li><a href="chorbi/list.do"><spring:message code="master.page.list.chorbi" /></a></li>
 			<li><a class="fNiv"><spring:message	code="master.page.messagingSystem" /></a>
 				<ul>
 				
