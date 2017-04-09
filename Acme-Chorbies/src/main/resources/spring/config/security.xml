@@ -83,6 +83,12 @@
 		<security:intercept-url pattern="/administrator/dashboardC.do" access="hasRole('ADMINISTRATOR')" /> 
 		<security:intercept-url pattern="/administrator/dashboardB.do" access="hasRole('ADMINISTRATOR')" />
 		<security:intercept-url pattern="/administrator/dashboardA.do" access="hasRole('ADMINISTRATOR')" />
+		
+		<!-- BANNER -->
+		<security:intercept-url pattern="/banner/list.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/banner/create.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/banner/edit.do" access="hasRole('ADMINISTRATOR')" />
+		<security:intercept-url pattern="/banner/delete.do" access="hasRole('ADMINISTRATOR')" /> 
 	
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

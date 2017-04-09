@@ -19,5 +19,11 @@
 		<put-attribute name="title" value="Edición del tiempo de la caché" />
 		<put-attribute name="body" value="/views/searchTemplate/editCachedTime.jsp" />
 	</definition>
+	
+	<definition name="searchTemplate/list" extends="master.page">
+		<put-attribute name="title" value="Plantilla de búsqueda" />
+		<put-attribute name="body" value="/views/searchTemplate/list.jsp" />
+	</definition>
+	
 
 </tiles-definitions>
