@@ -35,6 +35,9 @@
 		<form:hidden path="acceptCondition"/>
 	</jstl:if>
 	
+	<spring:message code="chorbi.picture" var="picture" />
+	<img src="${pictureUrl}" alt="picture" width="70" height="70">
+	
 	<fieldset>
 	<legend><spring:message code="chorbi.personalDetails"/></legend>
 	
