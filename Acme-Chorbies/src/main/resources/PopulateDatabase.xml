@@ -477,15 +477,11 @@
 	</bean>
 	
 	<bean id="banner3" class="domain.Banner">
-		<property name="picture" value="http://www.acme.com/banners/banner3.jpg" />
+		<property name="picture" value="http://i64.tinypic.com/f090xv.png" />
 	</bean>
 	
 	<bean id="banner4" class="domain.Banner">
-		<property name="picture" value="http://www.acme.com/banners/banner4.jpg" />
-	</bean>
-	
-	<bean id="banner5" class="domain.Banner">
-		<property name="picture" value="http://www.acme.com/banners/banner5.jpg" />
+		<property name="picture" value="http://i65.tinypic.com/2j14bph.png" />
 	</bean>
 	
 	<!-- SEARCH TEMPLATES -->
