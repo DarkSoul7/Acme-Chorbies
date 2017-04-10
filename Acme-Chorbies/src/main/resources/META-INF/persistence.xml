@@ -29,6 +29,21 @@
 
 	</persistence-unit>
 	
+	<persistence-unit name="Acme-Chorbies-Super">
+		
+		<properties>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/Acme-Chorbies" />
+			<property name="javax.persistence.jdbc.user" value="acme-super" />
+			<property name="javax.persistence.jdbc.password" value="ACME-$UP3r-P@ssw0rd" />
+
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			<!-- <property name="hibernate.hbm2ddl.auto" value="none" /> -->
+			
+		</properties>
+
+	</persistence-unit>
+	
 </persistence>
 
 

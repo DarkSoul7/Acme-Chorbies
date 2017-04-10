@@ -46,7 +46,7 @@ public class PopulateDatabase {
 			
 			System.out.printf("Initialising persistence context `%s'.%n", DatabaseConfig.PersistenceUnit);
 			databaseUtil = new DatabaseUtil();
-			databaseUtil.open();
+			databaseUtil.open(false);
 			
 			System.out.printf("Creating database `%s' (%s).%n", databaseUtil.getDatabaseName(), databaseUtil.getDatabaseDialectName());
 			databaseUtil.recreateDatabase();
@@ -61,6 +61,9 @@ public class PopulateDatabase {
 			
 			System.out.println("Trying to save the best order found.");
 			PopulateDatabase.persist(databaseUtil, sortedEntities);
+			
+			System.out.println("Trying to save an event.");
+			PopulateDatabase.createEvent(databaseUtil);
 		} catch (final Throwable oops) {
 			ThrowablePrinter.print(oops);
 		} finally {
@@ -146,6 +149,40 @@ public class PopulateDatabase {
 			entity = (DomainEntity) entry.getValue();
 			entity.setId(0);
 			entity.setVersion(0);
+		}
+	}
+	
+	protected static void createEvent(final DatabaseUtil databaseUtil) {
+		DatabaseUtil superDatabaseUtil = null;
+		String safeUpdates;
+		String event_escheduler;
+		String event;
+		
+		try {
+			superDatabaseUtil = new DatabaseUtil();
+			superDatabaseUtil.open(true);
+			
+			safeUpdates = "SET SQL_SAFE_UPDATES = 0";
+			event_escheduler = "SET GLOBAL event_scheduler = ON";
+			event = "CREATE EVENT IF NOT EXISTS `Acme-Chorbies`.erase_searchTemplateCache ON SCHEDULE EVERY 1 HOUR "
+				+ "  DO DELETE "
+				+ "    FROM `Acme-Chorbies`.searchtemplate_chorbi "
+				+ "    WHERE searchtemplate_id IN ( "
+				+ "		SELECT s.id "
+				+ "		FROM `Acme-Chorbies`.searchtemplate s, `Acme-Chorbies`.cachedtime c "
+				+ "		WHERE DATE_ADD(cachedMoment, "
+				+ "			INTERVAL +(c.cachedHour * 3600 + c.cachedMinute * 60 + c.cachedSecond) SECOND) "
+				+ "			<= NOW())";
+			
+			databaseUtil.executeNativeUpdate(safeUpdates);
+			superDatabaseUtil.executeNativeUpdate(event_escheduler);
+			databaseUtil.executeNativeUpdate(event);
+		} catch (final Throwable oops) {
+			ThrowablePrinter.print(oops);
+		} finally {
+			if (superDatabaseUtil != null) {
+				superDatabaseUtil.close();
+			}
 		}
 	}
 	
