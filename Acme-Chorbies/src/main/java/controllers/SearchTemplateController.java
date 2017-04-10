@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -89,12 +90,14 @@ public class SearchTemplateController extends AbstractController {
 
 	//List cache time
 	@RequestMapping(value = "/editCachedTime", method = RequestMethod.GET)
-	public ModelAndView editCachedTime() {
+	public ModelAndView editCachedTime() throws ClassNotFoundException, InstantiationException, IllegalAccessException, SQLException {
 		ModelAndView result;
 
 		final CachedTime cachedTime = this.cachedTimeService.findUnique();
 
 		result = this.createEditModelAndViewCachedTime(cachedTime);
+		//Updating event
+		this.cachedTimeService.updateEvent();
 
 		return result;
 	}
@@ -110,6 +113,7 @@ public class SearchTemplateController extends AbstractController {
 			try {
 
 				this.cachedTimeService.save(cachedTime);
+
 				result = new ModelAndView("redirect:/searchTemplate/listCachedTime.do");
 
 			} catch (final Throwable oops) {

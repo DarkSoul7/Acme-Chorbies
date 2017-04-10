@@ -179,7 +179,7 @@
 		<property name="surname" value="Perales López" />
 		<property name="phone" value="612547832" />
 		<property name="email" value="anaperlop@acme.com" />
-		<property name="picture" value="https://c1.staticflickr.com/3/2797/4494426213_039fc0c3bf_m.jpg" />
+		<property name="picture" value="https://c1.staticflickr.com/4/3223/13060945874_daf757168c_k.jpg" />
 		<property name="description" value="Hola guapi, ¿quieres..." />
 		<property name="birthDate" value="12/31/1991" />
 		<property name="relationship" value="LOVE" />
@@ -524,7 +524,7 @@
 	<!-- CACHEDTIME -->
 	
 	<bean id="cachedTime1" class="domain.CachedTime">
-		<property name="cachedHour" value="10" />
+		<property name="cachedHour" value="12" />
 		<property name="cachedMinute" value="0" />
 		<property name="cachedSecond" value="0" />
 	</bean>
