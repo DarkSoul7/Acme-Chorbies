@@ -40,6 +40,7 @@ public class Chirp extends DomainEntity {
 
 	@NotBlank
 	@SafeHtml
+	@Size(min = 0, max = 80)
 	public String getSubject() {
 		return this.subject;
 	}
