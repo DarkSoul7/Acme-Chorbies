@@ -36,6 +36,10 @@ public class CachedTimeService {
 
 	//Simple CRUD methods
 
+	public void flush() {
+		this.cachedTimeRepository.flush();
+	}
+
 	public CachedTime findUnique() {
 		return this.cachedTimeRepository.findUnique();
 

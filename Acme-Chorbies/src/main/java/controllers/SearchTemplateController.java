@@ -96,8 +96,6 @@ public class SearchTemplateController extends AbstractController {
 		final CachedTime cachedTime = this.cachedTimeService.findUnique();
 
 		result = this.createEditModelAndViewCachedTime(cachedTime);
-		//Updating event
-		this.cachedTimeService.updateEvent();
 
 		return result;
 	}
@@ -115,6 +113,11 @@ public class SearchTemplateController extends AbstractController {
 				this.cachedTimeService.save(cachedTime);
 
 				result = new ModelAndView("redirect:/searchTemplate/listCachedTime.do");
+
+				this.cachedTimeService.flush();
+
+				//Updating event
+				this.cachedTimeService.updateEvent();
 
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndViewCachedTime(cachedTime, "searchTemplate.saveCachedTime.error");
