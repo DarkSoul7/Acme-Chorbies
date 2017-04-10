@@ -14,6 +14,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -26,28 +27,29 @@ import org.springframework.format.annotation.DateTimeFormat;
 	})
 })
 public class Like extends DomainEntity {
-	
+
 	//Attributes
 	private String	comment;
 	private Date	moment;
-	
-	
+
+
 	//Constructor
 	public Like() {
 		super();
 	}
-	
+
 	//Getters and setters
-	
+
 	@SafeHtml
+	@Size(min = 0, max = 200)
 	public String getComment() {
 		return this.comment;
 	}
-	
+
 	public void setComment(final String comment) {
 		this.comment = comment;
 	}
-	
+
 	@Past
 	@NotNull
 	@Temporal(value = TemporalType.TIMESTAMP)
@@ -55,36 +57,36 @@ public class Like extends DomainEntity {
 	public Date getMoment() {
 		return this.moment;
 	}
-	
+
 	public void setMoment(final Date moment) {
 		this.moment = moment;
 	}
-	
-	
+
+
 	//RellationShips
-	
+
 	private Chorbi	author;
 	private Chorbi	receiver;
-	
-	
+
+
 	@Valid
 	@ManyToOne(optional = false)
 	public Chorbi getAuthor() {
 		return this.author;
 	}
-	
+
 	public void setAuthor(final Chorbi author) {
 		this.author = author;
 	}
-	
+
 	@Valid
 	@ManyToOne(optional = false)
 	public Chorbi getReceiver() {
 		return this.receiver;
 	}
-	
+
 	public void setReceiver(final Chorbi receiver) {
 		this.receiver = receiver;
 	}
-	
+
 }

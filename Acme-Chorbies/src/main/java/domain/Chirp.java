@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -49,6 +50,7 @@ public class Chirp extends DomainEntity {
 
 	@NotBlank
 	@SafeHtml
+	@Size(min = 0, max = 250)
 	public String getText() {
 		return this.text;
 	}

@@ -56,6 +56,10 @@ public class ChirpController extends AbstractController {
 
 		try {
 			chirp = this.chirpService.findOne(chirpId);
+
+			//Hidding email & phone
+			this.chirpService.applyPrivacity(chirp);
+
 			errorMessage = null;
 		} catch (final Throwable oops) {
 			chirp = null;
@@ -75,6 +79,9 @@ public class ChirpController extends AbstractController {
 	public ModelAndView sentChirps(@RequestParam(required = false) final String message) {
 		ModelAndView result;
 		final Collection<Chirp> chirps = this.chirpService.findAllSentByPrincipal();
+
+		//Hiding email & phone
+		this.chirpService.applyPrivacity(chirps);
 
 		result = new ModelAndView("chirp/sentChirps");
 		result.addObject("chirps", chirps);
