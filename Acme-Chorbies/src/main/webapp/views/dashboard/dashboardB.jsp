@@ -21,11 +21,14 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<!-- Global variables -->
+<spring:message code="dashboard.likes" var="likes" />
+
 <fieldset>
 	<legend>
-		<b><spring:message
-				code="dashboard.listChorbiesSortedByReceivedLikes" /></b>
+		<b><spring:message code="dashboard.listChorbiesSortedByReceivedLikes" /></b>
 	</legend>
+	
 	<display:table name="listChorbiesSortedByReceivedLikes" uid="listChorbiesSortedByReceivedLikes" requestURI="administrator/dashboardB"
 		pagesize="5">
 		<spring:message code="dashboard.name" var="name" />
@@ -43,6 +46,7 @@
 </fieldset>
 
 <br />
+
 <fieldset>
 	<legend>
 		<b><spring:message code="dashboard.stadisticsReceivedLikesPerChorbi" /></b>
@@ -70,7 +74,7 @@
 
 			<fmt:formatNumber var="value" value="${row}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
-			<jstl:out value="${value}"></jstl:out>
+			<jstl:out value="${value} ${likes}"></jstl:out>
 		</display:column>
 	</display:table>
 </fieldset>
@@ -104,7 +108,9 @@
 
 			<fmt:formatNumber var="value" value="${row}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
-			<jstl:out value="${value}"></jstl:out>
+			<jstl:out value="${value} ${likes}"></jstl:out>
 		</display:column>
 	</display:table>
 </fieldset>
+
+<acme:cancel url="" code="dasboard.back"/>

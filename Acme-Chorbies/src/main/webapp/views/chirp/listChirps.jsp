@@ -43,8 +43,7 @@
 	
 	<display:column>
 		<jstl:if test="${row.childChirp == null}">
-			<acme:cancel code="chirp.delete" url="chirp/delete.do?chirpId=${row.id}&url=${requestURI}" />
-			<!-- Comprobar eliminación -->
+			<acme:confirm code="chirp.delete" url="chirp/delete.do?chirpId=${row.id}&url=${requestURI}" msg="chirp.confirmDeletion" />
 		</jstl:if>
 	</display:column>
 	

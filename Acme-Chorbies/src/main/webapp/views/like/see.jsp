@@ -36,5 +36,5 @@
 
 <br/>
 <br/>
-<acme:cancel url="like/cancel.do?chorbiId=${like.receiver.id}" code="chorbi.cancelLike"/>
-<acme:cancel url="chorbi/showDetails.do?chorbiId=${like.receiver.id}" code="like.back"/>
+<acme:confirm url="like/cancel.do?chorbiId=${like.receiver.id}" code="like.cancelLike" msg="like.cancelLikeConfirm" />
+<acme:cancel url="chorbi/showDetails.do?chorbiId=${like.receiver.id}" code="like.back" />

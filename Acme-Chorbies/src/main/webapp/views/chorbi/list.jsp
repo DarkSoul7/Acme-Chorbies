@@ -112,10 +112,10 @@
 	<security:authorize access="hasRole('ADMINISTRATOR')">
 		<display:column>
 			<jstl:if test="${row.userAccount.enabled == true }">
-				<acme:cancel url="administrator/ban.do?chorbiId=${row.id}" code="chorbi.ban"/>
+				<acme:confirm url="administrator/ban.do?chorbiId=${row.id}" code="chorbi.ban" msg="chorbi.banConfirm" />
 			</jstl:if>
 			<jstl:if test="${row.userAccount.enabled == false }">
-				<acme:cancel url="administrator/unBan.do?chorbiId=${row.id}" code="chorbi.unBan"/>
+				<acme:confirm url="administrator/unBan.do?chorbiId=${row.id}" code="chorbi.unBan" msg="chorbi.unBanConfirm" />
 			</jstl:if>
 			</display:column>
 	</security:authorize>	

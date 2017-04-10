@@ -48,14 +48,20 @@
 <br/>
 
 <jstl:if test="${chirp != null}">
-	<acme:cancel url="chirp/reply.do?chirpId=${chirp.id}" code="chirp.reply"/>
-	<acme:cancel url="chirp/forward.do?chirpId=${chirp.id}" code="chirp.forward"/>	
+	<acme:cancel url="chirp/reply.do?chirpId=${chirp.id}" code="chirp.reply" class_="btn btn-primary" />
+	<acme:cancel url="chirp/forward.do?chirpId=${chirp.id}" code="chirp.forward" class_="btn btn-primary" />	
 	
 	<jstl:if test="${chirp.parentChirp != null}">
-		<acme:cancel url="chirp/showChirp.do?chirpId=${chirp.parentChirp.id}" code="chirp.parentChirp"/>
+		<acme:cancel url="chirp/showChirp.do?chirpId=${chirp.parentChirp.id}" code="chirp.parentChirp" class_="btn btn-primary" />
 	</jstl:if>
 	
 	<jstl:if test="${chirp.childChirp != null}">
-		<acme:cancel url="chirp/showChirp.do?chirpId=${chirp.childChirp.id}" code="chirp.childChirp"/>
+		<acme:cancel url="chirp/showChirp.do?chirpId=${chirp.childChirp.id}" code="chirp.childChirp" class_="btn btn-primary" />
 	</jstl:if>
+	
+	<jstl:if test="${chirp.childChirp == null}">
+		<acme:confirm code="chirp.delete" url="chirp/delete.do?chirpId=${chirp.id}&url=" msg="chirp.confirmDeletion" />
+	</jstl:if>
+	
+	<acme:cancel url="" code="chirp.back"/>	
 </jstl:if>

@@ -8,15 +8,8 @@ function relativeRedir(loc) {
 	window.location.replace(loc);
 }
 
-function confirmDeletion(language, uri) {
-	var question;
-	if (language == 'es') {
-		question = "¿Desea confirmar el borrado?";
-	} else {
-		question = "Do you want to confirm the deletion?";
-	}
-	var c = confirm(question);
-	if (c == true) {
+function askConfirm(msg, url) {
+	if (confirm(msg)) {
 		window.location.replace(uri);
 	}
 }

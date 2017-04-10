@@ -22,29 +22,23 @@
 
 <%--Script --%>
 <script type="text/javascript">
-	function relativeRedir(loc) {	
-		var b = document.getElementsByTagName('base');
-		if (b && b[0] && b[0].href) {
-  			if (b[0].href.substr(b[0].href.length - 1) == '/' && loc.charAt(0) == '/')
-    		loc = loc.substr(1);
-  			loc = b[0].href + loc;
+	function askConfirm(msg, url) {
+		if (confirm(msg)) {
+			window.location.replace(url);
 		}
-		window.location.replace(loc);
 	}
 </script>
 
 <%-- Attributes --%> 
  
 <%@ attribute name="code" required="true" %>
+<%@ attribute name="msg" required="true" %>
 <%@ attribute name="url" required="true" %>
-<%@ attribute name="class_" required="false" %>
-
-<jstl:if test="${class_ == null}">
-	<jstl:set var="class_" value="btn btn-default" />
-</jstl:if>
 
 <%-- Definition --%>
 
-<button type="button" onclick="javascript: relativeRedir('${url}')" class="${class_}" >
+<spring:message code="${msg}" var="confirmMessage" />
+
+<button type="button" onclick="javascript: askConfirm('${confirmMessage}', '${url}')" class="btn btn-danger" >
 	<spring:message code="${code}" />
 </button>

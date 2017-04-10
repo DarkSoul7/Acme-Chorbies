@@ -94,7 +94,7 @@ public class LikeController extends AbstractController {
 		else
 			try {
 				this.likeService.save(like);
-				result = new ModelAndView("redirect:/chorbi/list.do");
+				result = new ModelAndView("redirect:/chorbi/showDetails.do?chorbiId=" + like.getReceiver().getId());
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(likeForm, "like.commit.error");
 			}

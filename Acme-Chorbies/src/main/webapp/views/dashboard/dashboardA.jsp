@@ -21,6 +21,9 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<!-- Global variables -->
+<spring:message code="dashboard.chirps" var="chirps" />
+
 <fieldset>
 	<legend>
 		<b><spring:message code="dashboard.stadisticsreceivedChirpsPerChorbi" /></b>
@@ -48,7 +51,7 @@
 
 			<fmt:formatNumber var="value" value="${row}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
-			<jstl:out value="${value}"></jstl:out>
+			<jstl:out value="${value} ${chirps}"></jstl:out>
 		</display:column>
 	</display:table>
 </fieldset>
@@ -82,7 +85,7 @@
 
 			<fmt:formatNumber var="value" value="${row}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
-			<jstl:out value="${value}"></jstl:out>
+			<jstl:out value="${value} ${chirps}"></jstl:out>
 		</display:column>
 	</display:table>
 </fieldset>
@@ -132,3 +135,5 @@
 		<display:column property="email" title="${email}" />
 	</display:table>
 </fieldset>
+
+<acme:cancel url="" code="dasboard.back"/>

@@ -21,6 +21,8 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+<!-- Global variables -->
+<spring:message code="dashboard.years" var="years" />
 
 <fieldset>
 	<legend>
@@ -93,7 +95,7 @@
 
 			<fmt:formatNumber var="value" value="${row}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
-			<jstl:out value="${value}"></jstl:out>
+			<jstl:out value="${value} ${years}"></jstl:out>
 		</display:column>
 	</display:table>
 </fieldset>
@@ -108,7 +110,7 @@
 		requestURI="administrator/dashboardC" class="displaytag">
 		<spring:message code="dashboard.ratio" var="ratio" />
 		<display:column title="${ratio}">
-			<jstl:out value="${row}"></jstl:out>
+			<jstl:out value="${row}%"></jstl:out>
 		</display:column>
 	</display:table>
 </fieldset>
@@ -142,11 +144,9 @@
 
 			<fmt:formatNumber var="value" value="${row}" maxFractionDigits="2"></fmt:formatNumber>
 			<b><jstl:out value="${title}:"></jstl:out></b>
-			<jstl:out value="${value}"></jstl:out>
+			<jstl:out value="${value}%"></jstl:out>
 		</display:column>
 	</display:table>
 </fieldset>
 
-
-
-
+<acme:cancel url="" code="dasboard.back"/>

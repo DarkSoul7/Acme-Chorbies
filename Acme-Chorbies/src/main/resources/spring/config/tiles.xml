@@ -23,14 +23,11 @@
 		<value>/views/security/tiles.xml</value>
 		<value>/views/welcome/tiles.xml</value>
 		
-		<value>/views/administrator/tiles.xml</value>
 		<value>/views/banner/tiles.xml</value>
 		<value>/views/chirp/tiles.xml</value>
 		<value>/views/chorbi/tiles.xml</value>
-		<value>/views/customer/tiles.xml</value>
 		<value>/views/dashboard/tiles.xml</value>
 		<value>/views/like/tiles.xml</value>
-		<value>/views/profile/tiles.xml</value>
 		<value>/views/searchTemplate/tiles.xml</value>
 	</util:list>
 

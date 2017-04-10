@@ -38,11 +38,9 @@
 
 	<spring:message code="banner.actions" var="actions" />
 	<display:column title="${actions}">
-		<acme:cancel url="banner/edit.do?bannerId=${row.id}" code="banner.edit"/>
-		<acme:cancel url="banner/delete.do?bannerId=${row.id}" code="banner.delete"/>
+		<acme:cancel url="banner/edit.do?bannerId=${row.id}" code="banner.edit" />
+		<acme:confirm url="banner/delete.do?bannerId=${row.id}" code="banner.delete" msg="banner.confirmDeletion" />
 	</display:column>
 </display:table>
 
-<br/>
-
-<acme:cancel url="banner/create.do" code="banner.create"/>
+<acme:cancel url="banner/create.do" code="banner.create" class_="btn btn-primary" />

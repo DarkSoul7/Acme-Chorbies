@@ -127,13 +127,15 @@
 		</fieldset>
 	</security:authorize>
 	
-	<br><br>
-	<acme:submit code="chorbi.create" name="save"/>
+	<br/>
+	<br/>
 	
 	<jstl:if test="${chorbiForm.id != 0}">
+		<acme:submit code="chorbi.save" name="save"/>
 		<acme:cancel code="chorbi.back" url=""/>
 	</jstl:if>
 	<jstl:if test="${chorbiForm.id == 0}">
+		<acme:submit code="chorbi.create" name="save"/>
 		<acme:cancel code="chorbi.cancel" url=""/>
 	</jstl:if>
 		
