@@ -181,7 +181,7 @@ public class ChorbiController extends AbstractController {
 		this.chorbiService.checkRestrictions(chorbiForm, binding);
 
 		if (binding.hasErrors())
-			result = this.createModelAndView(chorbiForm);
+			result = this.editModelAndView(chorbiForm, "chorbi.creditCard.error");
 		else
 			try {
 				this.chorbiService.save(chorbi);
