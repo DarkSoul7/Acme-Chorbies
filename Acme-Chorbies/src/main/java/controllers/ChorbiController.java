@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.validator.routines.checkdigit.CheckDigitException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -143,14 +144,14 @@ public class ChorbiController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView editSave(@Valid final ChorbiForm chorbiForm, final BindingResult binding) {
+	public ModelAndView editSave(@Valid final ChorbiForm chorbiForm, final BindingResult binding) throws CheckDigitException {
 		ModelAndView result = new ModelAndView();
 		final Chorbi chorbi;
 
 		chorbi = this.chorbiService.reconstruct(chorbiForm, binding);
 
 		if (binding.hasErrors())
-			result = this.editModelAndView(chorbiForm);
+			result = this.editModelAndView(chorbiForm, "chorbi.creditCard.error");
 		else
 			try {
 				this.chorbiService.save(chorbi);
@@ -162,7 +163,6 @@ public class ChorbiController extends AbstractController {
 
 		return result;
 	}
-
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public ModelAndView register() {
 		ModelAndView result;
@@ -173,7 +173,7 @@ public class ChorbiController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final ChorbiForm chorbiForm, final BindingResult binding) {
+	public ModelAndView save(@Valid final ChorbiForm chorbiForm, final BindingResult binding) throws CheckDigitException {
 		ModelAndView result = new ModelAndView();
 		Chorbi chorbi;
 

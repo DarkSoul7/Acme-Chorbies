@@ -190,7 +190,7 @@ public class ChorbiService {
 		return result;
 	}
 
-	public Chorbi reconstruct(final ChorbiForm chorbiForm, final BindingResult binding) {
+	public Chorbi reconstruct(final ChorbiForm chorbiForm, final BindingResult binding) throws CheckDigitException {
 		Assert.notNull(chorbiForm);
 		Chorbi result;
 		String password;
@@ -242,12 +242,18 @@ public class ChorbiService {
 			result.setOverAge(true);
 
 		// Check creditCard if any
-		if (this.analyzeCreditCard(chorbiForm.getCreditCard()))
-			try {
-				result.setValidCreditCard(this.checkCreditCard(result.getCreditCard()));
-			} catch (final CheckDigitException e) {
-				result.setValidCreditCard(false);
+		if (this.analyzeCreditCard(chorbiForm.getCreditCard())) {
+			if (!this.checkCreditCard(result.getCreditCard())) {
+				FieldError fieldError;
+				final String[] codes = {
+					"chorbi.creditCard.error"
+				};
+				fieldError = new FieldError("chorbiForm", "creditCard", result.getCreditCard(), false, codes, null, "");
+				binding.addError(fieldError);
 			}
+			//			result.setValidCreditCard(this.checkCreditCard(result.getCreditCard()));
+			this.validator.validate(chorbiForm.getCreditCard(), binding);
+		}
 
 		if (binding != null && chorbiForm.getId() == 0) {
 			this.validator.validate(result, binding);
@@ -260,7 +266,8 @@ public class ChorbiService {
 				fieldError = new FieldError("chorbiForm", "userAccount.password", result.getUserAccount().getPassword(), false, codes, null, "");
 				binding.addError(fieldError);
 			}
-		}
+		} else
+			this.validator.validate(result, binding);
 
 		return result;
 	}
