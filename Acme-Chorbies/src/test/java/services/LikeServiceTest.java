@@ -48,7 +48,7 @@ public class LikeServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			//principal, chorbi id, expected exception
 			{
-				"chorbi1", 43, null
+				"chorbi1", 42, null
 			}, {
 				"chorbi1", 41, IllegalArgumentException.class
 			}, {
@@ -99,7 +99,7 @@ public class LikeServiceTest extends AbstractTest {
 			{
 				"chorbi1", 41, null
 			}, {
-				"chorbi2", 43, IllegalArgumentException.class
+				"chorbi2", 42, IllegalArgumentException.class
 			}, {
 				null, 42, IllegalArgumentException.class
 			}

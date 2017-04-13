@@ -106,6 +106,15 @@ public class SearchTemplateService {
 		return result;
 	}
 
+	public SearchTemplate saveOnChorbiRegistry(final SearchTemplate searchTemplate) {
+		Assert.notNull(searchTemplate);
+		SearchTemplate result;
+		searchTemplate.setCachedMoment(new Date(System.currentTimeMillis() - 1000));
+		result = this.searchTemplateRepository.save(searchTemplate);
+
+		return result;
+	}
+
 	public void delete(final SearchTemplate lsearchTemplate) {
 		this.searchTemplateRepository.delete(lsearchTemplate);
 	}

@@ -92,9 +92,9 @@ public class ChirpServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			//principal, reply chirp, expected exception
 			{
-				"chorbi1", 53, null
+				"chorbi1", 52, null
 			}, {
-				null, 53, IllegalArgumentException.class
+				null, 52, IllegalArgumentException.class
 			}
 		};
 
@@ -138,9 +138,9 @@ public class ChirpServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			//principal, receiver id, chirp id, expected exception
 			{
-				"chorbi1", 42, 53, null
+				"chorbi1", 42, 52, null
 			}, {
-				null, 41, 53, IllegalArgumentException.class
+				null, 41, 52, IllegalArgumentException.class
 			}
 		};
 
@@ -183,11 +183,11 @@ public class ChirpServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 			//principal, chirp id, expected exception
 			{
-				"chorbi1", 49, null
+				"chorbi3", 49, null
 			}, {
 				null, 47, IllegalArgumentException.class
 			}, {
-				"chorbi2", 53, IllegalArgumentException.class
+				"chorbi2", 52, IllegalArgumentException.class
 			}
 		};
 
