@@ -116,6 +116,7 @@ public class ChorbiService {
 
 		result = this.chorbiRepository.save(chorbi);
 
+		this.chorbiRepository.flush();
 		if (chorbi.getId() == 0) {
 			searchTemplate = this.searchTemplateService.create(result);
 			searchTemplate.setCachedMoment(new Date(System.currentTimeMillis() - 1000));
