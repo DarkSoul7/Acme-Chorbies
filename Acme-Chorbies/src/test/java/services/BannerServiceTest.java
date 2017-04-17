@@ -42,38 +42,60 @@ public class BannerServiceTest extends AbstractTest {
 	 * Select a banner randomly
 	 * Testing cases:
 	 * 1º Good test (with banners in Data Base) -> expected: the banner resulting
-	 * 2º Good test (without banners in Data Base) -> expected: no banner resulting
+	 * 2º Good test (List banners) -> expected: banners listed
+	 * 3º Bad test (List banners); an actor who is not an administrator cannot watch the banner list -> expected: IllegalArgumentException
+	 * 4º Good test (without banners in Data Base) -> expected: no banner resulting
 	 */
 
 	@Test
 	public void randomBannerDriver() {
 		final Object testingData[][] = {
+			//case, authenticated actor, expected exception
 			{
-				"case 1"
+				"case 1", null, null
 			}, {
-				"case 2"
+				"case 2", "admin", null
+			}, {
+				"case 3", null, IllegalArgumentException.class
+			}, {
+				"case 4", "admin", null
 			}
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.randomBannerTemplate((String) testingData[i][0]);
+			this.randomBannerTemplate((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 	}
 
-	protected void randomBannerTemplate(final String testingCase) {
+	protected void randomBannerTemplate(final String testingCase, final String principal, final Class<?> expectedException) {
 		Banner result;
 
-		if (testingCase.equals("case 1")) {
-			result = this.bannerService.getRandomBanner();
-			Assert.notNull(result);
-		} else {
-			this.authenticate("admin");
-			final Collection<Banner> banners = this.bannerService.findAll();
-			for (final Banner banner : banners)
-				this.bannerService.delete(banner);
-			this.unauthenticate();
-			result = this.bannerService.getRandomBanner();
-			Assert.isTrue(result == null);
+		Class<?> caught = null;
+
+		try {
+			if (testingCase.equals("case 1")) {
+				result = this.bannerService.getRandomBanner();
+				Assert.notNull(result);
+
+			} else if (testingCase.equals("case 4")) {
+				this.authenticate(principal);
+				final Collection<Banner> banners = this.bannerService.findAll();
+				for (final Banner banner : banners)
+					this.bannerService.delete(banner);
+				this.unauthenticate();
+				result = this.bannerService.getRandomBanner();
+				Assert.isTrue(result == null);
+				this.unauthenticate();
+			} else {
+				this.authenticate(principal);
+				final Collection<Banner> banners = this.bannerService.findAllBanners();
+				Assert.notNull(banners);
+				this.unauthenticate();
+			}
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
 		}
+
+		this.checkExceptions(expectedException, caught);
 	}
 
 	/***
@@ -81,6 +103,7 @@ public class BannerServiceTest extends AbstractTest {
 	 * Testing cases:
 	 * 1º Good test -> expected: the banner resulting
 	 * 2º Bad test; an unauthenticated actor cannot create or save banners-> expected: IllegalArgumentException
+	 * 3º Bad test; a chorbi cannot create or save a banner -> expected: IllegalArgumentException
 	 */
 
 	@Test
@@ -91,6 +114,8 @@ public class BannerServiceTest extends AbstractTest {
 				"admin", null
 			}, {
 				null, IllegalArgumentException.class
+			}, {
+				"chorbi1", IllegalArgumentException.class
 			}
 		};
 
@@ -119,6 +144,7 @@ public class BannerServiceTest extends AbstractTest {
 	 * Testing cases:
 	 * 1º Good test -> expected: the banner edited
 	 * 2º Bad test; an unauthenticated actor cannot edit banners-> expected: IllegalArgumentException
+	 * 3º Bad test; a chorbi cannot edit banners -> expected: IllegalArgumentException
 	 */
 
 	@Test
@@ -129,6 +155,8 @@ public class BannerServiceTest extends AbstractTest {
 				"admin", null
 			}, {
 				null, IllegalArgumentException.class
+			}, {
+				"chorbi1", IllegalArgumentException.class
 			}
 		};
 
@@ -157,6 +185,7 @@ public class BannerServiceTest extends AbstractTest {
 	 * Testing cases:
 	 * 1º Good test -> expected: the banner deleted
 	 * 2º Bad test; an unauthenticated actor cannot delete banners-> expected: IllegalArgumentException
+	 * 3º Bad test; a chorbi cannot delete banners -> expected: IllegalArgumentException
 	 */
 
 	@Test
@@ -167,6 +196,8 @@ public class BannerServiceTest extends AbstractTest {
 				"admin", null
 			}, {
 				null, IllegalArgumentException.class
+			}, {
+				"chorbi1", IllegalArgumentException.class
 			}
 		};
 
